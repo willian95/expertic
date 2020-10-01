@@ -80,15 +80,15 @@
 
                 data:{
 
-                      0:{id: 1, name:'1er año',sections:{0:{id:1, name:'A'},1:{id:2, name:'B'},2:{id:3, name:'C'},3:{id:4, name:'D'},4:{id:5, name:'E'}},matters:{0:{id:1,name:"Castellano"}, 1:{id:2,name:"Matemática"},2:{id:3,name:"Ingles"},3:{id:4,name:"Educación Física"}, 4:{id:5,name:"Ciencias Naturales"}, 5:{id:6,name:"Geografía, historia y ciudadanía"}, 6:{id:7,name:"Orientación y convivencia"}}},
+                      0:{id: 1, name:'1er año',sections:{0:{id:1, name:'A'},1:{id:2, name:'B'},2:{id:3, name:'C'},3:{id:4, name:'D'},4:{id:5, name:'E'}},matters:{0:{id:1,name:"Castellano",bg:false}, 1:{id:2,name:"Matemática",bg:false},2:{id:3,name:"Ingles",bg:false},3:{id:4,name:"Educación Física",bg:false}, 4:{id:5,name:"Ciencias Naturales",bg:false}, 5:{id:6,name:"Geografía, historia y ciudadanía",bg:false}, 6:{id:7,name:"Orientación y convivencia",bg:false}}},
 
-                      1:{id: 2, name:'2er año',sections:{0:{id:1, name:'A'},1:{id:2, name:'B'},2:{id:3, name:'C'}},matters:{0:{id:1,name:"Castellano"}, 1:{id:2,name:"Matemática"},2:{id:3,name:"Ingles"},3:{id:4,name:"Educación Física"}, 4:{id:5,name:"Ciencias Naturales"}, 5:{id:6,name:"Geografía, historia y ciudadanía"}, 6:{id:7,name:"Orientación y convivencia"}}},
+                      1:{id: 2, name:'2er año',sections:{0:{id:1, name:'A'},1:{id:2, name:'B'},2:{id:3, name:'C'}},matters:{0:{id:1,name:"Castellano",bg:false}, 1:{id:2,name:"Matemática",bg:false},2:{id:3,name:"Ingles",bg:false},3:{id:4,name:"Educación Física",bg:false}, 4:{id:5,name:"Ciencias Naturales",bg:false}, 5:{id:6,name:"Geografía, historia y ciudadanía",bg:false}, 6:{id:7,name:"Orientación y convivencia",bg:false}}},
 
-                      2:{id: 3, name:'3er año',sections:{0:{id:1, name:'A'},1:{id:2, name:'B'},2:{id:3, name:'C'}},matters:{0:{id:1,name:"Castellano"}, 1:{id:2,name:"Matemática"},2:{id:3,name:"Ingles"},3:{id:4,name:"Educación Física"}, 4:{id:5,name:"Biologia"}, 5:{id:6,name:"Geografía, historia y ciudadanía"}, 6:{id:7,name:"Orientación y convivencia"}, 7:{id:8,name:"Quimica"} , 8:{id:9,name:"Fisica"}}},
+                      2:{id: 3, name:'3er año',sections:{0:{id:1, name:'A'},1:{id:2, name:'B'},2:{id:3, name:'C'}},matters:{0:{id:1,name:"Castellano",bg:false}, 1:{id:2,name:"Matemática",bg:false},2:{id:3,name:"Ingles",bg:false},3:{id:4,name:"Educación Física",bg:false}, 4:{id:5,name:"Biologia",bg:false}, 5:{id:6,name:"Geografía, historia y ciudadanía",bg:false}, 6:{id:7,name:"Orientación y convivencia",bg:false}, 7:{id:8,name:"Quimica",bg:false} , 8:{id:9,name:"Fisica",bg:false}}},
 
-                      3:{id: 4, name:'4to año',sections:{0:{id:1, name:'A'},1:{id:2, name:'B'},2:{id:3, name:'C'}},matters:{0:{id:1,name:"Castellano"}, 1:{id:2,name:"Matemática"},2:{id:3,name:"Ingles"},3:{id:4,name:"Educación Física"}, 4:{id:5,name:"Biologia"}, 5:{id:6,name:"Geografía, historia y ciudadanía"}, 6:{id:7,name:"Orientación y convivencia"}, 7:{id:8,name:"Quimica"} , 8:{id:9,name:"Fisica"},9:{id:10,name:"Formación para la soberanía nacional"}}},
+                      3:{id: 4, name:'4to año',sections:{0:{id:1, name:'A'},1:{id:2, name:'B'},2:{id:3, name:'C'}},matters:{0:{id:1,name:"Castellano",bg:false}, 1:{id:2,name:"Matemática",bg:false},2:{id:3,name:"Ingles",bg:false},3:{id:4,name:"Educación Física",bg:false}, 4:{id:5,name:"Biologia",bg:false}, 5:{id:6,name:"Geografía, historia y ciudadanía",bg:false}, 6:{id:7,name:"Orientación y convivencia",bg:false}, 7:{id:8,name:"Quimica",bg:false} , 8:{id:9,name:"Fisica",bg:false},9:{id:10,name:"Formación para la soberanía nacional",bg:false}}},
 
-                      4:{id: 5, name:'5to año',sections:{0:{id:1, name:'A'},1:{id:2, name:'B'},2:{id:3, name:'C'}},matters:{0:{id:1,name:"Castellano"}, 1:{id:2,name:"Matemática"},2:{id:3,name:"Ingles"},3:{id:4,name:"Educación Física"}, 4:{id:5,name:"Biologia"}, 5:{id:6,name:"Geografía, historia y ciudadanía"}, 6:{id:7,name:"Orientación y convivencia"}, 7:{id:8,name:"Quimica"} , 8:{id:9,name:"Fisica"},9:{id:10,name:"Formación para la soberanía nacional"}}},
+                      4:{id: 5, name:'5to año',sections:{0:{id:1, name:'A'},1:{id:2, name:'B'},2:{id:3, name:'C'}},matters:{0:{id:1,name:"Castellano",bg:false}, 1:{id:2,name:"Matemática",bg:false},2:{id:3,name:"Ingles",bg:false},3:{id:4,name:"Educación Física",bg:false}, 4:{id:5,name:"Biologia",bg:false}, 5:{id:6,name:"Geografía, historia y ciudadanía",bg:false}, 6:{id:7,name:"Orientación y convivencia",bg:false}, 7:{id:8,name:"Quimica",bg:false} , 8:{id:9,name:"Fisica",bg:false},9:{id:10,name:"Formación para la soberanía nacional",bg:false}}},
 
                 },
 
@@ -98,11 +98,49 @@
 
                     sectionId:"",
 
+                    hours:{
+
+                          0:{hour:'07:00 am 08:00 am', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          1:{hour:'08:00 am 09:00 am', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          2:{hour:'09:00 am 10:00 am', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          3:{hour:'10:00 am 11:00 am', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},     
+
+                          4:{hour:'11:00 am 12:00 pm', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          5:{hour:'12:00 pm 01:00 pm', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          6:{hour:'01:00 pm 02:00 pm', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          7:{hour:'02:00 pm 03:00 pm', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},  
+
+                          8:{hour:'03:00 pm 04:00 pm', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          9:{hour:'04:00 pm 05:00 pm', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          10:{hour:'05:00 pm 06:00 pm', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          11:{hour:'06:00 pm 07:00 pm', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},     
+
+                          12:{hour:'08:00 pm 09:00 pm', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          13:{hour:'10:00 pm 11:00 pm', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          14:{hour:'11:00 pm 12:00 am', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                    },
+
                 },
                 
                 sections:'',
 
                 matters:'',
+
+                matterSelected:'',
+
+                delete:0,
             },
             methods:{
 
@@ -113,9 +151,11 @@
                    this.matters="";
 
                    if(this.timetable.yearId!=""){
-
+                      
                       for(let i in this.data)
                         if(this.data[i].id==this.timetable.yearId){
+                            
+                            this.timetable.sectionId="";
 
                             this.sections=this.data[i].sections;
 
@@ -136,6 +176,157 @@
 
                },//search()
 
+               selectMatter(matter,index){
+
+                  if(this.matterSelected==""){
+
+                      this.matterSelected=matter;
+
+                      this.matters[index].bg=true;
+
+
+                  }else if(this.matterSelected.id==matter.id){
+
+                     if(matter.bg==true){
+
+                        this.matterSelected="";
+
+                        this.matters[index].bg=false;
+
+                     }else{
+
+                        
+                         this.matterSelected=matter;
+
+                         this.matters[index].bg=true;
+
+
+                     }//else
+
+                  }else{
+
+                         this.matterSelected=matter;
+
+                         this.matters[index].bg=true;
+
+                  }//else
+                  
+
+
+                  for(let i in this.matters){
+                   
+                     if(index!=i)
+                        this.matters[i].bg=false;
+
+                  }//for(let i in this.matters)
+
+               },//selectMatter(index)
+
+
+               assignSubject(index,day){
+                  
+                  if(this.delete==0)
+                  if(day==1){
+
+                      if(this.matterSelected!=""){
+
+                        this.timetable.hours[index].Monday=this.matterSelected;
+
+                      }// if(this.matterSelected!="")
+
+                  }else if(day==2){
+
+                     if(this.matterSelected!=""){
+
+                        this.timetable.hours[index].Tuesday=this.matterSelected;
+
+                      }// if(this.matterSelected!="")
+
+                  }else if(day==3){
+
+                      if(this.matterSelected!=""){
+
+                        this.timetable.hours[index].Wednesday=this.matterSelected;
+
+                      }// if(this.matterSelected!="")
+                      
+                  }else if(day==4){
+
+                      if(this.matterSelected!=""){
+
+                        this.timetable.hours[index].Thursday=this.matterSelected;
+
+                      }// if(this.matterSelected!="")
+
+                  }else if(day==5){
+
+                      if(this.matterSelected!=""){
+
+                        this.timetable.hours[index].Friday=this.matterSelected;
+
+                      }// if(this.matterSelected!="")
+
+                  }else if(day==6){
+
+                      if(this.matterSelected!=""){
+
+                        this.timetable.hours[index].Saturday=this.matterSelected;
+
+                      }// if(this.matterSelected!="")
+
+                  }else if(day==7){
+
+
+                      if(this.matterSelected!=""){
+
+                         this.timetable.hours[index].Sunday=this.matterSelected;
+
+                      }// if(this.matterSelected!="")
+                     
+                      
+                  }//else if(day==7)   
+
+                  this.delete=0;   
+
+               },//assignSubject(index,day)
+
+
+               deleteSubject(index,day){
+
+                  this.delete=1;
+                  
+                  if(day==1){
+
+                    this.timetable.hours[index].Monday="";
+
+                  }else if(day==2){
+
+
+                    this.timetable.hours[index].Tuesday="";
+
+                  }else if(day==3){
+
+                    this.timetable.hours[index].Wednesday="";
+
+                  }else if(day==4){
+
+                    this.timetable.hours[index].Thursday="";
+
+                  }else if(day==5){
+
+                    this.timetable.hours[index].Friday="";
+
+                  }else if(day==6){
+
+                    this.timetable.hours[index].Saturday="";
+
+                  }else if(day==7){
+
+                    this.timetable.hours[index].Sunday="";
+
+                  }//else if(day==7)      
+
+               },//deleteSubject(index,day)
 
             },
 
