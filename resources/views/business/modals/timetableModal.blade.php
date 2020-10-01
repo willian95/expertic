@@ -19,7 +19,7 @@
             <div class="col-12 col-md-6">
                <div class="form-group">
                   <label class="font-weight-bold">Secciones</label>
-                  <select class="form-control custom-select" v-model="timetable.sectionId">
+                  <select class="form-control custom-select" v-model="timetable.sectionId" @change="nameSection()">
                      <option value="">Seleccione</option>
                      <option v-for="option in sections" v-bind:value="option.id">
                         @{{ option.name }}

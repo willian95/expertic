@@ -96,7 +96,12 @@
                     
                     yearId:"",
 
+                    yearName:"",
+
                     sectionId:"",
+
+                    sectionName:"",
+
 
                     hours:{
 
@@ -154,6 +159,8 @@
                       
                       for(let i in this.data)
                         if(this.data[i].id==this.timetable.yearId){
+
+                            this.timetable.yearName=this.data[i].name;
                             
                             this.timetable.sectionId="";
 
@@ -165,16 +172,29 @@
 
                    }else{
 
-                        this.sections="";
-
-                        this.timetable.sectionId="";
-
-                        this.matters="";
-
+                        this.clear();
 
                    }//else
 
                },//search()
+
+               nameSection(){
+
+                    this.timetable.sectionName="";
+
+                    this.matterSelected='';
+                    
+                    this.clearTimetable();
+
+                    for(let i in this.matters)
+                        this.matters[i].bg=false;
+                  
+                    for(let i in this.data)
+                       for(let j in this.data[i].sections)
+                           if(this.data[i].sections.id==this.timetable.sectionId)
+                              this.timetable.sectionName=this.data[i].sections.name;
+
+               },//nameSection()
 
                selectMatter(matter,index){
 
@@ -211,8 +231,6 @@
 
                   }//else
                   
-
-
                   for(let i in this.matters){
                    
                      if(index!=i)
@@ -283,7 +301,6 @@
 
                       }// if(this.matterSelected!="")
                      
-                      
                   }//else if(day==7)   
 
                   this.delete=0;   
@@ -300,7 +317,6 @@
                     this.timetable.hours[index].Monday="";
 
                   }else if(day==2){
-
 
                     this.timetable.hours[index].Tuesday="";
 
@@ -327,6 +343,103 @@
                   }//else if(day==7)      
 
                },//deleteSubject(index,day)
+
+               clearTimetable(){
+              
+                  this.timetable.hours={
+
+                          0:{hour:'07:00 am 08:00 am', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          1:{hour:'08:00 am 09:00 am', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          2:{hour:'09:00 am 10:00 am', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          3:{hour:'10:00 am 11:00 am', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},     
+
+                          4:{hour:'11:00 am 12:00 pm', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          5:{hour:'12:00 pm 01:00 pm', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          6:{hour:'01:00 pm 02:00 pm', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          7:{hour:'02:00 pm 03:00 pm', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},  
+
+                          8:{hour:'03:00 pm 04:00 pm', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          9:{hour:'04:00 pm 05:00 pm', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          10:{hour:'05:00 pm 06:00 pm', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          11:{hour:'06:00 pm 07:00 pm', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},     
+
+                          12:{hour:'08:00 pm 09:00 pm', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          13:{hour:'10:00 pm 11:00 pm', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          14:{hour:'11:00 pm 12:00 am', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                    };
+
+               },//clearTimetable()
+
+               clear(){
+                
+                this.timetable={
+                    
+                    yearId:"",
+
+                    yearName:"",
+
+                    sectionId:"",
+
+                    sectionName:"",
+
+                    hours:{
+
+                          0:{hour:'07:00 am 08:00 am', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          1:{hour:'08:00 am 09:00 am', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          2:{hour:'09:00 am 10:00 am', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          3:{hour:'10:00 am 11:00 am', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},     
+
+                          4:{hour:'11:00 am 12:00 pm', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          5:{hour:'12:00 pm 01:00 pm', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          6:{hour:'01:00 pm 02:00 pm', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          7:{hour:'02:00 pm 03:00 pm', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},  
+
+                          8:{hour:'03:00 pm 04:00 pm', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          9:{hour:'04:00 pm 05:00 pm', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          10:{hour:'05:00 pm 06:00 pm', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          11:{hour:'06:00 pm 07:00 pm', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},     
+
+                          12:{hour:'08:00 pm 09:00 pm', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          13:{hour:'10:00 pm 11:00 pm', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                          14:{hour:'11:00 pm 12:00 am', Monday:'',Tuesday:'',Wednesday:'',Thursday:'', Friday:'',Saturday:'',Sunday:''},
+
+                    },
+
+                };
+
+                
+                this.sections='';
+
+                this.matters='';
+
+                this.matterSelected='';
+
+                this.delete=0;
+
+               }//clear()
 
             },
 
