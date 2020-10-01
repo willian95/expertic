@@ -4,9 +4,13 @@
     <div class="login_admin " id="dev-login">
 
         <div class="row">
-            <div class="login100-more mask col-md-6"
-                style="background-image: url('https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80');">
+            {{--<div class="login100-more mask col-md-6"
+                style="background-image: url('https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80');">--}}
+                <div class="login100-more mask col-md-6"
+                style="background-image: url('assets/images/photo-1531482615713-2afd69097998.webp');">
                 <p>Expertic</p>
+
+                
             </div>
             <div class="login100-form validate-form col-md-6">
                 {{--<span class="login100-form-title p-b-43">

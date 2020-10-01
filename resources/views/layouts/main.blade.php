@@ -81,6 +81,8 @@
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('business.level') }}"><i class="zmdi zmdi-home"></i><span>Niveles</span></a></li>
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('business.section') }}"><i class="zmdi zmdi-home"></i><span>Secciones</span></a></li>
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('business.subject') }}"><i class="zmdi zmdi-home"></i><span>Asignaturas</span></a></li>
+                    <li v-if="roleId == 2" class="active open"><a href="{{ route('business.timetable') }}"><i class="zmdi zmdi-calendar-alt"></i><span>Horarios</span></a></li>
+
 
                     <li v-if="roleId == 3" class="active open"><a href="{{ route('representative.home') }}"><i class="zmdi zmdi-balance"></i><span>Dashboard</span></a></li>
                     <li v-if="roleId == 3"><a class="menu-toggle waves-effect waves-block toggled"><i class="zmdi zmdi-accounts-outline"></i><span>Estudiantes</span> </a>
