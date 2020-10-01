@@ -117,6 +117,8 @@
 <script src="{{ asset('assets/bundles/mainscripts.bundle.js') }}"></script>
 <script src="{{ asset('assets/js/pages/index.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('/assets/plugins/sweetalert/sweetalert2@10.js') }}"></script>
+
 
 <script>
         

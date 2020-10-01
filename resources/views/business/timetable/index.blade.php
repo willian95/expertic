@@ -2,7 +2,7 @@
 
 @section("content")
 
-    <section style="z-index: 9999;" class="content profile-page" id="timetable">
+    <section style="z-index: 1100;" class="content profile-page" id="timetable">
         <div class="block-header">
             <div class="row">
                 <div class="col-lg-7 col-md-6 col-sm-12">
@@ -31,20 +31,19 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td class="text-center">1</td>
-                                            <td class="text-center">1<sup>er</sup> Año</td>
-                                            <td class="text-center">A</td>
+                                        <tr v-for="(tt,index) in timetables">
+                                            <td class="text-center">@{{index+1}}</td>
+                                            <td class="text-center">@{{tt.yearName}}</td>
+                                            <td class="text-center">@{{tt.sectionName}}</td>
                                             <td class="text-center">
                                                 <button class="btn btn-info">
                                                     <i class="zmdi zmdi-edit"></i>
                                                 </button>
-                                                <button class="btn btn-secondary">
+                                                <button class="btn btn-secondary" @click="destroy(index)">
                                                     <i class="zmdi zmdi-delete"></i>
                                                 </button>
                                             </td>
                                         </tr>
-                                        
                                     </tbody>
                                 </table>
                             </div>
@@ -82,7 +81,7 @@
 
                       0:{id: 1, name:'1er año',sections:{0:{id:1, name:'A'},1:{id:2, name:'B'},2:{id:3, name:'C'},3:{id:4, name:'D'},4:{id:5, name:'E'}},matters:{0:{id:1,name:"Castellano",bg:false}, 1:{id:2,name:"Matemática",bg:false},2:{id:3,name:"Ingles",bg:false},3:{id:4,name:"Educación Física",bg:false}, 4:{id:5,name:"Ciencias Naturales",bg:false}, 5:{id:6,name:"Geografía, historia y ciudadanía",bg:false}, 6:{id:7,name:"Orientación y convivencia",bg:false}}},
 
-                      1:{id: 2, name:'2er año',sections:{0:{id:1, name:'A'},1:{id:2, name:'B'},2:{id:3, name:'C'}},matters:{0:{id:1,name:"Castellano",bg:false}, 1:{id:2,name:"Matemática",bg:false},2:{id:3,name:"Ingles",bg:false},3:{id:4,name:"Educación Física",bg:false}, 4:{id:5,name:"Ciencias Naturales",bg:false}, 5:{id:6,name:"Geografía, historia y ciudadanía",bg:false}, 6:{id:7,name:"Orientación y convivencia",bg:false}}},
+                      1:{id: 2, name:'2do año',sections:{0:{id:1, name:'A'},1:{id:2, name:'B'},2:{id:3, name:'C'}},matters:{0:{id:1,name:"Castellano",bg:false}, 1:{id:2,name:"Matemática",bg:false},2:{id:3,name:"Ingles",bg:false},3:{id:4,name:"Educación Física",bg:false}, 4:{id:5,name:"Ciencias Naturales",bg:false}, 5:{id:6,name:"Geografía, historia y ciudadanía",bg:false}, 6:{id:7,name:"Orientación y convivencia",bg:false}}},
 
                       2:{id: 3, name:'3er año',sections:{0:{id:1, name:'A'},1:{id:2, name:'B'},2:{id:3, name:'C'}},matters:{0:{id:1,name:"Castellano",bg:false}, 1:{id:2,name:"Matemática",bg:false},2:{id:3,name:"Ingles",bg:false},3:{id:4,name:"Educación Física",bg:false}, 4:{id:5,name:"Biologia",bg:false}, 5:{id:6,name:"Geografía, historia y ciudadanía",bg:false}, 6:{id:7,name:"Orientación y convivencia",bg:false}, 7:{id:8,name:"Quimica",bg:false} , 8:{id:9,name:"Fisica",bg:false}}},
 
@@ -96,12 +95,11 @@
                     
                     yearId:"",
 
-                    yearName:"",
+                    yearName:"", 
 
                     sectionId:"",
 
                     sectionName:"",
-
 
                     hours:{
 
@@ -138,6 +136,8 @@
                     },
 
                 },
+
+                timetables:[],
                 
                 sections:'',
 
@@ -191,8 +191,8 @@
                   
                     for(let i in this.data)
                        for(let j in this.data[i].sections)
-                           if(this.data[i].sections.id==this.timetable.sectionId)
-                              this.timetable.sectionName=this.data[i].sections.name;
+                           if(this.data[i].sections[j].id==this.timetable.sectionId)
+                              this.timetable.sectionName=this.data[i].sections[j].name;
 
                },//nameSection()
 
@@ -215,11 +215,9 @@
 
                      }else{
 
-                        
                          this.matterSelected=matter;
 
                          this.matters[index].bg=true;
-
 
                      }//else
 
@@ -439,7 +437,44 @@
 
                 this.delete=0;
 
-               }//clear()
+               },//clear()
+
+               create(){
+
+
+                   this.timetables.push(this.timetable);
+
+                   this.clear();
+
+
+                   $('.bd-example-modal-xl').css("overflow", "auto");
+                   
+                   $('.bd-example-modal-xl').modal('hide');
+
+               },//create()
+
+               destroy(index){
+
+                   Swal.fire({
+                        title: 'Estas seguro',
+                        text: "¡No podrás revertir esto!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '¡Sí, bórralo!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire(
+                                'Eliminado!',
+                                'Su registro ha sido eliminado.',
+                                'success'
+                            )
+                            this.timetables.splice(index, 1);
+                        }
+                    });
+
+               },//dedestroylete()
 
             },
 
