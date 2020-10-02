@@ -81,7 +81,13 @@
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('business.level') }}"><i class="zmdi zmdi-home"></i><span>Niveles</span></a></li>
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('business.section') }}"><i class="zmdi zmdi-home"></i><span>Secciones</span></a></li>
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('business.subject') }}"><i class="zmdi zmdi-home"></i><span>Asignaturas</span></a></li>
-                    <li v-if="roleId == 2" class="active open"><a href="{{ route('business.timetable') }}"><i class="zmdi zmdi-calendar-alt"></i><span>Horarios</span></a></li>
+                    
+                    <li v-if="roleId == 2"><a onclick="toggleSubmenu('schedule-submenu')" href="javascript:void(0);" class="menu-toggle waves-effect waves-block toggled"><i class="zmdi zmdi-accounts-outline"></i><span>Horarios</span> </a>
+                        <ul class="ml-menu submenu-hidden" id="schedule-submenu">
+                            <li><a href="{{ route('schedule.create') }}" class=" waves-effect waves-block">Crear horario</a></li>
+                            <li><a href="{{ route('schedule.list') }}" class=" waves-effect waves-block">Listado de horarios</a></li>
+                        </ul>
+                    </li>
 
 
                     <li v-if="roleId == 3" class="active open"><a href="{{ route('representative.home') }}"><i class="zmdi zmdi-balance"></i><span>Dashboard</span></a></li>
@@ -121,6 +127,19 @@
 
 
 <script>
+
+    function toggleSubmenu(id){
+        let ele = $("#"+id)
+        if(ele.hasClass("submenu-hidden") == true){
+            ele.removeClass("submenu-hidden")
+            ele.addClass("submenu-show")
+        }else{
+            ele.removeClass("submenu-show")
+            ele.addClass("submenu-hidden")
+        }
+        //console.log("menu", id, $("#"+id).attr())
+
+    }
         
     const sidebar = new Vue({
         el: '#leftsidebar',

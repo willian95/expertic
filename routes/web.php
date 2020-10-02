@@ -49,9 +49,13 @@ Route::get('/business/subject', function () {
     return view('business.subject.index');
 })->name("business.subject");
 
+Route::get('/business/timetable/create', function () {
+    return view('business.timetable.create');
+})->name("schedule.create");
+
 Route::get('/business/timetable', function () {
     return view('business.timetable.index');
-})->name("business.timetable");
+})->name("schedule.list");
 
 Route::get('/representative/home', function () {
     return view('representative.dashboard');
