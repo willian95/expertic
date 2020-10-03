@@ -206,16 +206,23 @@
    
            delete:0,
        },
+       mounted(){
+
+           this.timetables= jQuery.parseJSON(window.localStorage.getItem("timetables"))
+       },
        methods:{
    
           search(){
-   
+                 
+
               this.sections="";
    
               this.matters="";
    
               this.teachers="";
-   
+
+              this.teacherId='';
+
               if(this.timetable.yearId!=""){
                  
                  for(let i in this.data)
@@ -522,37 +529,20 @@
    
               this.timetables.push(this.timetable);
    
+              window.localStorage.setItem("timetables", JSON.stringify(this.timetables));
+
               this.clear();
-   
-   
-              $('.bd-example-modal-xl').css("overflow", "auto");
-              
-              $('.bd-example-modal-xl').modal('hide');
+
+
+              Swal.fire(
+                  'Información',
+                  'Registro Satisfactorio',
+                  'success'
+             ).then(function() {
+                  window.location.href="{{ url('business/timetable') }}";
+             });
    
           },//create()
-   
-          destroy(index){
-   
-              Swal.fire({
-                   title: 'Estas seguro',
-                   text: "¡No podrás revertir esto!",
-                   icon: 'warning',
-                   showCancelButton: true,
-                   confirmButtonColor: '#3085d6',
-                   cancelButtonColor: '#d33',
-                   confirmButtonText: '¡Sí, bórralo!'
-               }).then((result) => {
-                   if (result.isConfirmed) {
-                       Swal.fire(
-                           'Eliminado!',
-                           'Su registro ha sido eliminado.',
-                           'success'
-                       )
-                       this.timetables.splice(index, 1);
-                   }
-               });
-   
-          },//dedestroylete()
    
        },
    

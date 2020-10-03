@@ -71,6 +71,7 @@
                 window.localStorage.setItem("expertic_email", "businessadmin@gmail.com")
                 window.localStorage.setItem("expertic_role_id", "2")
                 window.localStorage.setItem("expertic_role_name", "Admin de Empresa")
+                window.localStorage.setItem("timetables", [])
 
                 window.location.href="{{ url('/business/home') }}"
 

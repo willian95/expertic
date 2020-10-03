@@ -9,9 +9,11 @@
                     <h2>Horarios</h2>
                 </div>
                 <div class="col-lg-5 col-md-6 col-sm-12">
-                    <button class="btn btn-white btn-icon btn-round float-right m-l-10" type="button" data-toggle="modal" data-target=".bd-example-modal-xl">
-                        <i class="zmdi zmdi-plus"></i>
-                    </button>
+                   <form action="{{ url('/business/timetable/create') }}" method="get">
+                        <button class="btn btn-white btn-icon btn-round float-right m-l-10" type="submit">
+                          <i class="zmdi zmdi-plus"></i>
+                       </button>
+                   </form>
                 </div>
             </div>
         </div>
@@ -64,7 +66,53 @@
                 </div>
             </div>
         </div>
-        @include('business.modals.timetableModal')
     </section>
 
 @endsection
+@push("scripts")
+<script>
+   const timetable = new Vue({
+       el: '#timetable',
+       data:{
+
+           timetables:[],
+
+       },
+       mounted(){
+
+           this.timetables= jQuery.parseJSON(window.localStorage.getItem("timetables"))
+       },
+       methods:{
+   
+          destroy(index){
+   
+              Swal.fire({
+                   title: 'Estas seguro',
+                   text: "¡No podrás revertir esto!",
+                   icon: 'warning',
+                   showCancelButton: true,
+                   confirmButtonColor: '#3085d6',
+                   cancelButtonColor: '#d33',
+                   confirmButtonText: '¡Sí, bórralo!'
+               }).then((result) => {
+                   if (result.isConfirmed) {
+                       Swal.fire(
+                           'Eliminado!',
+                           'Su registro ha sido eliminado.',
+                           'success'
+                       )
+                       this.timetables.splice(index, 1);
+                       window.localStorage.setItem("timetables", JSON.stringify(this.timetables))
+
+                   }
+               });
+   
+          },//dedestroylete()
+   
+       },
+   
+   })
+   
+       
+</script>
+@endpush
