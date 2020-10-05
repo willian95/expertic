@@ -46,10 +46,17 @@
                                    </div>
                                 </div>
 
-                                <div class="col-12">
+                                <div class="col-12 col-md-6 col-lg-6">
                                    <div class="form-group">
                                      <label for="address">Dirección</label>
                                      <input type="text" class="form-control" id="address">
+                                   </div>
+                                </div>
+
+                                <div class="col-12 col-md-6 col-lg-6">
+                                   <div class="form-group">
+                                     <label for="url_page">Link Página Web</label>
+                                     <input type="text" class="form-control" id="url_page">
                                    </div>
                                 </div>
 
