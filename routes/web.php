@@ -29,6 +29,14 @@ Route::get('/admin/payments', function () {
     return view('admin.payments.index');
 })->name("admin.payments");
 
+Route::get('/admin/attorney', function () {
+    return view('admin.attorney.index');
+})->name("admin.attorney");
+
+Route::get('/admin/student', function () {
+    return view('admin.student.index');
+})->name("admin.student");
+
 Route::get('/business/home', function () {
     return view('business.dashboard');
 })->name("business.home");
