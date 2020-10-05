@@ -49,6 +49,10 @@ Route::get('/business/subject', function () {
     return view('business.subject.index');
 })->name("business.subject");
 
+Route::get('/business/teacher', function () {
+    return view('business.teacher.index');
+})->name("business.teacher");
+
 Route::get('/business/timetable/create', function () {
     return view('business.timetable.create');
 })->name("schedule.create");

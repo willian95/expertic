@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=Edge">
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <meta name="description" content="Responsive Bootstrap 4 and web Application ui kit.">
-<title>:: Oreo Bootstrap4 Admin ::</title>
+<title>:: Expertic ::</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Favicon-->
 <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/plugins/jvectormap/jquery-jvectormap-2.0.3.min.css') }}"/>
@@ -34,7 +34,7 @@
         <li>
             <div class="navbar-header">
                 <a href="javascript:void(0);" class="bars"></a>
-                <a class="navbar-brand" href="index.html"><img src="{{ asset('assets/images/logo.svg') }}" width="30" alt="Oreo"><span class="m-l-10">Oreo</span></a>
+                <a class="navbar-brand" href="index.html"><img src="{{ asset('assets/images/logo.svg') }}" width="30" alt="Oreo"><span class="m-l-10">Expertic</span></a>
             </div>
         </li>
         
@@ -81,7 +81,7 @@
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('business.level') }}"><i class="zmdi zmdi-home"></i><span>Niveles</span></a></li>
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('business.section') }}"><i class="zmdi zmdi-home"></i><span>Secciones</span></a></li>
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('business.subject') }}"><i class="zmdi zmdi-home"></i><span>Asignaturas</span></a></li>
-                    
+                    <li v-if="roleId == 2" class="active open"><a href="{{ route('business.teacher') }}"><i class="zmdi zmdi-home"></i><span>Profesores</span></a></li>
                     <li v-if="roleId == 2"><a onclick="toggleSubmenu('schedule-submenu')" href="javascript:void(0);" class="menu-toggle waves-effect waves-block toggled"><i class="zmdi zmdi-accounts-outline"></i><span>Horarios</span> </a>
                         <ul class="ml-menu submenu-hidden" id="schedule-submenu">
                             <li><a href="{{ route('schedule.create') }}" class=" waves-effect waves-block">Crear horario</a></li>
