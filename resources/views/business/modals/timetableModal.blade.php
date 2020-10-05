@@ -1,77 +1,99 @@
-<div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-   <div class="modal-dialog modal-dialog-centered modal-xl">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title">Crear Horario</h5>
-         </div>
-         <div class="row justify-content-center align-items-center pt-2 pl-4 pr-4">
-            <div class="col-12 col-md-6">
-               <div class="form-group">
-                  <label class="font-weight-bold">Años</label>
-                  <select class="form-control custom-select" v-model="timetable.yearId" @change="search()">
-                     <option value="">Seleccione</option>
-                     <option v-for="option in data" v-bind:value="option.id">
-                        @{{ option.name }}
-                     </option>
-                  </select>
-               </div>
-            </div>
-            <div class="col-12 col-md-6">
-               <div class="form-group">
-                  <label class="font-weight-bold">Secciones</label>
-                  <select class="form-control custom-select" v-model="timetable.sectionId" @change="nameSection()">
-                     <option value="">Seleccione</option>
-                     <option v-for="option in sections" v-bind:value="option.id">
-                        @{{ option.name }}
-                     </option>
-                  </select>
-               </div>
-            </div>
-            <div class="col-12" v-if="timetable.sectionId!=''">
-               <div class="row justify-content-center">
-                  <div class="col-12">
-                     <label class="font-weight-bold">Seleccione la materia que desea agregar</label>
+   <div class="custom-modal-cover" v-show="modal">
+      <div class="container-fluid">
+         <div class="row justify-content-center">
+            <div class="col-12 col-lg-10 col-md-10">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <h5 class="modal-title">Profesores</h5>
                   </div>
-                  <div class="col-12 col-md-2 bg-info m-1 text-center rounded-pill font-weight-bold" v-bind:class="{ 'bg-success': matt.bg }" v-for="(matt,index) in matters">
-                     <p class="p-0 m-0 align-middle p-1" style="line-height: 1em; cursor: pointer;"   @click="selectMatter(matt,index)">@{{matt.name}}</p>
+                  <div class="modal-body">
+                     <div class="row justify-content-center">
+                        <div class="col-12 col-md-6 col-lg-4">
+                           <div class="form-group">
+                              <label for="name">Rut</label>
+                              <input type="text" class="form-control" id="name">
+                           </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                           <div class="form-group">
+                              <label for="name">Nombres</label>
+                              <input type="text" class="form-control" id="name">
+                           </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                           <div class="form-group">
+                              <label for="lastname">Apellidos</label>
+                              <input type="text" class="form-control" id="lastname">
+                           </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                           <div class="form-group">
+                              <label for="email">Email</label>
+                              <input type="email" class="form-control" id="email">
+                           </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                           <div class="form-group">
+                              <label for="password">Contraseña</label>
+                              <input type="text" class="form-control" id="password">
+                           </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                           <div class="form-group">
+                              <label for="url_page">Verificar Contraseña</label>
+                              <input type="text" class="form-control" id="url_page">
+                           </div>
+                        </div>
+                        <div class="col-12 pb-4 text-justify">
+                           <span class="font-weight-normal">Asignaturas</span><br> 
+                           <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                              <label class="form-check-label" for="inlineCheckbox1">Lengua y Comunicación.</label>
+                           </div>
+                           <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                              <label class="form-check-label" for="inlineCheckbox2">Matemáticas.</label>
+                           </div>
+                           <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" >
+                              <label class="form-check-label" for="inlineCheckbox3">Historia</label>
+                           </div>
+                           <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+                              <label class="form-check-label" for="inlineCheckbox3">Geografía</label>
+                           </div>
+                           <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                              <label class="form-check-label" for="inlineCheckbox1">Lengua y Comunicación.</label>
+                           </div>
+                           <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                              <label class="form-check-label" for="inlineCheckbox2">Física</label>
+                           </div>
+                           <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" >
+                              <label class="form-check-label" for="inlineCheckbox3">Química</label>
+                           </div>
+                           <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+                              <label class="form-check-label" for="inlineCheckbox3">Biología</label>
+                           </div>
+                           <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+                              <label class="form-check-label" for="inlineCheckbox3">Inglés</label>
+                           </div>
+                           <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+                              <label class="form-check-label" for="inlineCheckbox3">Educación Física</label>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="addTeacher()">Cerrar</button>
+                     <button type="button" class="btn btn-primary">Crear</button>
                   </div>
                </div>
             </div>
-            <div class="col-12 text-center" v-if="timetable.sectionId!=''">
-               <h4>Horario</h4>
-               <table class="table table-hover table-bordered">
-                  <thead>
-                     <tr class="bg-info">
-                        <th scope="col" class="text-center" style="width: 5%;"><i class="zmdi zmdi-timer pr-1"></i>Horario</th>
-                        <th scope="col" class="text-center"><i class="zmdi zmdi-chevron-right pr-1"></i>Lunes</th>
-                        <th scope="col" class="text-center"><i class="zmdi zmdi-chevron-right pr-1"></i>Martes</th>
-                        <th scope="col" class="text-center"><i class="zmdi zmdi-chevron-right pr-1"></i>Miercoles</th>
-                        <th scope="col" class="text-center"><i class="zmdi zmdi-chevron-right pr-1"></i>Jueves</th>
-                        <th scope="col" class="text-center"><i class="zmdi zmdi-chevron-right pr-1"></i>Viernes</th>
-                        <th scope="col" class="text-center"><i class="zmdi zmdi-chevron-right pr-1"></i>Sabado</th>
-                        <th scope="col" class="text-center"><i class="zmdi zmdi-chevron-right pr-1"></i>Domingo</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     <tr v-for="(hours, index) in timetable.hours">
-                        <th scope="row" style="white-space: normal;"><p>@{{hours.hour}}</p></th>
-                        <th style="cursor: pointer; white-space: normal;" @click="assignSubject(index,1)"><p  v-if="hours.Monday!=''">@{{hours.Monday.name}}</p> <p v-if="hours.Monday!=''" class="p-0 m-0 text-right"><i class="zmdi zmdi-delete text-danger" title="Quitar" @click="deleteSubject(index,1)"></i></p></th>
-                        <th style="cursor: pointer; white-space: normal;" @click="assignSubject(index,2)"><p  v-if="hours.Tuesday!=''">@{{hours.Tuesday.name}}</p> <p v-if="hours.Tuesday!=''" class="p-0 m-0 text-right"><i class="zmdi zmdi-delete text-danger" title="Quitar" @click="deleteSubject(index,2)"></i></p></th>
-                        <th style="cursor: pointer; white-space: normal;" @click="assignSubject(index,3)"><p  v-if="hours.Wednesday!=''">@{{hours.Wednesday.name}}</p><p v-if="hours.Wednesday!=''" class="p-0 m-0 text-right"><i class="zmdi zmdi-delete text-danger" title="Quitar" @click="deleteSubject(index,3)"></i></p></th>
-                        <th style="cursor: pointer; white-space: normal;" @click="assignSubject(index,4)"><p  v-if="hours.Thursday!=''">@{{hours.Thursday.name}}</p><p v-if="hours.Thursday!=''" class="p-0 m-0 text-right"><i class="zmdi zmdi-delete text-danger" title="Quitar" @click="deleteSubject(index,4)"></i></p></th>
-                        <th style="cursor: pointer; white-space: normal;" @click="assignSubject(index,5)"><p  v-if="hours.Friday!=''">@{{hours.Friday.name}}</p><p v-if="hours.Friday!=''" class="p-0 m-0 text-right"><i class="zmdi zmdi-delete text-danger" title="Quitar" @click="deleteSubject(index,5)"></i></p></th>
-                        <th style="cursor: pointer; white-space: normal;" @click="assignSubject(index,6)"><p  v-if="hours.Saturday!=''">@{{hours.Saturday.name}}</p><p v-if="hours.Saturday!=''" class="p-0 m-0 text-right"><i class="zmdi zmdi-delete text-danger" title="Quitar" @click="deleteSubject(index,6)"></i></p></th>
-                        <th style="cursor: pointer; white-space: normal;" @click="assignSubject(index,7)"><p  v-if="hours.Sunday!=''">@{{hours.Sunday.name}}</p><p v-if="hours.Sunday!=''" class="p-0 m-0 text-right"><i class="zmdi zmdi-delete text-danger" title="Quitar" @click="deleteSubject(index,7)"></i></p></th>
-                     </tr>
-                  </tbody>
-               </table>
-            </div>
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <button type="button" class="btn btn-primary" @click="create">Crear</button>
          </div>
       </div>
-   </div>
-</div>
-

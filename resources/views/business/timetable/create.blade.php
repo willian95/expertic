@@ -43,7 +43,7 @@
                      </div>
                      <div class="col-12 col-md-4">
                         <div class="form-group">
-                           <label class="font-weight-bold">Profesores</label>
+                           <label class="font-weight-bold mr-1">Profesores</label><i class="zmdi zmdi-plus-square" title="Registrar nuevo profesor" @click="addTeacher"></i>
                            <select class="form-control custom-select" v-model="teacherId" @change="searchMatter">
                               <option value="">Seleccione</option>
                               <option v-for="teacher in teachers" v-bind:value="teacher.id">
@@ -123,6 +123,7 @@
          </div>
       </div>
    </div>
+   @include('business.modals.timetableModal')
 </section>
 @endsection
 @push("scripts")
@@ -205,6 +206,8 @@
            matterSelected:'',
    
            delete:0,
+
+           modal:false,
        },
        mounted(){
 
@@ -543,6 +546,21 @@
              });
    
           },//create()
+
+          addTeacher(){
+
+
+               if(this.modal){
+
+                   this.modal = false
+
+               }else{
+
+                   this.modal = true
+
+               }
+
+          },//addTeacher
    
        },
    

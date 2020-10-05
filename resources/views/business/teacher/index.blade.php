@@ -11,59 +11,83 @@
                   </div>
                   <div class="modal-body">
                      <div class="row justify-content-center">
-                        <div class="col-12 col-md-6 col-lg-6">
+                        <div class="col-12 col-md-6 col-lg-4">
                            <div class="form-group">
                               <label for="name">Rut</label>
                               <input type="text" class="form-control" id="name">
                            </div>
                         </div>
-                        <div class="col-12 col-md-6 col-lg-6">
+                        <div class="col-12 col-md-6 col-lg-4">
                            <div class="form-group">
-                              <label for="logo">Logo</label>
-                              <input type="file" class="form-control" id="logo">
-                           </div>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-6">
-                           <div class="form-group">
-                              <label for="name">Nombre</label>
+                              <label for="name">Nombres</label>
                               <input type="text" class="form-control" id="name">
                            </div>
                         </div>
-                        <div class="col-12 col-md-6 col-lg-6">
+                        <div class="col-12 col-md-6 col-lg-4">
                            <div class="form-group">
-                              <label for="reason_social">Razón Social</label>
-                              <input type="text" class="form-control" id="reason_social">
+                              <label for="lastname">Apellidos</label>
+                              <input type="text" class="form-control" id="lastname">
                            </div>
                         </div>
-                        <div class="col-12 col-md-6 col-lg-6">
+                        <div class="col-12 col-md-6 col-lg-4">
                            <div class="form-group">
-                              <label for="address">Dirección</label>
-                              <input type="text" class="form-control" id="address">
+                              <label for="email">Email</label>
+                              <input type="email" class="form-control" id="email">
                            </div>
                         </div>
-                        <div class="col-12 col-md-6 col-lg-6">
+                        <div class="col-12 col-md-6 col-lg-4">
                            <div class="form-group">
-                              <label for="url_page">Link Página Web</label>
+                              <label for="password">Contraseña</label>
+                              <input type="text" class="form-control" id="password">
+                           </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                           <div class="form-group">
+                              <label for="url_page">Verificar Contraseña</label>
                               <input type="text" class="form-control" id="url_page">
                            </div>
                         </div>
-                        <div class="col-12 pb-4">
-                           <span class="font-weight-normal">Módulos</span><br> 
+                        <div class="col-12 pb-4 text-justify">
+                           <span class="font-weight-normal">Asignaturas</span><br> 
                            <div class="form-check form-check-inline">
                               <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                              <label class="form-check-label" for="inlineCheckbox1">Biblioteca</label>
+                              <label class="form-check-label" for="inlineCheckbox1">Lengua y Comunicación.</label>
                            </div>
                            <div class="form-check form-check-inline">
                               <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                              <label class="form-check-label" for="inlineCheckbox2">Certificados</label>
+                              <label class="form-check-label" for="inlineCheckbox2">Matemáticas.</label>
                            </div>
                            <div class="form-check form-check-inline">
                               <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" >
-                              <label class="form-check-label" for="inlineCheckbox3">Virtual</label>
+                              <label class="form-check-label" for="inlineCheckbox3">Historia</label>
                            </div>
                            <div class="form-check form-check-inline">
                               <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
-                              <label class="form-check-label" for="inlineCheckbox3">Pago</label>
+                              <label class="form-check-label" for="inlineCheckbox3">Geografía</label>
+                           </div>
+                           <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                              <label class="form-check-label" for="inlineCheckbox1">Lengua y Comunicación.</label>
+                           </div>
+                           <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                              <label class="form-check-label" for="inlineCheckbox2">Física</label>
+                           </div>
+                           <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" >
+                              <label class="form-check-label" for="inlineCheckbox3">Química</label>
+                           </div>
+                           <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+                              <label class="form-check-label" for="inlineCheckbox3">Biología</label>
+                           </div>
+                           <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+                              <label class="form-check-label" for="inlineCheckbox3">Inglés</label>
+                           </div>
+                           <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+                              <label class="form-check-label" for="inlineCheckbox3">Educación Física</label>
                            </div>
                         </div>
                      </div>
@@ -102,16 +126,14 @@
                               <th>Nombre</th>
                               <th>Email</th>
                               <th>Clave</th>
-                              <th>Fecha</th>
                               <th>Acciones</th>
                            </tr>
                         </thead>
                         <tbody>
                            <tr>
                               <td>1</td>
-                              <td>Contact</td>
-                              <td>Contact@gmail.com</td>
-                              <td>12345678</td>
+                              <td>Pedro Perez</td>
+                              <td>pperez@gmail.com</td>
                               <td>13-04-2020</td>
                               <td>
                                  <button class="btn btn-info" @click="toggleModal()">
@@ -124,10 +146,9 @@
                            </tr>
                            <tr>
                               <td>2</td>
-                              <td>Contact 2</td>
-                              <td>Contact@gmail.com</td>
+                              <td>María Hernandez</td>
+                              <td>mhernamdez@gmail.com</td>
                               <td>12345678</td>
-                              <td>10-06-2020</td>
                               <td>
                                  <button class="btn btn-info" @click="toggleModal()">
                                  <i class="zmdi zmdi-edit"></i>
@@ -139,10 +160,9 @@
                            </tr>
                            <tr>
                               <td>3</td>
-                              <td>Contact 3</td>
-                              <td>Contact@gmail.com</td>
+                              <td>Carol Ramos</td>
+                              <td>cramos@gmail.com</td>
                               <td>12345678</td>
-                              <td>13-04-2020</td>
                               <td>
                                  <button class="btn btn-info" @click="toggleModal()">
                                  <i class="zmdi zmdi-edit"></i>

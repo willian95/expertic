@@ -81,7 +81,7 @@
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('business.level') }}"><i class="zmdi zmdi-home"></i><span>Niveles</span></a></li>
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('business.section') }}"><i class="zmdi zmdi-home"></i><span>Secciones</span></a></li>
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('business.subject') }}"><i class="zmdi zmdi-home"></i><span>Asignaturas</span></a></li>
-                    <li v-if="roleId == 2" class="active open"><a href="{{ route('business.teacher') }}"><i class="zmdi zmdi-home"></i><span>Profesores</span></a></li>
+                    <li v-if="roleId == 2" class="active open"><a href="{{ route('business.teacher') }}"><i class="zmdi zmdi-male-alt"></i><span>Profesores</span></a></li>
                     <li v-if="roleId == 2"><a onclick="toggleSubmenu('schedule-submenu')" href="javascript:void(0);" class="menu-toggle waves-effect waves-block toggled"><i class="zmdi zmdi-accounts-outline"></i><span>Horarios</span> </a>
                         <ul class="ml-menu submenu-hidden" id="schedule-submenu">
                             <li><a href="{{ route('schedule.create') }}" class=" waves-effect waves-block">Crear horario</a></li>
