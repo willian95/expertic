@@ -25,13 +25,18 @@ Route::get('/admin/business', function () {
     return view('admin.business.index');
 })->name("admin.business");
 
+
 Route::get('/admin/payments', function () {
     return view('admin.payments.index');
 })->name("admin.payments");
 
-Route::get('/admin/attorney', function () {
+Route::get('/admin/attorney/create', function () {
+    return view('admin.attorney.create');
+})->name("admin.attorney.create");;
+
+Route::get('/admin/attorney/list', function () {
     return view('admin.attorney.index');
-})->name("admin.attorney");
+})->name("admin.attorney.list");;
 
 Route::get('/admin/student', function () {
     return view('admin.student.index');

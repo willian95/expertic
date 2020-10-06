@@ -88,7 +88,12 @@
                             <li><a href="{{ route('schedule.list') }}" class=" waves-effect waves-block">Listado de horarios</a></li>
                         </ul>
                     </li>
-                    <li v-if="roleId == 2" class="active open"><a href="{{ route('admin.attorney') }}"><i class="zmdi zmdi-accounts-alt"></i><span>Apoderado</span></a></li>
+                    <li v-if="roleId == 2"><a onclick="toggleSubmenu('attorney-submenu')" href="javascript:void(0);" class="menu-toggle waves-effect waves-block toggled"><i class="zmdi zmdi-male-female"></i><span>Apoderados</span> </a>
+                        <ul class="ml-menu submenu-hidden" id="attorney-submenu">
+                            <li><a href="{{ url('admin/attorney/create') }}" class=" waves-effect waves-block">Registrar Apoderado</a></li>
+                            <li><a href="{{ url('admin/attorney/list') }}" class=" waves-effect waves-block">Listado de Apoderados</a></li>
+                        </ul>
+                    </li>
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('admin.student') }}"><i class="zmdi zmdi-accounts-alt"></i><span>Estudiante</span></a></li>
 
 
