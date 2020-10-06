@@ -60,7 +60,7 @@
     </ul>
     <div class="tab-content">
         <div class="tab-pane stretchRight active" id="dashboard">
-            <div class="menu">
+            <div class="menu" style="overflow-y: auto; height:100vh;">
                 <ul class="list">
                     <li>
                         <div class="user-info">
@@ -76,8 +76,6 @@
                     <li v-if="roleId == 1" class="active open"><a href="{{ route('admin.home') }}"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>
                     <li v-if="roleId == 1" class="active open"><a href="{{ route('admin.business') }}"><i class="zmdi zmdi-balance"></i><span>Instituciones</span></a></li>
                     {{--<li v-if="roleId == 1" class="active open"><a href="{{ route('admin.payments') }}"><i class="zmdi zmdi-balance"></i><span>Pagos</span></a></li>--}}
-                    <li v-if="roleId == 1" class="active open"><a href="{{ route('admin.attorney') }}"><i class="zmdi zmdi-accounts-alt"></i><span>Apoderado</span></a></li>
-                    <li v-if="roleId == 1" class="active open"><a href="{{ route('admin.student') }}"><i class="zmdi zmdi-accounts-alt"></i><span>Estudiante</span></a></li>
 
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('business.home') }}"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('business.level') }}"><i class="zmdi zmdi-home"></i><span>Niveles</span></a></li>
@@ -90,6 +88,8 @@
                             <li><a href="{{ route('schedule.list') }}" class=" waves-effect waves-block">Listado de horarios</a></li>
                         </ul>
                     </li>
+                    <li v-if="roleId == 2" class="active open"><a href="{{ route('admin.attorney') }}"><i class="zmdi zmdi-accounts-alt"></i><span>Apoderado</span></a></li>
+                    <li v-if="roleId == 2" class="active open"><a href="{{ route('admin.student') }}"><i class="zmdi zmdi-accounts-alt"></i><span>Estudiante</span></a></li>
 
 
                     <li v-if="roleId == 3" class="active open"><a href="{{ route('representative.home') }}"><i class="zmdi zmdi-balance"></i><span>Dashboard</span></a></li>
