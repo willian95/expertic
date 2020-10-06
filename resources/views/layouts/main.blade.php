@@ -10,7 +10,7 @@
 <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Favicon-->
 <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/plugins/jvectormap/jquery-jvectormap-2.0.3.min.css') }}"/>
-<link rel="stylesheet" href="{{ asset('assets/plugins/morrisjs/morris.min.css') }}" />
+{{--<link rel="stylesheet" href="{{ asset('assets/plugins/morrisjs/morris.min.css') }}" />--}}
 
 <!-- Custom Css -->
 <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
@@ -126,7 +126,6 @@
 <script src="{{ asset('assets/js/pages/index.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('/assets/plugins/sweetalert/sweetalert2@10.js') }}"></script>
-
 
 <script>
 

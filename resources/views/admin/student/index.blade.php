@@ -11,10 +11,31 @@
                      <h5 class="modal-title">Alumno</h5>
                   </div>
                   <div class="modal-body">
-                     <div class="row justify-content-center">
+                     <div class="row">
+                          <div class="col-12 col-md-6 col-lg-4">
+                           <div class="form-group">
+                              <label for="name">Rut Apoderado</label>
+                              <div class="input-group mb-3">
+  <input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2">
+  <div class="input-group-append">
+    <span class="input-group-text" id="basic-addon2" style="border-bottom-right-radius: 20px; border-top-right-radius: 20px;">
+
+<i class="zmdi zmdi-search"></i>
+
+</span>
+  </div>
+</div>
+                           </div>
+                         </div>
                         <div class="col-12 col-md-6 col-lg-4">
                            <div class="form-group">
-                              <label for="name">Rut</label>
+                              <label for="name">Nombre Apoderado</label>
+                              <input type="text" class="form-control" id="name" value="Diana Rojas" readonly>
+                           </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                           <div class="form-group">
+                              <label for="name">Rut Estudiante</label>
                               <input type="text" class="form-control" id="name">
                            </div>
                         </div>
@@ -30,28 +51,29 @@
                               <input type="text" class="form-control" id="lastname">
                            </div>
                         </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                           <div class="form-group">
+                              <label for="lastname">Email</label>
+                              <input type="text" class="form-control" id="lastname">
+                           </div>
+                        </div>
                         <div class="col-12">
                            <div class="form-group">
                               <label for="address">Dirección</label>
                               <input type="text" class="form-control" id="address">
                            </div>
                         </div>
-                        <div class="col-12 col-md-6 col-lg-3">
-                           <div class="form-group">
-                              <label for="lastname">Email</label>
-                              <input type="text" class="form-control" id="lastname">
-                           </div>
-                        </div>
-                        <div class="col-12 col-md-6 col-lg-3">
+                        <div class="col-12 col-md-6 col-lg-6">
                            <div class="form-group">
                               <label for="phone">Teléfono</label>
                               <input type="phone" class="form-control" id="phone">
                            </div>
                         </div>
-                        <div class="col-12 col-md-6 col-lg-3">
+                        <div class="col-12 col-md-6 col-lg-6">
                            <div class="form-group">
                               <label for="exampleFormControlSelect1">Grupo Sanguineo</label>
                               <select class="form-control custom-select  rounded-pill" id="exampleFormControlSelect1">
+                                 <option>Seleccione</option>
                                  <option>O-</option>
                                  <option>O+</option>
                                  <option>A−</option>
@@ -63,7 +85,48 @@
                               </select>
                            </div>
                         </div>
-                        <div class="col-12 col-md-6 col-lg-3">
+                        <div class="col-12 pb-4 text-justify">
+                           <span class="font-weight-normal">Alergías</span><br> 
+                           <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                              <label class="form-check-label" for="inlineCheckbox1">Asma</label>
+                           </div>
+                           <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                              <label class="form-check-label" for="inlineCheckbox2">Rinitis</label>
+                           </div>
+                           <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" >
+                              <label class="form-check-label" for="inlineCheckbox3">Barbecue</label>
+                           </div>
+                           <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+                              <label class="form-check-label" for="inlineCheckbox3">Dermatitis</label>
+                           </div>
+                           <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                              <label class="form-check-label" for="inlineCheckbox1">Dermatitis de contacto</label>
+                           </div>
+                           <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                              <label class="form-check-label" for="inlineCheckbox2">Urticaria</label>
+                           </div>
+                           <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" >
+                              <label class="form-check-label" for="inlineCheckbox3">Alergia a los alimentos</label>
+                           </div>
+                           <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+                              <label class="form-check-label" for="inlineCheckbox3">Alergia a los medicamentos</label>
+                           </div>
+                           <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+                              <label class="form-check-label" for="inlineCheckbox3">Alergia a las picaduras de insectos</label>
+                           </div>
+                           <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+                              <label class="form-check-label" for="inlineCheckbox3">Anafilaxia</label>
+                           </div>
                         </div>
                      </div>
                   </div>
@@ -169,13 +232,10 @@
 <script>
    const business = new Vue({
        el: '#business',
-       data(){
-           return{
-               modal:false
-           }
+       data:{
+               modal:false,
        },
        methods:{
-   
            toggleModal(){
    
                if(this.modal){
