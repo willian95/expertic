@@ -1,4 +1,3 @@
-
 @extends('layouts.main')
 @section("content")
 <section class="content profile-page" id="business">
@@ -12,21 +11,19 @@
                   </div>
                   <div class="modal-body">
                      <div class="row">
-                          <div class="col-12 col-md-6 col-lg-4">
+                        <div class="col-12 col-md-6 col-lg-4">
                            <div class="form-group">
-                              <label for="name">Rut Apoderado</label>
+                              <label for="name">Buscar Apoderado</label>
                               <div class="input-group mb-3">
-  <input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2">
-  <div class="input-group-append">
-    <span class="input-group-text" id="basic-addon2" style="border-bottom-right-radius: 20px; border-top-right-radius: 20px;">
-
-<i class="zmdi zmdi-search"></i>
-
-</span>
-  </div>
-</div>
+                                 <input type="text" class="form-control" placeholder="Ingrese el rut del apoderado" aria-describedby="basic-addon2">
+                                 <div class="input-group-append">
+                                    <span class="input-group-text" id="basic-addon2" style="border-bottom-right-radius: 20px; border-top-right-radius: 20px;" title="Buscar">
+                                    <i class="zmdi zmdi-search"></i>
+                                    </span>
+                                 </div>
+                              </div>
                            </div>
-                         </div>
+                        </div>
                         <div class="col-12 col-md-6 col-lg-4">
                            <div class="form-group">
                               <label for="name">Nombre Apoderado</label>
@@ -251,4 +248,3 @@
    })
 </script>
 @endpush
-
