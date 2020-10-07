@@ -20,7 +20,6 @@
                                           <th>Nombre</th>
                                           <th>Email</th>
                                           <th class="text-center" style="width:10%;">Calificación</th>
-                                          <th class="text-center">Acción</th>
                                        </tr>
                                     </thead>
                                     <tbody>
@@ -30,9 +29,6 @@
                                           <td >pperez@gmail.com</td>
                                           <td class="text-center">
                                               <input class="form-control text-center" type="text">
-                                          </td>
-                                          <td class="text-center">
-                                             <button type="button" class="btn btn-info">Calificar</button>                  
                                           </td>
                                        </tr>
                                        <tr>
@@ -44,9 +40,6 @@
                                               <input class="form-control text-center" type="text">
                                             </p>                                          
                                           </td>
-                                          <td class="text-center">
-                                             <button type="button" class="btn btn-info">Calificar</button>                  
-                                          </td>
                                        </tr>
                                        <tr>
                                           <td class="text-center">3</td>
@@ -57,9 +50,6 @@
                                               <input class="form-control text-center" type="text">
                                             </p>                                          
                                           </td>
-                                          <td class="text-center">
-                                             <button type="button" class="btn btn-info">Calificar</button>                  
-                                          </td>
                                        </tr>
                                     </tbody>
                                  </table>
@@ -69,10 +59,9 @@
                         </div>
                      </div>
                   </div>
-                  <div class="modal-footer text-right">
-                    <p class="w-100">
+                  <div class="modal-footer">
                      <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="toggleModal()">Cerrar</button>                  
-                    </p>
+                     <button type="button" class="btn btn-info" @click="toggleModal()">Calificar</button>                  
                   </div>
                </div>
             </div>
