@@ -36,7 +36,7 @@ Route::get('/admin/attorney/create', function () {
 
 Route::get('/admin/attorney/list', function () {
     return view('admin.attorney.index');
-})->name("admin.attorney.list");;
+})->name("admin.attorney.list");
 
 Route::get('/admin/student', function () {
     return view('admin.student.index');
@@ -77,3 +77,15 @@ Route::get('/business/timetable', function () {
 Route::get('/representative/home', function () {
     return view('representative.dashboard');
 })->name("representative.home");
+
+Route::get('/teacher/home', function () {
+    return view('teacher.dashboard');
+})->name("teacher.home");
+
+Route::get('/teacher/virtualRoom/create', function () {
+    return view('teacher.virtualRoom.create');
+})->name("teacher.virtualRoom.create");;
+
+Route::get('/teacher/virtualRoom/list', function () {
+    return view('teacher.virtualRoom.index');
+})->name("teacher.virtualRoom.list");

@@ -77,14 +77,14 @@
 
             }
 
-            else if(email == "apoderado@gmail.com" && password == "12345678"){
+            else if(email == "profesor@gmail.com" && password == "12345678"){
 
                 window.localStorage.setItem("expertic_username", "Usuario 3")
                 window.localStorage.setItem("expertic_email", "profesor@gmail.com")
                 window.localStorage.setItem("expertic_role_id", "3")
                 window.localStorage.setItem("expertic_role_name", "Profesor")
 
-                window.location.href="{{ url('/representative/home') }}"
+                window.location.href="{{ url('/teacher/home') }}"
 
             }
 
@@ -105,6 +105,9 @@
                 window.localStorage.setItem("expertic_role_name", "Estudiante")
 
             }
+
+
+            
 
 
         }

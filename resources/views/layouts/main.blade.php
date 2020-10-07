@@ -97,15 +97,21 @@
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('admin.student') }}"><i class="zmdi zmdi-accounts-alt"></i><span>Estudiante</span></a></li>
 
 
-                    <li v-if="roleId == 3" class="active open"><a href="{{ route('representative.home') }}"><i class="zmdi zmdi-balance"></i><span>Dashboard</span></a></li>
+                    {{--<li v-if="roleId == 3" class="active open"><a href="{{ route('representative.home') }}"><i class="zmdi zmdi-balance"></i><span>Dashboard</span></a></li>
                     <li v-if="roleId == 3"><a class="menu-toggle waves-effect waves-block toggled"><i class="zmdi zmdi-accounts-outline"></i><span>Estudiantes</span> </a>
                         <ul class="ml-menu" style="display:block">
                             <li><a href="#" class=" waves-effect waves-block">Estudiante 1</a></li>
                             <li><a href="#" class=" waves-effect waves-block">Estudiante 2</a></li>
                         </ul>
-                    </li>
+                    </li>--}}
                     
-
+                   <li v-if="roleId == 3" class="active open"><a href="{{ route('teacher.home') }}"><i class="zmdi zmdi-balance"></i><span>Dashboard</span></a></li>
+                   <li v-if="roleId == 3"><a onclick="toggleSubmenu('virtualRoom-submenu')" href="javascript:void(0);" class="menu-toggle waves-effect waves-block toggled"><i class="zmdi zmdi-laptop-mac"></i><span>Sala Virtual</span> </a>
+                        <ul class="ml-menu submenu-hidden" id="virtualRoom-submenu">
+                            <li><a href="{{ route('teacher.virtualRoom.create') }}" class=" waves-effect waves-block">Registrar Sala Virtual</a></li>
+                            <li><a href="{{ route('teacher.virtualRoom.list') }}" class=" waves-effect waves-block">Listado de Salas Virtuales</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
