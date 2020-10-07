@@ -84,8 +84,16 @@ Route::get('/teacher/home', function () {
 
 Route::get('/teacher/virtualRoom/create', function () {
     return view('teacher.virtualRoom.create');
-})->name("teacher.virtualRoom.create");;
+})->name("teacher.virtualRoom.create");
 
 Route::get('/teacher/virtualRoom/list', function () {
     return view('teacher.virtualRoom.index');
 })->name("teacher.virtualRoom.list");
+
+Route::get('/teacher/evaluation/create', function () {
+    return view('teacher.evaluation.create');
+})->name("teacher.evaluation.create");
+
+Route::get('/teacher/evaluation/list', function () {
+    return view('teacher.evaluation.index');
+})->name("teacher.evaluation.list");

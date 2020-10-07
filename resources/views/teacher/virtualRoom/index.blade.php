@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section("content")
-<section class="content profile-page" id="attorney">
+<section class="content profile-page" id="virtualRoom">
    <div class="block-header">
       <div class="row">
          <div class="col-lg-7 col-md-6 col-sm-12">

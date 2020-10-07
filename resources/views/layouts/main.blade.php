@@ -112,6 +112,12 @@
                             <li><a href="{{ route('teacher.virtualRoom.list') }}" class=" waves-effect waves-block">Listado de Salas Virtuales</a></li>
                         </ul>
                     </li>
+                    <li v-if="roleId == 3"><a onclick="toggleSubmenu('evaluation-submenu')" href="javascript:void(0);" class="menu-toggle waves-effect waves-block toggled"><i class="zmdi zmdi-assignment"></i><span>Evaluación</span> </a>
+                        <ul class="ml-menu submenu-hidden" id="evaluation-submenu">
+                            <li><a href="{{ route('teacher.evaluation.create') }}" class=" waves-effect waves-block">Crear Evaluación</a></li>
+                            <li><a href="{{ route('teacher.evaluation.list') }}" class=" waves-effect waves-block">Listado de Evaluaciones</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
