@@ -109,3 +109,7 @@ Route::get('/administrative/library/create', function () {
 Route::get('/administrative/library/list', function () {
     return view('administrative.library.index');
 })->name("administrative.library.list");
+
+Route::get('/administrative/library/borrowing', function () {
+    return view('administrative.library.borrowing');
+})->name("administrative.library.borrowing");

@@ -29,7 +29,7 @@
                               <th class="text-center">Título</th>
                               <th class="text-center">Autor</th>
                               <th class="text-center">Año de Publicación</th>
-                              <th class="text-center">Disponible</th>
+                              <th class="text-center">Estado</th>
                               <th class="text-center">Acciones</th>
                            </tr>
                         </thead>

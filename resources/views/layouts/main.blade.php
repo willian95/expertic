@@ -124,6 +124,7 @@
                         <ul class="ml-menu submenu-hidden" id="library-submenu">
                             <li><a href="{{ route('administrative.library.create') }}" class=" waves-effect waves-block">Registrar Libro</a></li>
                             <li><a href="{{ route('administrative.library.list') }}" class=" waves-effect waves-block">Listado de Libros</a></li>
+                            <li><a href="{{ route('administrative.library.borrowing') }}" class=" waves-effect waves-block">Listado de Prestamos</a></li>
                         </ul>
                     </li>
                 </ul>
