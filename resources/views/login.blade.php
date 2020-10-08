@@ -107,6 +107,18 @@
             }
 
 
+            else if(email == "administrativo@gmail.com" && password == "12345678"){
+
+                window.localStorage.setItem("expertic_username", "Usuario 6")
+                window.localStorage.setItem("expertic_email", "administrativo@gmail.com")
+                window.localStorage.setItem("expertic_role_id", "6")
+                window.localStorage.setItem("expertic_role_name", "Administrativo")
+
+                window.location.href="{{ url('/administrative/home') }}"
+
+            }
+
+
             
 
 

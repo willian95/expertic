@@ -97,3 +97,15 @@ Route::get('/teacher/evaluation/create', function () {
 Route::get('/teacher/evaluation/list', function () {
     return view('teacher.evaluation.index');
 })->name("teacher.evaluation.list");
+
+Route::get('/administrative/home', function () {
+    return view('administrative.dashboard');
+})->name("administrative.home");
+
+Route::get('/administrative/library/create', function () {
+    return view('administrative.library.create');
+})->name("administrative.library.create");
+
+Route::get('/administrative/library/list', function () {
+    return view('administrative.library.index');
+})->name("administrative.library.list");
