@@ -21,7 +21,7 @@
                            <tr>
                               <th class="text-center">#</th>
                               <th class="text-center">Fecha</th>
-                              <th class="text-center">Hora Inicio</th>
+                              <th class="text-center">Hora</th>
                               <th class="text-center">Nombre Apoderado</th>
                               <th class="text-center">Nivel</th>
                               <th class="text-center">Sección</th>
