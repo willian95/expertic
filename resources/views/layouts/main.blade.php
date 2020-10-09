@@ -118,6 +118,7 @@
                             <li><a href="{{ route('teacher.evaluation.list') }}" class=" waves-effect waves-block">Listado de Evaluaciones</a></li>
                         </ul>
                     </li>
+                    <li v-if="roleId == 3" class="active open"><a href="{{ route('teacher.annotations.list') }}"><i class="zmdi zmdi-attachment-alt"></i><span>Anotaciones</span></a></li>
 
                    <li v-if="roleId == 6" class="active open"><a href="{{ route('administrative.home') }}"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>
                     <li v-if="roleId == 6"><a onclick="toggleSubmenu('library-submenu')" href="javascript:void(0);" class="menu-toggle waves-effect waves-block toggled"><i class="zmdi zmdi-library"></i><span>Biblioteca</span> </a>

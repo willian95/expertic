@@ -98,6 +98,10 @@ Route::get('/teacher/evaluation/list', function () {
     return view('teacher.evaluation.index');
 })->name("teacher.evaluation.list");
 
+Route::get('/teacher/annotations/list', function () {
+    return view('teacher.annotations.index');
+})->name("teacher.annotations.list");
+
 Route::get('/administrative/home', function () {
     return view('administrative.dashboard');
 })->name("administrative.home");
