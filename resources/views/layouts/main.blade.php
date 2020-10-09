@@ -129,6 +129,12 @@
                             <li><a href="{{ route('administrative.library.reservation') }}" class=" waves-effect waves-block">Reservaciones</a></li>
                         </ul>
                     </li>
+
+                    <li v-if="roleId == 6"><a onclick="toggleSubmenu('finance-submenu')" href="javascript:void(0);" class="menu-toggle waves-effect waves-block toggled"><i class="zmdi zmdi-money"></i><span>Finanzas</span> </a>
+                        <ul class="ml-menu submenu-hidden" id="finance-submenu">
+                            <li><a href="{{ route('administrative.finance.list') }}" class=" waves-effect waves-block">Listado de Pagos</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>

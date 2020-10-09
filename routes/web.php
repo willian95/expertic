@@ -122,3 +122,7 @@ Route::get('/administrative/library/reservation', function () {
     return view('administrative.library.reservation');
 })->name("administrative.library.reservation");
 
+Route::get('/administrative/finance/list', function () {
+    return view('administrative.finance.index');
+})->name("administrative.finance.list");
+
