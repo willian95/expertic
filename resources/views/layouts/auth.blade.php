@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <title>Login</title>
     <meta charset="UTF-8">
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     {{--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">--}}
         
@@ -238,7 +240,7 @@
         position: relative;
         border: none;
         border-radius: 0;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
         border-bottom: 1px solid #e6e6e6;
     }
 
@@ -438,10 +440,40 @@
         -o-transition: all 0.4s;
         -moz-transition: all 0.4s;
         transition: all 0.4s;
+
+        margin-top:5px;
     }
 
     .login100-form-btn:hover {
         background: #0a74ad;
+    }
+
+    .invalid-feedback {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        width: 80%;
+        height: 80px;
+        position: relative;
+        border: none;
+        border-radius: 0;
+        margin-bottom: 10px;
+        margin-top:0;
+        font-size: 80%;
+        color: #dc3545;
+        height: 30px;
+    }
+
+    .invalid-feedback-border{
+        border-bottom: 1px solid #f00;
+    }
+
+    .invalid-feedback-border:hover{
+        border-bottom: 1px solid #f00;
     }
 
 

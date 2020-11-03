@@ -13,18 +13,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get("/", function(){
-    return view("login");
-});
+Auth::routes(['register' => false]);
 
-Route::get('/admin/home', function () {
-    return view('admin.dashboard');
-})->name("admin.home");
+Route::get('/', 'HomeController@index');
 
+Route::group(['middleware' => ['auth']], function () {
+      
+    /************************************Administrador**************************************/
+    Route::group(['middleware' => ['role:administrator']], function () {
+        
+        //Dashboard Administrador
+        Route::get('/admin/home', 'Admin\DashboardController@index')->name("admin.home");
+
+    });//role:administrator
+
+});//auth
 Route::get('/admin/business', function () {
     return view('admin.business.index');
 })->name("admin.business");
-
 
 Route::get('/admin/payments', function () {
     return view('admin.payments.index');
@@ -125,4 +131,3 @@ Route::get('/administrative/library/reservation', function () {
 Route::get('/administrative/finance/list', function () {
     return view('administrative.finance.index');
 })->name("administrative.finance.list");
-

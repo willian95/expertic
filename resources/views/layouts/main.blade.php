@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html class="no-js " lang="en">
 <head>
@@ -18,6 +17,9 @@
 </head>
 
 <body class="theme-blush">
+@php
+    $role=role();
+@endphp
 <!-- Page Loader -->
 {{--<div class="page-loader-wrapper">
     <div class="loader">
@@ -47,8 +49,12 @@
             </div>
         </li>        
         <li class="float-right">
-            
-            <a href="{{ url('/') }}" class="mega-menu" data-close="true"><i class="zmdi zmdi-power"></i></a>
+            <a href="{{ route('logout') }}"  onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="mega-menu" data-close="true">
+                <i class="zmdi zmdi-power"></i>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+            </a>
         </li>
     </ul>
 </nav>
@@ -66,17 +72,22 @@
                         <div class="user-info">
                             <div class="image"><a href="profile.html"><img src="{{ asset('assets/images/profile_av.jpg') }}" alt="User"></a></div>
                             <div class="detail">
-                                <h4>@{{ name }}</h4>
-                                <small>@{{ roleName }}</small>
+                                <h4>{{ Auth::user()->name}}</h4>
+                                <small>{{$role['role_description']}}</small>
                             </div>
                         </div>
                     </li>
                     <li class="header">MAIN</li>
-                    
-                    <li v-if="roleId == 1" class="active open"><a href="{{ route('admin.home') }}"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>
-                    <li v-if="roleId == 1" class="active open"><a href="{{ route('admin.business') }}"><i class="zmdi zmdi-balance"></i><span>Instituciones</span></a></li>
-                    {{--<li v-if="roleId == 1" class="active open"><a href="{{ route('admin.payments') }}"><i class="zmdi zmdi-balance"></i><span>Pagos</span></a></li>--}}
 
+                    @switch($role['role_name'])
+
+                        @case('administrator')
+                            <li class="active open"><a href="{{ route('admin.home') }}"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>
+                            <li class="active open"><a href="{{ route('admin.business') }}"><i class="zmdi zmdi-balance"></i><span>Instituciones</span></a></li>
+                            {{--<li  class="active open"><a href="{{ route('admin.payments') }}"><i class="zmdi zmdi-balance"></i><span>Pagos</span></a></li>--}}
+                        @break
+
+                        @case('business_administrator')
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('business.home') }}"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('business.level') }}"><i class="zmdi zmdi-home"></i><span>Niveles</span></a></li>
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('business.section') }}"><i class="zmdi zmdi-home"></i><span>Secciones</span></a></li>
@@ -95,46 +106,49 @@
                         </ul>
                     </li>
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('admin.student') }}"><i class="zmdi zmdi-accounts-alt"></i><span>Estudiante</span></a></li>
+                        @break
 
-
-                    {{--<li v-if="roleId == 3" class="active open"><a href="{{ route('representative.home') }}"><i class="zmdi zmdi-balance"></i><span>Dashboard</span></a></li>
-                    <li v-if="roleId == 3"><a class="menu-toggle waves-effect waves-block toggled"><i class="zmdi zmdi-accounts-outline"></i><span>Estudiantes</span> </a>
-                        <ul class="ml-menu" style="display:block">
-                            <li><a href="#" class=" waves-effect waves-block">Estudiante 1</a></li>
-                            <li><a href="#" class=" waves-effect waves-block">Estudiante 2</a></li>
-                        </ul>
-                    </li>--}}
+                        @case('teacher')
+                           {{--<li class="active open"><a href="{{ route('representative.home') }}"><i class="zmdi zmdi-balance"></i><span>Dashboard</span></a></li>
+                           <li><a class="menu-toggle waves-effect waves-block toggled"><i class="zmdi zmdi-accounts-outline"></i><span>Estudiantes</span> </a>
+                               <ul class="ml-menu" style="display:block">
+                                  <li><a href="#" class=" waves-effect waves-block">Estudiante 1</a></li>
+                                  <li><a href="#" class=" waves-effect waves-block">Estudiante 2</a></li>
+                               </ul>
+                           </li>--}}
                     
-                   <li v-if="roleId == 3" class="active open"><a href="{{ route('teacher.home') }}"><i class="zmdi zmdi-balance"></i><span>Dashboard</span></a></li>
-                   <li v-if="roleId == 3"><a onclick="toggleSubmenu('virtualRoom-submenu')" href="javascript:void(0);" class="menu-toggle waves-effect waves-block toggled"><i class="zmdi zmdi-laptop-mac"></i><span>Sala Virtual</span> </a>
-                        <ul class="ml-menu submenu-hidden" id="virtualRoom-submenu">
-                            <li><a href="{{ route('teacher.virtualRoom.create') }}" class=" waves-effect waves-block">Registrar Sala Virtual</a></li>
-                            <li><a href="{{ route('teacher.virtualRoom.list') }}" class=" waves-effect waves-block">Listado de Salas Virtuales</a></li>
-                        </ul>
-                    </li>
-                    <li v-if="roleId == 3"><a onclick="toggleSubmenu('evaluation-submenu')" href="javascript:void(0);" class="menu-toggle waves-effect waves-block toggled"><i class="zmdi zmdi-assignment"></i><span>Evaluación</span> </a>
-                        <ul class="ml-menu submenu-hidden" id="evaluation-submenu">
-                            <li><a href="{{ route('teacher.evaluation.create') }}" class=" waves-effect waves-block">Crear Evaluación</a></li>
-                            <li><a href="{{ route('teacher.evaluation.list') }}" class=" waves-effect waves-block">Listado de Evaluaciones</a></li>
-                        </ul>
-                    </li>
-                    <li v-if="roleId == 3" class="active open"><a href="{{ route('teacher.annotations.list') }}"><i class="zmdi zmdi-attachment-alt"></i><span>Anotaciones</span></a></li>
+                          <li class="active open"><a href="{{ route('teacher.home') }}"><i class="zmdi zmdi-balance"></i><span>Dashboard</span></a></li>
+                          <li><a onclick="toggleSubmenu('virtualRoom-submenu')" href="javascript:void(0);" class="menu-toggle waves-effect waves-block toggled"><i class="zmdi zmdi-laptop-mac"></i><span>Sala Virtual</span> </a>
+                             <ul class="ml-menu submenu-hidden" id="virtualRoom-submenu">
+                                 <li><a href="{{ route('teacher.virtualRoom.create') }}" class=" waves-effect waves-block">Registrar Sala Virtual</a></li>
+                                 <li><a href="{{ route('teacher.virtualRoom.list') }}" class=" waves-effect waves-block">Listado de Salas Virtuales</a></li>
+                             </ul>
+                          </li>
+                          <li><a onclick="toggleSubmenu('evaluation-submenu')" href="javascript:void(0);" class="menu-toggle waves-effect waves-block toggled"><i class="zmdi zmdi-assignment"></i><span>Evaluación</span> </a>
+                             <ul class="ml-menu submenu-hidden" id="evaluation-submenu">
+                                 <li><a href="{{ route('teacher.evaluation.create') }}" class=" waves-effect waves-block">Crear Evaluación</a></li>
+                                 <li><a href="{{ route('teacher.evaluation.list') }}" class=" waves-effect waves-block">Listado de Evaluaciones</a></li>
+                             </ul>
+                          </li>
+                          <li class="active open"><a href="{{ route('teacher.annotations.list') }}"><i class="zmdi zmdi-attachment-alt"></i><span>Anotaciones</span></a></li>
+                        @break
 
-                   <li v-if="roleId == 6" class="active open"><a href="{{ route('administrative.home') }}"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>
-                    <li v-if="roleId == 6"><a onclick="toggleSubmenu('library-submenu')" href="javascript:void(0);" class="menu-toggle waves-effect waves-block toggled"><i class="zmdi zmdi-library"></i><span>Biblioteca</span> </a>
-                        <ul class="ml-menu submenu-hidden" id="library-submenu">
-                            <li><a href="{{ route('administrative.library.create') }}" class=" waves-effect waves-block">Registrar Libro</a></li>
-                            <li><a href="{{ route('administrative.library.list') }}" class=" waves-effect waves-block">Listado de Libros</a></li>
-                            <li><a href="{{ route('administrative.library.borrowing') }}" class=" waves-effect waves-block">Prestamos</a></li>
-                            <li><a href="{{ route('administrative.library.reservation') }}" class=" waves-effect waves-block">Reservaciones</a></li>
-                        </ul>
-                    </li>
-
-                    <li v-if="roleId == 6"><a onclick="toggleSubmenu('finance-submenu')" href="javascript:void(0);" class="menu-toggle waves-effect waves-block toggled"><i class="zmdi zmdi-money"></i><span>Finanzas</span> </a>
-                        <ul class="ml-menu submenu-hidden" id="finance-submenu">
-                            <li><a href="{{ route('administrative.finance.list') }}" class=" waves-effect waves-block">Listado de Pagos</a></li>
-                        </ul>
-                    </li>
+                        @case('administrative')
+                            <li class="active open"><a href="{{ route('administrative.home') }}"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>
+                            <li><a onclick="toggleSubmenu('library-submenu')" href="javascript:void(0);" class="menu-toggle waves-effect waves-block toggled"><i class="zmdi zmdi-library"></i><span>Biblioteca</span> </a>
+                                <ul class="ml-menu submenu-hidden" id="library-submenu">
+                                    <li><a href="{{ route('administrative.library.create') }}" class=" waves-effect waves-block">Registrar Libro</a></li>
+                                    <li><a href="{{ route('administrative.library.list') }}" class=" waves-effect waves-block">Listado de Libros</a></li>
+                                    <li><a href="{{ route('administrative.library.borrowing') }}" class=" waves-effect waves-block">Prestamos</a></li>
+                                    <li><a href="{{ route('administrative.library.reservation') }}" class=" waves-effect waves-block">Reservaciones</a></li>
+                                </ul>
+                            </li>
+                            <li><a onclick="toggleSubmenu('finance-submenu')" href="javascript:void(0);" class="menu-toggle waves-effect waves-block toggled"><i class="zmdi zmdi-money"></i><span>Finanzas</span> </a>
+                                <ul class="ml-menu submenu-hidden" id="finance-submenu">
+                                    <li><a href="{{ route('administrative.finance.list') }}" class=" waves-effect waves-block">Listado de Pagos</a></li>
+                                </ul>
+                             </li>
+                    @endswitch
                 </ul>
             </div>
         </div>
@@ -175,29 +189,7 @@
         //console.log("menu", id, $("#"+id).attr())
 
     }
-        
-    const sidebar = new Vue({
-        el: '#leftsidebar',
-        data(){
-            return{
-                name:"",
-                roleId:"",
-                roleName:""
-            }
-        },
-        methods:{
-
-        },
-        mounted(){
-            
-            this.name = window.localStorage.getItem("expertic_username")
-            this.roleId = window.localStorage.getItem("expertic_role_id")
-            this.roleName = window.localStorage.getItem("expertic_role_name")
-
-        }
-
-    })
-
+    
 </script>
 
 @stack("scripts")
