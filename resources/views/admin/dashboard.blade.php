@@ -173,7 +173,7 @@
                 </div>
 
                 <!-- Modal -->
-                <div class="custom-modal-cover" v-show="modal">
+                {{--<div class="custom-modal-cover" v-show="modal">
 
                     <div class="container-fluid">
                         <div class="row">
@@ -203,7 +203,7 @@
 
                     </div>
 
-                </div>
+                </div>--}}
          
             </div>
         

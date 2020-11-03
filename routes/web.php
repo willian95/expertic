@@ -24,13 +24,13 @@ Route::group(['middleware' => ['auth']], function () {
         
         //Dashboard Administrador
         Route::get('/admin/home', 'Admin\DashboardController@index')->name("admin.home");
-
+        
+        //Instituciones
+        Route::get('/admin/business', 'Admin\InstitutionController@index')->name("admin.business");
+        
     });//role:administrator
 
 });//auth
-Route::get('/admin/business', function () {
-    return view('admin.business.index');
-})->name("admin.business");
 
 Route::get('/admin/payments', function () {
     return view('admin.payments.index');
