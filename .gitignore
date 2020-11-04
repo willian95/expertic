@@ -178,4 +178,4 @@ Homestead.json
 .phpunit.result.cache
 
 # Imagens institutions
-#/public/institutions/*.jpg
+/public/institutions/*.jpg
