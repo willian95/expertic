@@ -21,7 +21,7 @@
                         <div class="col-12 col-md-6 col-lg-6">
                            <div class="form-group">
                               <label for="logo">Logo</label>
-                              <input type="file" accept="image/*" v-on:change="fileImage" class="form-control" id="logo">
+                              <input type="file" accept="image/jpeg, image/png" v-on:change="fileImage" class="form-control" id="logo">
                            </div>
                         </div>
                         <div class="col-12 col-md-6 col-lg-6">
@@ -282,6 +282,9 @@
             this.id='';
    
             this.change=0;
+
+            document.getElementById("logo").value = '';
+
    
          },//clear:function()
    
@@ -349,6 +352,8 @@
          },//register:function()
    
          captureRecord: function(value){
+
+            this.clear();
    
             this.buttonNameDos="Actualizar";
    

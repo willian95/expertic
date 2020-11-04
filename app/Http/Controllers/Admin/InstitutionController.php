@@ -44,7 +44,9 @@ class InstitutionController extends Controller
 
             'modules' => function($query){ },  
 
-    ])->get(['id','rut','institution_name','reason_social','address','website_link','logo',]);
+    ])->paginate(6);
+
+   
     
     foreach($Institution as $inst){
       
@@ -89,7 +91,11 @@ class InstitutionController extends Controller
 
         try{
 
-          $Institution=Institution::create($request->all());   
+          $data=$request->all();
+
+          unset($data['logo']);
+
+          $Institution=Institution::create($data);   
 
           if($request->logo!=""){
 
@@ -128,7 +134,11 @@ class InstitutionController extends Controller
 
           $Institution=Institution::find($request->id);
 
-          $Institution->fill($request->all())->save();
+          $data=$request->all();
+
+          unset($data['logo']);
+
+          $Institution->fill($data)->save();
 
           if($request->logo!=""){
 
@@ -138,7 +148,7 @@ class InstitutionController extends Controller
 
             $Institution->save();
 
-          }//if($request->logo('logo'))
+          }//if($request->logo!="")
       
           $Institution->modules()->sync($request->get('modules')); 
 
