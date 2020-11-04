@@ -9,6 +9,12 @@ use App\Http\Requests\UpdateInstitutionPost;
 use App\Http\Requests\DestroyInstitutionPost;
 use App\Models\Module;
 use App\Models\Institution;
+use App\User;
+use App\Models\UserRole;
+use App\Models\InstitutionUser;
+use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
+
 use Validator;
 
 class InstitutionController extends Controller
@@ -97,6 +103,8 @@ class InstitutionController extends Controller
 
           $Institution->modules()->attach($request->get('modules'));
 
+          $this->CreateUserInstitution($Institution->id);
+
           return response()->json(["success" => true, "msg" => "Se registraron los datos exitosamente!","Institutions"=>$this->institutions()],200);
 
         }catch(\Exception $e){
@@ -145,10 +153,10 @@ class InstitutionController extends Controller
   }//public function update(UpdateInstitutionPost $request)
 
   /**
-     * Remove the specified resource from storage.
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+  * Remove the specified resource from storage.
+  * @param  int  $id
+  * @return \Illuminate\Http\Response
+  */
   public function destroy(DestroyInstitutionPost $request)
   {
         try{
@@ -174,5 +182,27 @@ class InstitutionController extends Controller
         }//catch(\Exception $e)
 
    }//public function destroy(DestroyInstitutionPost $request)
+  /**
+  * Create user Institution.
+  * @param  int  $id
+  * 
+  */
+  public function CreateUserInstitution($idInstitution)
+  {
+        try{
+        
+           $User = User::create(['name'=>'Usuario 2','lastname'=>'Admin de Empresa '.$idInstitution , 'email'=>'businessadmin'.$idInstitution.'@gmail.com', 'password'=>Hash::make('12345678'),]);
+
+           $UserRole = UserRole::create(['user_id'=>$User->id,'role_id'=>2]);
+
+           $InstitutionUser = InstitutionUser::create(['user_id'=>$User->id,'institution_id'=>$idInstitution]);
+
+        }catch(\Exception $e){
+
+          return response()->json(["success" => false, "msg" => "Error en el servidor", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+
+        }//catch(\Exception $e)
+
+  }//public function CreateUserInstitution($idInstitution)
 
 }
