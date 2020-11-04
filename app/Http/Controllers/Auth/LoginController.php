@@ -89,11 +89,11 @@ class LoginController extends Controller
 
             break; 
 
-            default:
+            /*default:
 
-                return redirect('/login');
+                return redirect('/');
 
-            break;
+            break;*/
 
         }// switch ($role)
     

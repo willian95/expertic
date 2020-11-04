@@ -85,11 +85,11 @@ class RedirectIfAuthenticated
 
                 break; 
 
-                default:
+                /*default:
 
-                    return redirect('/login');
+                    return redirect('/');
 
-                break;
+                break;*/
 
             }// switch ($role)
 

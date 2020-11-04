@@ -28,16 +28,24 @@ Route::group(['middleware' => ['auth']], function () {
         //Instituciones
         Route::get('/admin/business', 'Admin\InstitutionController@index')->name("admin.business");
         
-        //Agregar Instituciones
+        //Agregar Institucion
         Route::post('storeBusiness', "Admin\InstitutionController@store")->name("storeBusiness");
 
-        //Actualizar Instituciones
+        //Actualizar Institucion
         Route::post('updateBusiness', "Admin\InstitutionController@update")->name("updateBusiness");
 
-        //Eliminar Instituciones
+        //Eliminar Institucion
         Route::post('destroyBusiness', "Admin\InstitutionController@destroy")->name("destroyBusiness");
 
     });//role:administrator
+
+    /************************************Administrador de Empresa**************************************/
+    Route::group(['middleware' => ['role:business_administrator']], function () {
+
+        //Dashboard Administrador de Empresa
+        Route::get('/business/home', 'Business\DashboardController@index')->name("business.home");
+
+    });//role:business_administrator
 
 });//auth
 
@@ -57,9 +65,7 @@ Route::get('/admin/student', function () {
     return view('admin.student.index');
 })->name("admin.student");
 
-Route::get('/business/home', function () {
-    return view('business.dashboard');
-})->name("business.home");
+
 
 Route::get('/business/teacher', function () {
     return view('business.teacher.index');
