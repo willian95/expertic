@@ -17,7 +17,7 @@ class CreateInstitutionsTable extends Migration
             $table->id();
             $table->string('rut',20)->unique();
             $table->string('institution_name',100);
-            $table->string('business_name',150);
+            $table->string('reason_social',150);
             $table->text('address',200);
             $table->text('website_link',200)->nullable();
             $table->text('logo',200)->nullable();

@@ -28,6 +28,15 @@ Route::group(['middleware' => ['auth']], function () {
         //Instituciones
         Route::get('/admin/business', 'Admin\InstitutionController@index')->name("admin.business");
         
+        //Agregar Instituciones
+        Route::post('storeBusiness', "Admin\InstitutionController@store")->name("storeBusiness");
+
+        //Actualizar Instituciones
+        Route::post('updateBusiness', "Admin\InstitutionController@update")->name("updateBusiness");
+
+        //Eliminar Instituciones
+        Route::post('destroyBusiness', "Admin\InstitutionController@destroy")->name("destroyBusiness");
+
     });//role:administrator
 
 });//auth

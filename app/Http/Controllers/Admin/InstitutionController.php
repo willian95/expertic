@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreInstitutionPost;
+use App\Http\Requests\UpdateInstitutionPost;
+use App\Http\Requests\DestroyInstitutionPost;
 use App\Models\Module;
 use App\Models\Institution;
+use Validator;
 
 class InstitutionController extends Controller
 {
@@ -18,11 +22,54 @@ class InstitutionController extends Controller
 
   public function index() {
 
-    $Module=Module::orderBy('id','DESC')->get(['id','module_name','module_description']);
-
-    return view('admin.business.index')->with('Module',json_encode($Module));
+    $Modules=Module::orderBy('module_name','ASC')->get(['id','module_name','module_description']);
+    
+    return view('admin.business.index')->with(['Modules'=>json_encode($Modules),'Institutions'=>json_encode($this->institutions())]);
 
   }// public function index()
+
+  public function institutions(){
+
+    $array=array();
+
+    $Institution=Institution::query()->select(['id','rut','institution_name','reason_social','address','website_link','logo',])->orderBy('id','ASC');
+
+    $Institution= $Institution->with([
+
+            'modules' => function($query){ },  
+
+    ])->get(['id','rut','institution_name','reason_social','address','website_link','logo',]);
+    
+    foreach($Institution as $inst){
+      
+      $modules=array();
+
+      if(count($inst->modules)>0){
+
+         foreach($inst->modules as $module){
+
+          $modules[]= $module->pivot->module_id;
+            
+         }//foreach($inst->modules as $module)
+
+      }//if(count($inst->modules)>0)
+
+      $array[]=[
+             'id'=>$inst->id,
+             'rut'=>$inst->rut,
+             'institution_name'=>$inst->institution_name,
+             'reason_social'=>$inst->reason_social,
+             'address'=>$inst->address,
+             'website_link'=>$inst->website_link,
+             'logo'=>$inst->logo,
+             'modules'=>$modules,   
+      ];
+
+    }//foreach($inst as $Institution)
+
+    return $array;
+
+  }//public function institutions()
 
   /**
   * Store a newly created resource in storage.
@@ -31,9 +78,101 @@ class InstitutionController extends Controller
   * @return \Illuminate\Http\Response
   */
 
-  public function store(Request $request)
+  public function store(StoreInstitutionPost $request)
   {
-    
-  }
+
+        try{
+
+          $Institution=Institution::create($request->all());   
+
+          if($request->logo!=""){
+
+            $image=saveImage($request->logo,'institutions/'.$Institution->id.'.jpg');
+
+            $Institution->logo = $image;
+
+            $Institution->save();
+
+          }//if($request->logo!="")
+
+          $Institution->modules()->attach($request->get('modules'));
+
+          return response()->json(["success" => true, "msg" => "Se registraron los datos exitosamente!","Institutions"=>$this->institutions()],200);
+
+        }catch(\Exception $e){
+
+            return response()->json(["success" => false, "msg" => "Error en el servidor", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+
+        }//catch(\Exception $e)
+
+  }//public function store(StoreInstitutionPost $request)
+
+  /**
+  * Update the specified resource in storage.
+  *
+  * @param  \Illuminate\Http\Request  $request
+  * @param  int  $id
+  * @return \Illuminate\Http\Response
+  */
+  public function update(UpdateInstitutionPost $request)
+  {
+        try{
+
+          $Institution=Institution::find($request->id);
+
+          $Institution->fill($request->all())->save();
+
+          if($request->logo!=""){
+
+            $image=saveImage($request->logo,'institutions/'.$Institution->id.'.jpg');
+
+            $Institution->logo = $image;
+
+            $Institution->save();
+
+          }//if($request->logo('logo'))
+      
+          $Institution->modules()->sync($request->get('modules')); 
+
+          return response()->json(["success" => true, "msg" => "Se actualizaron los datos exitosamente!","Institutions"=>$this->institutions()],200);
+
+        }catch(\Exception $e){
+
+            return response()->json(["success" => false, "msg" => "Error en el servidor", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+
+        }//catch(\Exception $e)
+
+  }//public function update(UpdateInstitutionPost $request)
+
+  /**
+     * Remove the specified resource from storage.
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+  public function destroy(DestroyInstitutionPost $request)
+  {
+        try{
+
+          $Institution=Institution::find($request->id);
+
+          if($Institution->logo!=null){
+
+            $ruta_acceso_imagen = public_path().'/'.$Institution->logo; 
+
+            unlink($ruta_acceso_imagen);
+
+          }//if($Institution->logo!=null)
+
+          $Institution->delete();
+
+          return response()->json(["success" => true, "msg" => "Se elimino los datos exitosamente!","Institutions"=>$this->institutions()],200);
+
+        }catch(\Exception $e){
+
+          return response()->json(["success" => false, "msg" => "Error en el servidor", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+
+        }//catch(\Exception $e)
+
+   }//public function destroy(DestroyInstitutionPost $request)
 
 }

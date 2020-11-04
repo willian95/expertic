@@ -1,0 +1,47 @@
+.adjust-tr-5 {
+    width: 5% !important;
+}
+
+.adjust-tr-10{
+   width: 10% !important;
+}
+
+.adjust-tr-15 {
+    width: 15% !important;
+}
+
+.adjust-tr-20 {
+    width: 20% !important;
+}
+
+.adjust-tr-30 {
+    width: 30% !important;
+}
+
+.adjust-tr-40 {
+    width: 40% !important;
+}
+
+.adjust-tr-50 {
+    width: 50% !important;
+}
+
+.adjust-tr-90 {
+    width: 90% !important;
+}
+
+p{
+    overflow-wrap: break-word !important;
+    white-space: pre-wrap !important;
+    text-align: justify;
+}
+
+.show-modal{
+    display: block;
+}
+
+.hide-modal {
+    display: none;
+}
+
+

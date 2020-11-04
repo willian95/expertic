@@ -1,6 +1,7 @@
 <?php
 
   use App\Models\UserRole;
+  use Illuminate\Support\Str;
 
   function saveImage($value, $destination_path, $disk='publicmedia', $size = array(), $watermark = array())
   {
@@ -24,12 +25,12 @@
     ];
     $size = json_decode(json_encode(array_merge($default_size, $size)));
     //Defined return.
-    if (ends_with($value, '.jpg')) {
+    if (Str::endsWith($value, '.jpg')) {
       return $value;
     }
 
     // if a base64 was sent, store it in the db
-    if (starts_with($value, 'data:image')) {
+    if (Str::startsWith($value, 'data:image')) {
       // 0. Make the image
       $image = \Image::make($value);
       // resize and prevent possible upsizing
