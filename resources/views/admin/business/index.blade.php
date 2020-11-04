@@ -315,7 +315,7 @@
 
                if(response.data.success==true){
 
-                  self.clear();
+                  self.closeModal();
 
                   self.Institutions=response.data.Institutions;
 
@@ -418,7 +418,7 @@
 
                if(response.data.success==true){
 
-                  self.clear();
+                  self.closeModal();
 
                   self.Institutions=response.data.Institutions;
 
@@ -471,7 +471,7 @@
 
                      if(response.data.success==true){
 
-                        self.clear();
+                        self.closeModal();
 
                         self.Institutions=response.data.Institutions;
 
