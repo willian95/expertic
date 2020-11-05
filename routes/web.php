@@ -48,6 +48,21 @@ Route::group(['middleware' => ['auth']], function () {
         //Dashboard Administrador de Empresa
         Route::get('/business/home', 'Business\DashboardController@index')->name("business.home");
 
+        //Periodos
+        Route::get('/business/period', 'Business\PeriodController@index')->name("business.period");
+
+        //Obtener Periodos
+        Route::post('getPeriods', 'Business\PeriodController@getPeriods');
+
+        //Agregar Periodo
+        Route::post('storePeriod', "Business\PeriodController@store")->name("storePeriod");
+
+        //Actualizar Periodo
+        Route::post('updatePeriod', "Business\PeriodController@update")->name("updatePeriod");
+
+        //Eliminar Periodo
+        Route::post('destroyPeriod', "Business\PeriodController@destroy")->name("destroyPeriod");       
+
     });//role:business_administrator
 
 });//auth

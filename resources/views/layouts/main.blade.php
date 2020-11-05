@@ -91,6 +91,7 @@
 
                         @case('business_administrator')
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('business.home') }}"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>
+                    <li v-if="roleId == 2" class="active open"><a href="{{ route('business.period') }}"><i class="zmdi zmdi-calendar-alt"></i><span>Periodos</span></a></li>
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('business.level') }}"><i class="zmdi zmdi-home"></i><span>Niveles</span></a></li>
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('business.section') }}"><i class="zmdi zmdi-home"></i><span>Secciones</span></a></li>
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('business.subject') }}"><i class="zmdi zmdi-home"></i><span>Asignaturas</span></a></li>

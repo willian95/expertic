@@ -1,6 +1,7 @@
 <?php
 
   use App\Models\UserRole;
+  use App\Models\InstitutionUser;
   use Illuminate\Support\Str;
 
   function saveImage($value, $destination_path, $disk='publicmedia', $size = array(), $watermark = array())
@@ -116,6 +117,15 @@
       return $role_name;
 
   }//function roleName()  
+
+  
+  function getIdInstitution(){
+
+    $InstitutionUser=InstitutionUser::where('user_id', auth()->id())->first();
+
+    return $InstitutionUser->institution_id;
+
+  }//function getIdInstitution()
 
 
 ?>
