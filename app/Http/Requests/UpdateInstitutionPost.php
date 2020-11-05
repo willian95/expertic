@@ -24,6 +24,7 @@ class UpdateInstitutionPost extends FormRequest
     public function rules()
     {
         return [
+            'id'=>'required|integer',
             'rut'=>'required|max:20',
             'institution_name'=>'required|max:100',
             'reason_social'=>'required|max:150',
@@ -36,7 +37,8 @@ class UpdateInstitutionPost extends FormRequest
     public function messages(){
 
         return [
-
+            'id.required'=>'El campo id es requerido',
+            'id.integer'=>'El campo id es invalido',
             'rut.required'=>'El campo rut de la institución es requerido',
             'rut.max'=>'El campo rut solo acepta un maximo de 20 caracteres',
             'institution_name.required'=>'El campo nombre de la institución es requerido',
