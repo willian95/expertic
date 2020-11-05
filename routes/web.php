@@ -48,6 +48,7 @@ Route::group(['middleware' => ['auth']], function () {
         //Dashboard Administrador de Empresa
         Route::get('/business/home', 'Business\DashboardController@index')->name("business.home");
 
+        //CRUD PERIODOS
         //Periodos
         Route::get('/business/period', 'Business\PeriodController@index')->name("business.period");
 
@@ -61,7 +62,23 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('updatePeriod', "Business\PeriodController@update")->name("updatePeriod");
 
         //Eliminar Periodo
-        Route::post('destroyPeriod', "Business\PeriodController@destroy")->name("destroyPeriod");       
+        Route::post('destroyPeriod', "Business\PeriodController@destroy")->name("destroyPeriod");  
+        
+        //CRUD NIVELES
+        //Niveles
+        Route::get('/business/level', 'Business\LevelController@index')->name("business.level");
+
+        //Obtener Niveles
+        Route::post('getLevels', 'Business\LevelController@getLevels');
+
+        //Agregar Nivel
+        Route::post('storeLevel', "Business\LevelController@store")->name("storeLevel");
+
+        //Actualizar Nivel
+        Route::post('updateLevel', "Business\LevelController@update")->name("updateLevel");
+
+        //Eliminar Nivel
+        Route::post('destroyLevel', "Business\LevelController@destroy")->name("destroyLevel");  
 
     });//role:business_administrator
 
@@ -89,9 +106,7 @@ Route::get('/business/teacher', function () {
     return view('business.teacher.index');
 })->name("business.teacher");
 
-Route::get('/business/level', function () {
-    return view('business.level.index');
-})->name("business.level");
+
 
 Route::get('/business/section', function () {
     return view('business.section.index');
