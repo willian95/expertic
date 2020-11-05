@@ -36,6 +36,8 @@ class InstitutionController extends Controller
 
   public function getInstitutions(Request $request){
 
+    $i=1;
+
     $array=array();
 
     $institutions=array();
@@ -46,7 +48,11 @@ class InstitutionController extends Controller
 
             'modules' => function($query){ },  
 
-    ])->paginate(20);
+    ])->paginate(5);
+
+    if($request->page!=1){
+      $i=$i+(5*($request->page-1));
+    }//if($request->page!=1)
 
     foreach($Institution as $inst){
       
@@ -63,6 +69,7 @@ class InstitutionController extends Controller
       }//if(count($inst->modules)>0)
 
       $array[]=[
+             'num'              =>$i,
              'id'               =>$inst->id,
              'rut'              =>$inst->rut,
              'institution_name' =>$inst->institution_name,
@@ -72,6 +79,8 @@ class InstitutionController extends Controller
              'logo'             =>$inst->logo,
              'modules'          =>$modules,   
       ];
+
+       $i++;
 
     }//foreach($inst as $Institution)
 
@@ -124,7 +133,7 @@ class InstitutionController extends Controller
 
           $this->CreateUserInstitution($Institution->id);
 
-          return response()->json(["success" => true, "msg" => "Se registraron los datos exitosamente!","Institutions"=>$this->institutions()],200);
+          return response()->json(["success" => true, "msg" => "Se registraron los datos exitosamente!"],200);
 
         }catch(\Exception $e){
 
@@ -165,7 +174,7 @@ class InstitutionController extends Controller
       
           $Institution->modules()->sync($request->get('modules')); 
 
-          return response()->json(["success" => true, "msg" => "Se actualizaron los datos exitosamente!","Institutions"=>$this->institutions()],200);
+          return response()->json(["success" => true, "msg" => "Se actualizaron los datos exitosamente!"],200);
 
         }catch(\Exception $e){
 
@@ -196,7 +205,7 @@ class InstitutionController extends Controller
 
           $Institution->delete();
 
-          return response()->json(["success" => true, "msg" => "Se elimino los datos exitosamente!","Institutions"=>$this->institutions()],200);
+          return response()->json(["success" => true, "msg" => "Se elimino los datos exitosamente!"],200);
 
         }catch(\Exception $e){
 

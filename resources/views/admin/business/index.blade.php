@@ -1,6 +1,9 @@
 @extends('layouts.main')
 @section("content")
 <section class="content profile-page" id="business">
+  <div class="preloader" v-if="loading">
+    <svg class="loader" width="200" height="200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-ripple" style="background:0 0"><circle cx="50" cy="50" r="4.719" fill="none" stroke="#1d3f72" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="-1.5s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="-1.5s" repeatCount="indefinite"/></circle><circle cx="50" cy="50" r="27.591" fill="none" stroke="#5699d2" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="0s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="0s" repeatCount="indefinite"/></circle></svg>
+  </div>
    <div class="custom-modal-cover hide-modal" id="modal">
       <div class="container-fluid">
          <div class="row justify-content-center">
@@ -101,7 +104,7 @@
                         </thead>
                         <tbody>
                            <tr  v-for="(Institution,index) in Institutions.institutions">
-                              <td>@{{index+1}}</td>
+                              <td>@{{Institution.num}}</td>
                               <td>
                                  <p>@{{Institution.rut}}</p>
                               </td>
@@ -361,13 +364,13 @@
 
             }).then(function (response) {
 
-               self.loading = false
+               
 
                if(response.data.success==true){
 
                   self.closeModal();
 
-                  self.Institutions=response.data.Institutions;
+                  self.getInstitutions(1);
 
                   Swal.fire('Información','Registro Satisfactorio','success');
 
@@ -466,13 +469,12 @@
 
             }).then(function (response) {
 
-               self.loading = false
 
                if(response.data.success==true){
 
                   self.closeModal();
 
-                  self.Institutions=response.data.Institutions;
+                  self.getInstitutions(1);
 
                   Swal.fire('Información','Actualizo Satisfactorio','success');
 
@@ -519,13 +521,11 @@
                      id:id,
                   }).then(function (response) {
 
-                     self.loading = false
-
                      if(response.data.success==true){
 
                         self.closeModal();
 
-                        self.Institutions=response.data.Institutions;
+                        self.getInstitutions(1);
 
                         Swal.fire('Eliminado!','El registro ha sido eliminado.','success');
                         
@@ -618,7 +618,6 @@
                         self.Institutions=response.data.Institutions;
 
                         self.paginate=response.data.Institutions.paginate;
-
 
                      }//if(response.data.success==true)
                      else{              
