@@ -94,7 +94,7 @@
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('business.period') }}"><i class="zmdi zmdi-calendar-alt"></i><span>Periodos</span></a></li>
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('business.level') }}"><i class="zmdi zmdi-graduation-cap"></i><span>Niveles</span></a></li>
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('business.section') }}"><i class="zmdi zmdi-sort-asc"></i><span>Secciones</span></a></li>
-                    <li v-if="roleId == 2" class="active open"><a href="{{ route('business.subject') }}"><i class="zmdi zmdi-home"></i><span>Asignaturas</span></a></li>
+                    <li v-if="roleId == 2" class="active open"><a href="{{ route('business.subject') }}"><i class="zmdi zmdi-book"></i></i><span>Asignaturas</span></a></li>
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('business.teacher') }}"><i class="zmdi zmdi-male-alt"></i><span>Profesores</span></a></li>
                     <li v-if="roleId == 2"><a onclick="toggleSubmenu('schedule-submenu')" href="javascript:void(0);" class="menu-toggle waves-effect waves-block toggled"><i class="zmdi zmdi-accounts-outline"></i><span>Horarios</span> </a>
                         <ul class="ml-menu submenu-hidden" id="schedule-submenu">
