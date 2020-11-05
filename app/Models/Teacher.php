@@ -11,8 +11,8 @@ class Teacher extends Model
     protected $fillable=[
         'institution_id',
         'rut',
-        'name',
-        'lastname',
+        'teacher_name',
+        'teacher_lastname',
     ];
     
     public function subjects(){

@@ -13,7 +13,7 @@ class StoreTeacherPost extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,26 @@ class StoreTeacherPost extends FormRequest
     public function rules()
     {
         return [
-            //
+
+            'rut'=>'required|unique:teacher|max:20',
+            'teacher_name'=>'required|max:50',
+            'teacher_lastname'=>'required|max:50',
+
         ];
+
+    }
+
+        public function messages(){
+
+        return [
+            'rut.required'=>'El campo rut es requerido',
+            'rut.unique'=>'El campo rut ya se encuentra registrado',
+            'rut.max'=>'El campo rut solo acepta un maximo de 20 caracteres',
+            'teacher_name.required'=>'El campo nombre es requerido',
+            'teacher_name.max'=>'El campo nombre solo acepta un maximo de 50 caracteres',
+            'teacher_lastname.required'=>'El campo apellido es requerido',
+            'teacher_lastname.max'=>'El campo nombre solo apellido un maximo de 50 caracteres',            
+        ];
+
     }
 }

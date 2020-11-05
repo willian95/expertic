@@ -17,8 +17,8 @@ class CreateTeachersTable extends Migration
             $table->id();
             $table->unsignedBigInteger('institution_id');
             $table->string('rut',20)->unique();
-            $table->string('name',50);
-            $table->string('lastname',50);
+            $table->string('teacher_name',50);
+            $table->string('teacher_lastname',50);
             //relations
             $table->foreign('institution_id')->references('id')->on('institutions')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
