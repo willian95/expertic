@@ -12,4 +12,10 @@ class Subject extends Model
         'institution_id',
         'subject'
     ]; 
+
+    public function teachers(){
+
+        return $this->belongsToMany('App\Models\Teacher');
+
+    }
 }

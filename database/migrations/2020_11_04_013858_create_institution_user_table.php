@@ -16,11 +16,11 @@ class CreateInstitutionUserTable extends Migration
         Schema::create('institution_user', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('institution_id');
+            $table->unsignedBigInteger('institution_id');       
+            $table->timestamps();
             //relations
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('institution_id')->references('id')->on('institutions')->onDelete('cascade')->onUpdate('cascade');              
-            $table->timestamps();
+            $table->foreign('institution_id')->references('id')->on('institutions')->onDelete('cascade')->onUpdate('cascade');       
         });
     }
 
