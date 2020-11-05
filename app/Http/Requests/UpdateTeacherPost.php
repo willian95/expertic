@@ -29,6 +29,11 @@ class UpdateTeacherPost extends FormRequest
             'rut'=>'required|unique:teacher|max:20',
             'teacher_name'=>'required|max:50',
             'teacher_lastname'=>'required|max:50',
+            'email' => 'required|email',
+            'password' => 'sometimes|required_with:password_confirmation|string',
+            'password_confirmation' => 'same:password| min:8',
+            'subjects' => 'required|array'
+
 
         ];
 
@@ -46,6 +51,14 @@ class UpdateTeacherPost extends FormRequest
             'teacher_name.max'=>'El campo nombre solo acepta un maximo de 50 caracteres',
             'teacher_lastname.required'=>'El campo apellido es requerido',
             'teacher_lastname.max'=>'El campo nombre solo apellido un maximo de 50 caracteres',
+            'email.required'=>'El campo email es requerido',
+            'email.email'=>'El campo email es invalido',
+            'password.required'=>'El campo contraseña es requerido',
+            'password.required_with'=>'El campo contraseña no concuerda con la verificacón de la misma',
+            'password.string'=>'El campo contraseña debe ser de tipo alphanumerica',
+            'password_confirmation.min'=>'La contraseña debe contener minimo 8 caracteres',
+            'subjects.required'=>'Debe seleccionar la asignatura a relacionar',
+            'subjects.array'=>'El compo asignatura es invalido',
         ];
 
     }

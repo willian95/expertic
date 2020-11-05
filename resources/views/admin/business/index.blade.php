@@ -1,9 +1,18 @@
 @extends('layouts.main')
 @section("content")
 <section class="content profile-page" id="business">
-  <div class="preloader" v-if="loading">
-    <svg class="loader" width="200" height="200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-ripple" style="background:0 0"><circle cx="50" cy="50" r="4.719" fill="none" stroke="#1d3f72" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="-1.5s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="-1.5s" repeatCount="indefinite"/></circle><circle cx="50" cy="50" r="27.591" fill="none" stroke="#5699d2" stroke-width="2"><animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="0s" repeatCount="indefinite"/><animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="0s" repeatCount="indefinite"/></circle></svg>
-  </div>
+   <div class="preloader" v-if="loading">
+      <svg class="loader" width="200" height="200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-ripple" style="background:0 0">
+         <circle cx="50" cy="50" r="4.719" fill="none" stroke="#1d3f72" stroke-width="2">
+            <animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="-1.5s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="-1.5s" repeatCount="indefinite"/>
+         </circle>
+         <circle cx="50" cy="50" r="27.591" fill="none" stroke="#5699d2" stroke-width="2">
+            <animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="0s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="0s" repeatCount="indefinite"/>
+         </circle>
+      </svg>
+   </div>
    <div class="custom-modal-cover hide-modal" id="modal">
       <div class="container-fluid">
          <div class="row justify-content-center">
@@ -153,142 +162,142 @@
    const business = new Vue({
       
        el: '#business',
-
+   
        data:{
-
+   
             loading:false,
-
+   
             modal:false,
-
+   
             errors:[],
-
+   
             Modules:{!! $Modules ? $Modules : "''"!!},
-
+   
             Institutions:'',
-
+   
             rut:'',
-
+   
             institution_name:'',
-
+   
             reason_social:'',
-
+   
             address:'',
-
+   
             website_link:'',
-
+   
             logo:'',
-
+   
             modules: [],
-
+   
             buttonShowDos:true, 
-
+   
             buttonNameDos:'Crear',
-
+   
             id:'',
-
+   
             change:0,
             
             paginate:{
-
+   
                    total:0,
-
+   
                    current_page:0,
-
+   
                    per_page:0,
-
+   
                    last_page:0,
-
+   
                    from:0,
-
+   
                    to:0,
-
+   
             },
-
+   
             offset:3
-
-
+   
+   
        },
        mounted(){
           
           this.getInstitutions(1);
-
+   
        },
        computed:{
-
+   
           isActive(){
-
+   
              return this.paginate.current_page;
-
+   
           },//isActive()
-
+   
           pagesNumber(){
-
+   
                if(!this.paginate.to){
-
+   
                   return [];
-
+   
                }//if(!this.paginate.to)
-
+   
                let from = this.paginate.current_page - this.offset;
-
+   
                if (from < 1){
-
+   
                   from = 1;
                   
                }//if (from < 1)
-
+   
                let to = from + (this.offset * 2);
-
+   
                if(to>=this.paginate.last_page){
-
+   
                  to=this.paginate.last_page;
-
+   
                }//if(to>=this.paginate.last_page)
-
+   
                
                let pagesArray=[];
-
+   
                while(from <= to){
-
+   
                   pagesArray.push(from);
-
+   
                   from++;
-
+   
                }//while(from <= to)
-
+   
                return pagesArray;
-
+   
           }//pagesNumber()
-
+   
        },//computed
        methods:{
    
          fileImage:function(event){
-
+   
             // Reference to the DOM input element
             var input = event.target;
-
+   
             let self = this;
-
+   
             // Ensure that you have a file before attempting to read it
             if (input.files && input.files[0]) {
-
+   
                // create a new FileReader to read this image and convert to base64 format
                var reader = new FileReader();
-
+   
                // Define a callback function to run, when FileReader finishes its job
                reader.onload = (e) => {
-
+   
                   // Note: arrow function used here, so that "this.imgLogo" refers to the imgLogo of Vue component
                   // Read image as base64 and set to imgLogo
                   self.logo = e.target.result;
-
+   
                }
                // Start the reader job - read file as a data url (base64 format)
                reader.readAsDataURL(input.files[0]);
-
+   
             }
-
+   
            },//file:function(event)
    
            toggleModal(){
@@ -332,9 +341,9 @@
             this.id='';
    
             this.change=0;
-
+   
             document.getElementById("logo").value = '';
-
+   
    
          },//clear:function()
    
@@ -343,58 +352,58 @@
             let self = this;
    
             self.loading = true;
-
+   
             self.errors = []
-
+   
             axios.post('{{ url("storeBusiness") }}', {
-
+   
                rut:self.rut,
-
+   
                institution_name:self.institution_name,
-
+   
                reason_social:self.reason_social,
-
+   
                address:self.address,
-
+   
                website_link:self.website_link,
-
+   
                logo:self.logo,
-
+   
                modules:self.modules,
-
+   
             }).then(function (response) {
-
+   
                
-
+   
                if(response.data.success==true){
-
+   
                   self.closeModal();
-
+   
                   self.getInstitutions(1);
-
+   
                   Swal.fire('Información','Registro Satisfactorio','success');
-
+   
                }//if(response.data.success==true)
                else{       
-
+   
                   iziToast.error({title: 'Error',position:'topRight',message: response.data.msg}); 
-
+   
                }//else if(response.data.success==false)
-
+   
             }).catch(err => {
-
+   
                self.loading = false
-
+   
                self.errors = err.response.data.errors
-
+   
                if(self.errors){
-
+   
                   iziToast.error({title: 'Error',position:'topRight',message: "Hay algunos campos que debes revisar"});  
               
                }else{
-
+   
                   iziToast.error({title: 'Error',position:'topRight',message: "Ha ocurrido un problema"}); 
-
+   
                }
                
             }); 
@@ -402,7 +411,7 @@
          },//register:function()
    
          captureRecord: function(value){
-
+   
             this.clear();
    
             this.buttonNameDos="Actualizar";
@@ -446,59 +455,59 @@
             let self = this;
    
             self.loading = true;
-
+   
             self.errors = []
-
+   
             axios.post('{{ url("updateBusiness") }}', {
-
+   
                id:self.id,
-
+   
                rut:self.rut,
-
+   
                institution_name:self.institution_name,
-
+   
                reason_social:self.reason_social,
-
+   
                address:self.address,
-
+   
                website_link:self.website_link,
-
+   
                logo:self.logo,
-
+   
                modules:self.modules,
-
+   
             }).then(function (response) {
-
-
+   
+   
                if(response.data.success==true){
-
+   
                   self.closeModal();
-
+   
                   self.getInstitutions(1);
-
+   
                   Swal.fire('Información','Actualizo Satisfactorio','success');
-
+   
                }//if(response.data.success==true)
                else{         
-
+   
                   iziToast.error({title: 'Error',position:'topRight',message: response.data.msg});   
-
+   
                }//else if(response.data.success==false)
-
+   
             }).catch(err => {
-
+   
                self.loading = false
-
+   
                self.errors = err.response.data.errors
-
+   
                if(self.errors){
-
+   
                   iziToast.error({title: 'Error',position:'topRight',message: "Hay algunos campos que debes revisar"});
-
+   
                }else{
-
+   
                   iziToast.error({title: 'Error',position:'topRight',message: "Ha ocurrido un problema"});  
-
+   
                }
                
             }); 
@@ -506,57 +515,57 @@
          },//update:function()
    
          async destroy(id){
-
+   
             let self = this;
-
+   
             self.loading = true;
-
+   
             self.errors = []
-
+   
             Swal.fire({title: 'Estas seguro?',text: "No podrás revertir esto!",icon: 'warning',showCancelButton: true,confirmButtonColor: '#3085d6',cancelButtonColor: '#d33',confirmButtonText: 'Si, bórralo!',cancelButtonText: 'Cancelar'}).then((result) => {
             
                if (result.isConfirmed) {
-
+   
                   axios.post('{{ url("destroyBusiness") }}', {
                      id:id,
                   }).then(function (response) {
-
+   
                      if(response.data.success==true){
-
+   
                         self.closeModal();
-
+   
                         self.getInstitutions(1);
-
+   
                         Swal.fire('Eliminado!','El registro ha sido eliminado.','success');
                         
                      }//if(response.data.success==true)
                      else{              
-
+   
                         iziToast.error({title: 'Error',position:'topRight',message: response.data.msg}); 
-
+   
                      }//else if(response.data.success==false)
-
+   
                    }).catch(err => {
-
+   
                      self.loading = false
-
+   
                      self.errors = err.response.data.errors
-
+   
                      if(self.errors){
-
+   
                         iziToast.error({title: 'Error',position:'topRight',message: "Hay algunos campos que debes revisar"});  
-
+   
                      }else{
-
+   
                         iziToast.error({title: 'Error',position:'topRight',message: "Ha ocurrido un problema"});  
-
+   
                      }
                
                    }); 
                }
-
+   
                self.loading = false
- 
+   
             })
    
          },// destroy:function(value)
@@ -592,61 +601,61 @@
            }//else if(this.change==1)
    
          },//ActionsCc:function()
-
-
+   
+   
          changePage(page){
-
+   
             this.paginate.current_page=page;
-
+   
             this.getInstitutions(page);
-
+   
          },//changePage()
-
+   
          async getInstitutions(page){
-
+   
             let self = this;
    
             self.loading = true;
-
+   
                   axios.post('{{ url("getInstitutions") }}', {
                      
                      page:page,
                      
                   }).then(function (response) {
-
+   
                      self.loading = false
-
+   
                      if(response.data.success==true){
-
+   
                         self.Institutions=response.data.Institutions;
-
+   
                         self.paginate=response.data.Institutions.paginate;
-
+   
                      }//if(response.data.success==true)
                      else{              
-
+   
                         iziToast.error({title: 'Error',position:'topRight',message: response.data.msg}); 
-
+   
                      }//else if(response.data.success==false)
-
+   
                    }).catch(err => {
-
+   
                      self.loading = false
-
+   
                      self.errors = err.response.data.errors
-
+   
                      if(self.errors){
-
+   
                         iziToast.error({title: 'Error',position:'topRight',message: "Hay algunos campos que debes revisar"});  
-
+   
                      }else{
-
+   
                         iziToast.error({title: 'Error',position:'topRight',message: "Ha ocurrido un problema"});  
-
+   
                      }
                
                    }); 
-
+   
          },//getInstitutions
    
        },

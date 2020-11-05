@@ -1,7 +1,19 @@
 @extends('layouts.main')
 @section("content")
-<section class="content profile-page" id="teacher">
-   <div class="custom-modal-cover" v-show="modal">
+<section class="content profile-page" id="business">
+   <div class="preloader" v-if="loading">
+      <svg class="loader" width="200" height="200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-ripple" style="background:0 0">
+         <circle cx="50" cy="50" r="4.719" fill="none" stroke="#1d3f72" stroke-width="2">
+            <animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="-1.5s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="-1.5s" repeatCount="indefinite"/>
+         </circle>
+         <circle cx="50" cy="50" r="27.591" fill="none" stroke="#5699d2" stroke-width="2">
+            <animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="0s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="0s" repeatCount="indefinite"/>
+         </circle>
+      </svg>
+   </div>
+   <div class="custom-modal-cover hide-modal" id="modal">
       <div class="container-fluid">
          <div class="row justify-content-center">
             <div class="col-12 col-lg-10 col-md-10">
@@ -13,88 +25,61 @@
                      <div class="row justify-content-center">
                         <div class="col-12 col-md-6 col-lg-4">
                            <div class="form-group">
-                              <label for="name">Rut</label>
-                              <input type="text" class="form-control" id="name">
+                              <label for="rut">Rut</label>
+                              <input type="text" v-model="rut" class="form-control" id="rut" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('rut') }">
+                              <small v-if="errors.hasOwnProperty('rut')" class="text-danger ml-2">@{{ errors['rut'][0] }}</small>
                            </div>
                         </div>
                         <div class="col-12 col-md-6 col-lg-4">
                            <div class="form-group">
-                              <label for="name">Nombres</label>
-                              <input type="text" class="form-control" id="name">
+                              <label for="teacher_name">Nombre</label>
+                              <input type="text" v-model="teacher_name" class="form-control" id="teacher_name" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('teacher_name') }">
+                              <small v-if="errors.hasOwnProperty('teacher_name')" class="text-danger ml-2">@{{ errors['teacher_name'][0] }}</small>
                            </div>
                         </div>
                         <div class="col-12 col-md-6 col-lg-4">
                            <div class="form-group">
-                              <label for="lastname">Apellidos</label>
-                              <input type="text" class="form-control" id="lastname">
+                              <label for="teacher_lastname">Apellido</label>
+                              <input type="text" v-model="teacher_lastname" class="form-control" id="teacher_lastname" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('teacher_lastname') }">
+                              <small v-if="errors.hasOwnProperty('teacher_lastname')" class="text-danger ml-2">@{{ errors['teacher_lastname'][0] }}</small>
                            </div>
                         </div>
                         <div class="col-12 col-md-6 col-lg-4">
                            <div class="form-group">
                               <label for="email">Email</label>
-                              <input type="email" class="form-control" id="email">
+                              <input type="email" v-model="email" class="form-control" id="email" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('email') }">
+                              <small v-if="errors.hasOwnProperty('email')" class="text-danger ml-2">@{{ errors['email'][0] }}</small>
                            </div>
                         </div>
                         <div class="col-12 col-md-6 col-lg-4">
                            <div class="form-group">
                               <label for="password">Contraseña</label>
-                              <input type="text" class="form-control" id="password">
+                              <input type="password" v-model="password" class="form-control" id="password"  v-bind:class="{ 'is-invalid': errors.hasOwnProperty('password') }">
+                              <small v-if="errors.hasOwnProperty('password')" class="text-danger ml-2">@{{ errors['password'][0] }}</small>
                            </div>
                         </div>
                         <div class="col-12 col-md-6 col-lg-4">
                            <div class="form-group">
-                              <label for="url_page">Verificar Contraseña</label>
-                              <input type="text" class="form-control" id="url_page">
+                              <label for="password_confirmation">Verificar Contraseña</label>
+                              <input type="password" v-model="password_confirmation" class="form-control" id="password_confirmation" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('password_confirmation') }">
+                              <small v-if="errors.hasOwnProperty('password_confirmation')" class="text-danger ml-2">@{{ errors['password_confirmation'][0] }}</small>
                            </div>
                         </div>
-                        <div class="col-12 pb-4 text-justify">
+                        <div class="col-12">
                            <span class="font-weight-normal">Asignaturas</span><br> 
-                           <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                              <label class="form-check-label" for="inlineCheckbox1">Lengua y Comunicación.</label>
+                           <div id='subjects' class="form-check form-check-inline" v-for="subject in Subjects">
+                              <input class="form-check-input" type="checkbox" v-bind:id="'subject.id'+'subject'" v-model="subjects"  v-bind:value="subject.id">
+                              <label class="form-check-label" for="inlineCheckbox1">@{{subject.subject}}</label>
                            </div>
-                           <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                              <label class="form-check-label" for="inlineCheckbox2">Matemáticas.</label>
-                           </div>
-                           <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" >
-                              <label class="form-check-label" for="inlineCheckbox3">Historia</label>
-                           </div>
-                           <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
-                              <label class="form-check-label" for="inlineCheckbox3">Geografía</label>
-                           </div>
-                           <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                              <label class="form-check-label" for="inlineCheckbox1">Lengua y Comunicación.</label>
-                           </div>
-                           <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                              <label class="form-check-label" for="inlineCheckbox2">Física</label>
-                           </div>
-                           <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" >
-                              <label class="form-check-label" for="inlineCheckbox3">Química</label>
-                           </div>
-                           <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
-                              <label class="form-check-label" for="inlineCheckbox3">Biología</label>
-                           </div>
-                           <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
-                              <label class="form-check-label" for="inlineCheckbox3">Inglés</label>
-                           </div>
-                           <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
-                              <label class="form-check-label" for="inlineCheckbox3">Educación Física</label>
-                           </div>
+                        </div>
+                        <div class="col-12 pb-4">
+                              <small v-if="errors.hasOwnProperty('subjects')" class="text-danger ml-2">@{{ errors['subjects'][0] }}</small>
                         </div>
                      </div>
                   </div>
                   <div class="modal-footer">
-                     <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="toggleModal()">Cerrar</button>
-                     <button type="button" class="btn btn-primary">Crear</button>
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="closeModal()">Cerrar</button>
+                     <button type="button" class="btn btn-primary"@click="ActionsCru">@{{buttonNameDos}}</button>
                   </div>
                </div>
             </div>
@@ -122,52 +107,34 @@
                      <table class="table table-hover m-b-0">
                         <thead>
                            <tr>
-                              <th>#</th>
-                              <th>Nombre</th>
-                              <th>Email</th>
-                              <th>Clave</th>
-                              <th>Acciones</th>
+                              <th class="adjust-tr-10">#</th>
+                              <th class="adjust-tr-20">Rut</th>
+                              <th class="adjust-tr-20">Nombre</th>
+                              <th class="adjust-tr-20">Apellido</th>
+                              <th class="adjust-tr-20">Email</th>
+                              <th class="adjust-tr-10">Acciones</th>
                            </tr>
                         </thead>
                         <tbody>
-                           <tr>
-                              <td>1</td>
-                              <td>Pedro Perez</td>
-                              <td>pperez@gmail.com</td>
-                              <td>13-04-2020</td>
+                           <tr  v-for="(Teacher,index) in Teachers.teachers">
+                              <td>@{{Teacher.num}}</td>
                               <td>
-                                 <button class="btn btn-info" @click="toggleModal()">
-                                 <i class="zmdi zmdi-edit"></i>
-                                 </button>
-                                 <button class="btn btn-secondary">
-                                 <i class="zmdi zmdi-delete"></i>
-                                 </button>
+                                 <p>@{{Teacher.rut}}</p>
                               </td>
-                           </tr>
-                           <tr>
-                              <td>2</td>
-                              <td>María Hernandez</td>
-                              <td>mhernamdez@gmail.com</td>
-                              <td>12345678</td>
                               <td>
-                                 <button class="btn btn-info" @click="toggleModal()">
-                                 <i class="zmdi zmdi-edit"></i>
-                                 </button>
-                                 <button class="btn btn-secondary">
-                                 <i class="zmdi zmdi-delete"></i>
-                                 </button>
+                                 <p>@{{Teacher.teacher_name}}</p>
                               </td>
-                           </tr>
-                           <tr>
-                              <td>3</td>
-                              <td>Carol Ramos</td>
-                              <td>cramos@gmail.com</td>
-                              <td>12345678</td>
                               <td>
-                                 <button class="btn btn-info" @click="toggleModal()">
+                                 <p>@{{Teacher.teacher_lastname}}</p>
+                              </td>
+                              <td>
+                                 <p>@{{Teacher.teacher_lastname}}</p>
+                              </td>
+                              <td>
+                                 <button class="btn btn-info" @click="captureRecord(Teacher)">
                                  <i class="zmdi zmdi-edit"></i>
                                  </button>
-                                 <button class="btn btn-secondary">
+                                 <button class="btn btn-secondary"  @click="destroy(Teacher.id)">
                                  <i class="zmdi zmdi-delete"></i>
                                  </button>
                               </td>
@@ -180,12 +147,9 @@
             <div class="card">
                <div class="body">
                   <ul class="pagination pagination-primary m-b-0">
-                     <li class="page-item"><a class="page-link" href="javascript:void(0);"><i class="zmdi zmdi-arrow-left"></i></a></li>
-                     <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
-                     <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
-                     <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
-                     <li class="page-item"><a class="page-link" href="javascript:void(0);">4</a></li>
-                     <li class="page-item"><a class="page-link" href="javascript:void(0);"><i class="zmdi zmdi-arrow-right"></i></a></li>
+                     <li class="page-item" v-if="paginate.current_page > 1"><a class="page-link" href="javascript:void(0);" @click.prevent="changePage(paginate.current_page - 1)"><i class="zmdi zmdi-arrow-left"></i></a></li>
+                     <li class="page-item" v-for="page in pagesNumber" v-bind:class="{ 'active': page== isActive }"><a class="page-link" href="javascript:void(0);" @click.prevent="changePage(page)">@{{page}}</a></li>
+                     <li class="page-item" v-if="paginate.current_page < paginate.last_page"><a class="page-link" href="javascript:void(0);" @click.prevent="changePage(paginate.current_page + 1)"><i class="zmdi zmdi-arrow-right"></i></a></li>
                   </ul>
                </div>
             </div>
@@ -197,29 +161,477 @@
 @push("scripts")
 <script>
    const business = new Vue({
-       el: '#teacher',
-       data(){
-           return{
-               modal:false
-           }
+      
+       el: '#business',
+   
+       data:{
+   
+            loading:false,
+   
+            modal:false,
+   
+            errors:[],
+   
+            Subjects:{!! $Subjects ? $Subjects : "''"!!},
+
+            Teachers:'',
+   
+            rut:'',
+   
+            teacher_name:'',
+   
+            teacher_lastname:'',
+   
+            email:'',
+   
+            password:'',
+   
+            password_confirmation:'',
+   
+            subjects: [],
+   
+            buttonShowDos:true, 
+   
+            buttonNameDos:'Crear',
+   
+            id:'',
+   
+            change:0,
+            
+            paginate:{
+   
+                   total:0,
+   
+                   current_page:0,
+   
+                   per_page:0,
+   
+                   last_page:0,
+   
+                   from:0,
+   
+                   to:0,
+   
+            },
+   
+            offset:3
+   
+   
        },
+       mounted(){
+          
+          this.getTeachers(1);
+   
+       },
+       computed:{
+   
+          isActive(){
+   
+             return this.paginate.current_page;
+   
+          },//isActive()
+   
+          pagesNumber(){
+   
+               if(!this.paginate.to){
+   
+                  return [];
+   
+               }//if(!this.paginate.to)
+   
+               let from = this.paginate.current_page - this.offset;
+   
+               if (from < 1){
+   
+                  from = 1;
+                  
+               }//if (from < 1)
+   
+               let to = from + (this.offset * 2);
+   
+               if(to>=this.paginate.last_page){
+   
+                 to=this.paginate.last_page;
+   
+               }//if(to>=this.paginate.last_page)
+   
+               
+               let pagesArray=[];
+   
+               while(from <= to){
+   
+                  pagesArray.push(from);
+   
+                  from++;
+   
+               }//while(from <= to)
+   
+               return pagesArray;
+   
+          }//pagesNumber()
+   
+       },//computed
        methods:{
    
            toggleModal(){
    
-               if(this.modal){
-                   this.modal = false
+               document.getElementById("modal").classList.remove("hide-modal");
+   
+               document.getElementById("modal").classList.add("show-modal");
+   
+           },//toggleModal()
+   
+            closeModal(){
+               
+               this.clear();
+   
+               document.getElementById("modal").classList.add("hide-modal");
+   
+               document.getElementById("modal").classList.remove("show-modal");
+   
+           },//closeModal()
+   
+         clear:function(){
+   
+            this.rut='';
+   
+            this.teacher_name='';
+   
+            this.teacher_lastname='';
+   
+            this.email='';
+   
+            this.password='';
+   
+            this.password_confirmation='';
+   
+            this.subjects=[];
+   
+            this.buttonShowDos=true;
+   
+            this.buttonNameDos="Crear";
+      
+            this.id='';
+   
+            this.change=0;  
+
+            this.errors=[];
+ 
+   
+         },//clear:function()
+   
+         async register(){
+   
+            let self = this;
+   
+            self.loading = true;
+   
+            self.errors = []
+   
+            axios.post('{{ url("storeTeacher") }}', {
+   
+               rut:self.rut,
+   
+               teacher_name:self.teacher_name,
+   
+               teacher_lastname:self.teacher_lastname,
+   
+               email:self.email,
+   
+               password:self.password,
+   
+               password_confirmation:self.password_confirmation,
+   
+               subjects:self.subjects,
+   
+            }).then(function (response) {
+   
+               if(response.data.success==true){
+   
+                  self.closeModal();
+   
+                  self.getTeachers(1);
+   
+                  Swal.fire('Información','Registro Satisfactorio','success');
+   
+               }//if(response.data.success==true)
+               else{       
+   
+                  iziToast.error({title: 'Error',position:'topRight',message: response.data.msg}); 
+   
+               }//else if(response.data.success==false)
+   
+            }).catch(err => {
+   
+               self.loading = false
+   
+               self.errors = err.response.data.errors
+   
+               if(self.errors){
+   
+                  iziToast.error({title: 'Error',position:'topRight',message: "Hay algunos campos que debes revisar"});  
+              
                }else{
-                   this.modal = true
+   
+                  iziToast.error({title: 'Error',position:'topRight',message: "Ha ocurrido un problema"}); 
+   
+               }
+               
+            }); 
+   
+         },//register:function()
+   
+         captureRecord: function(value){
+   
+            this.clear();
+   
+            this.buttonNameDos="Actualizar";
+   
+            this.id=value.id;
+   
+            this.rut=value.rut;
+   
+            this.teacher_name=value.teacher_name;
+   
+            this.teacher_lastname=value.teacher_lastname;
+   
+            this.email=value.email;
+      
+            this.subjects=value.subjects;
+   
+            this.change=1;
+   
+            this.toggleModal();
+   
+         },//captureRecord: function(value)
+   
+   
+         cancel:function(){
+   
+            this.clear();
+   
+            this.id="";
+   
+            this.buttonNameDos="Crear";
+   
+            this.buttonShowDos=true;
+   
+            this.change=0;
+         },
+   
+         async update(){
+   
+            let self = this;
+   
+            self.loading = true;
+   
+            self.errors = []
+   
+            axios.post('{{ url("updateTeacher") }}', {
+   
+               id:self.id,
+   
+               rut:self.rut,
+   
+               teacher_name:self.teacher_name,
+   
+               teacher_lastname:self.teacher_lastname,
+   
+               email:self.email,
+   
+               password:self.password,
+   
+               password_confirmation:self.password_confirmation,
+   
+               subjects:self.subjects,
+   
+            }).then(function (response) {
+   
+   
+               if(response.data.success==true){
+   
+                  self.closeModal();
+   
+                  self.getTeachers(1);
+   
+                  Swal.fire('Información','Actualizo Satisfactorio','success');
+   
+               }//if(response.data.success==true)
+               else{         
+   
+                  iziToast.error({title: 'Error',position:'topRight',message: response.data.msg});   
+   
+               }//else if(response.data.success==false)
+   
+            }).catch(err => {
+   
+               self.loading = false
+   
+               self.errors = err.response.data.errors
+   
+               if(self.errors){
+   
+                  iziToast.error({title: 'Error',position:'topRight',message: "Hay algunos campos que debes revisar"});
+   
+               }else{
+   
+                  iziToast.error({title: 'Error',position:'topRight',message: "Ha ocurrido un problema"});  
+   
+               }
+               
+            }); 
+   
+         },//update:function()
+   
+         async destroy(id){
+   
+            let self = this;
+   
+            self.loading = true;
+   
+            self.errors = []
+   
+            Swal.fire({title: 'Estas seguro?',text: "No podrás revertir esto!",icon: 'warning',showCancelButton: true,confirmButtonColor: '#3085d6',cancelButtonColor: '#d33',confirmButtonText: 'Si, bórralo!',cancelButtonText: 'Cancelar'}).then((result) => {
+            
+               if (result.isConfirmed) {
+   
+                  axios.post('{{ url("destroyTeacher") }}', {
+                     id:id,
+                  }).then(function (response) {
+   
+                     if(response.data.success==true){
+   
+                        self.closeModal();
+   
+                        self.getTeachers(1);
+   
+                        Swal.fire('Eliminado!','El registro ha sido eliminado.','success');
+                        
+                     }//if(response.data.success==true)
+                     else{              
+   
+                        iziToast.error({title: 'Error',position:'topRight',message: response.data.msg}); 
+   
+                     }//else if(response.data.success==false)
+   
+                   }).catch(err => {
+   
+                     self.loading = false
+   
+                     self.errors = err.response.data.errors
+   
+                     if(self.errors){
+   
+                        iziToast.error({title: 'Error',position:'topRight',message: "Hay algunos campos que debes revisar"});  
+   
+                     }else{
+   
+                        iziToast.error({title: 'Error',position:'topRight',message: "Ha ocurrido un problema"});  
+   
+                     }
+               
+                   }); 
                }
    
-           }
+               self.loading = false
+   
+            })
+   
+         },// destroy:function(value)
+   
+         ActionsCru:function(){
+   
+           if(this.change==0){
+   
+             this.register();
+   
+           }//if(this.change==0)
+   
+           else if(this.change==1){
+   
+             this.update();
+   
+           }//else if(this.change==1)
+   
+         },//ActionsCru:function()
+   
+         ActionsCc:function(){
+   
+            if(this.change==0){
+   
+             this.clear();
+   
+           }//if(this.change==0)
+   
+           else if(this.change==1 || this.change==2){
+   
+             this.cancel();
+   
+           }//else if(this.change==1)
+   
+         },//ActionsCc:function()
+   
+   
+         changePage(page){
+   
+            this.paginate.current_page=page;
+   
+            this.getTeachers(page);
+   
+         },//changePage()
+   
+         async getTeachers(page){
+   
+            let self = this;
+   
+            self.loading = true;
+   
+                  axios.post('{{ url("getTeachers") }}', {
+                     
+                     page:page,
+                     
+                  }).then(function (response) {
+   
+                     self.loading = false
+   
+                     if(response.data.success==true){
+   
+                        self.Teachers=response.data.Teachers;
+   
+                        self.paginate=response.data.Teachers.paginate;
+   
+                     }//if(response.data.success==true)
+                     else{              
+   
+                        iziToast.error({title: 'Error',position:'topRight',message: response.data.msg}); 
+   
+                     }//else if(response.data.success==false)
+   
+                   }).catch(err => {
+   
+                     self.loading = false
+   
+                     self.errors = err.response.data.errors
+   
+                     if(self.errors){
+   
+                        iziToast.error({title: 'Error',position:'topRight',message: "Hay algunos campos que debes revisar"});  
+   
+                     }else{
+   
+                        iziToast.error({title: 'Error',position:'topRight',message: "Ha ocurrido un problema"});  
+   
+                     }
+               
+                   }); 
+   
+         },//getTeachers
    
        },
    
    })
    
-       
 </script>
 @endpush
+
 

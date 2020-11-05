@@ -112,6 +112,21 @@ Route::group(['middleware' => ['auth']], function () {
         //Eliminar Asignatura
         Route::post('destroySubject', "Business\SubjectController@destroy")->name("destroySubject"); 
 
+        //CRUD PROFESORES
+        //Profesores
+        Route::get('/business/teacher', 'Business\TeacherController@index')->name("business.teacher");
+
+        //Obtener Profesores
+        Route::post('getTeachers', 'Business\TeacherController@getTeachers');
+
+        //Agregar Profesor
+        Route::post('storeTeacher', "Business\TeacherController@store")->name("storeTeacher");
+
+        //Actualizar Profesor
+        Route::post('updateTeacher', "Business\TeacherController@update")->name("updateTeacher");
+
+        //Eliminar Profesor
+        Route::post('destroyTeacher', "Business\TeacherController@destroy")->name("destroyTeacher"); 
 
     });//role:business_administrator
 
@@ -132,14 +147,6 @@ Route::get('/admin/attorney/list', function () {
 Route::get('/admin/student', function () {
     return view('admin.student.index');
 })->name("admin.student");
-
-Route::get('/business/teacher', function () {
-    return view('business.teacher.index');
-})->name("business.teacher");
-
-Route::get('/business/teacher', function () {
-    return view('business.teacher.index');
-})->name("business.teacher");
 
 Route::get('/business/timetable/create', function () {
     return view('business.timetable.create');
