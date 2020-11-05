@@ -27,7 +27,10 @@ Route::group(['middleware' => ['auth']], function () {
         
         //Instituciones
         Route::get('/admin/business', 'Admin\InstitutionController@index')->name("admin.business");
-        
+
+        //Obtener Instituciones
+         Route::post('getInstitutions', 'Admin\InstitutionController@getInstitutions');
+
         //Agregar Institucion
         Route::post('storeBusiness', "Admin\InstitutionController@store")->name("storeBusiness");
 

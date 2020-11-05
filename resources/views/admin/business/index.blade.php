@@ -100,7 +100,7 @@
                            </tr>
                         </thead>
                         <tbody>
-                           <tr  v-for="(Institution,index) in Institutions">
+                           <tr  v-for="(Institution,index) in Institutions.institutions">
                               <td>@{{index+1}}</td>
                               <td>
                                  <p>@{{Institution.rut}}</p>
@@ -134,12 +134,9 @@
             <div class="card">
                <div class="body">
                   <ul class="pagination pagination-primary m-b-0">
-                     <li class="page-item"><a class="page-link" href="javascript:void(0);"><i class="zmdi zmdi-arrow-left"></i></a></li>
-                     <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
-                     <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
-                     <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
-                     <li class="page-item"><a class="page-link" href="javascript:void(0);">4</a></li>
-                     <li class="page-item"><a class="page-link" href="javascript:void(0);"><i class="zmdi zmdi-arrow-right"></i></a></li>
+                     <li class="page-item" v-if="paginate.current_page > 1"><a class="page-link" href="javascript:void(0);" @click.prevent="changePage(paginate.current_page - 1)"><i class="zmdi zmdi-arrow-left"></i></a></li>
+                     <li class="page-item" v-for="page in pagesNumber" v-bind:class="{ 'active': page== isActive }"><a class="page-link" href="javascript:void(0);" @click.prevent="changePage(page)">@{{page}}</a></li>
+                     <li class="page-item" v-if="paginate.current_page < paginate.last_page"><a class="page-link" href="javascript:void(0);" @click.prevent="changePage(paginate.current_page + 1)"><i class="zmdi zmdi-arrow-right"></i></a></li>
                   </ul>
                </div>
             </div>
@@ -164,7 +161,7 @@
 
             Modules:{!! $Modules ? $Modules : "''"!!},
 
-            Institutions:{!! $Institutions ? $Institutions : "''"!!},
+            Institutions:'',
 
             rut:'',
 
@@ -187,28 +184,80 @@
             id:'',
 
             change:0,
+            
+            paginate:{
 
-            search:'',
+                   total:0,
 
-            currentSort:'id',//campo por defecto que tomara para ordenar
+                   current_page:0,
 
-            currentSortDir:'desc',//order asc
+                   per_page:0,
 
-            pageSize:'5',//Registros por pagina
+                   last_page:0,
 
-            optionspageSize: [
-               { text: '5', value: 5 },
-               { text: '10', value: 10 },
-               { text: '25', value: 25 },
-               { text: '50', value: 50 },
-               { text: '100', value: 100 }
-            ],//Registros por pagina
+                   from:0,
 
-            currentPage:1,//Pagina 1
+                   to:0,
 
-            statusFiltro:1,
+            },
+
+            offset:3
+
 
        },
+       mounted(){
+          
+          this.getInstitutions(1);
+
+       },
+       computed:{
+
+          isActive(){
+
+             return this.paginate.current_page;
+
+          },//isActive()
+
+          pagesNumber(){
+
+               if(!this.paginate.to){
+
+                  return [];
+
+               }//if(!this.paginate.to)
+
+               let from = this.paginate.current_page - this.offset;
+
+               if (from < 1){
+
+                  from = 1;
+                  
+               }//if (from < 1)
+
+               let to = from + (this.offset * 2);
+
+               if(to>=this.paginate.last_page){
+
+                 to=this.paginate.last_page;
+
+               }//if(to>=this.paginate.last_page)
+
+               
+               let pagesArray=[];
+
+               while(from <= to){
+
+                  pagesArray.push(from);
+
+                  from++;
+
+               }//while(from <= to)
+
+               return pagesArray;
+
+          }//pagesNumber()
+
+       },//computed
        methods:{
    
          fileImage:function(event){
@@ -245,7 +294,7 @@
    
                document.getElementById("modal").classList.add("show-modal");
    
-           },
+           },//toggleModal()
    
             closeModal(){
                
@@ -255,7 +304,7 @@
    
                document.getElementById("modal").classList.remove("show-modal");
    
-           },
+           },//closeModal()
    
          clear:function(){
    
@@ -276,9 +325,7 @@
             this.buttonShowDos=true;
    
             this.buttonNameDos="Crear";
-   
-            this.search='';
-   
+      
             this.id='';
    
             this.change=0;
@@ -542,6 +589,63 @@
            }//else if(this.change==1)
    
          },//ActionsCc:function()
+
+
+         changePage(page){
+
+            this.paginate.current_page=page;
+
+            this.getInstitutions(page);
+
+         },//changePage()
+
+         async getInstitutions(page){
+
+            let self = this;
+   
+            self.loading = true;
+
+                  axios.post('{{ url("getInstitutions") }}', {
+                     
+                     page:page,
+                     
+                  }).then(function (response) {
+
+                     self.loading = false
+
+                     if(response.data.success==true){
+
+                        self.Institutions=response.data.Institutions;
+
+                        self.paginate=response.data.Institutions.paginate;
+
+
+                     }//if(response.data.success==true)
+                     else{              
+
+                        iziToast.error({title: 'Error',position:'topRight',message: response.data.msg}); 
+
+                     }//else if(response.data.success==false)
+
+                   }).catch(err => {
+
+                     self.loading = false
+
+                     self.errors = err.response.data.errors
+
+                     if(self.errors){
+
+                        iziToast.error({title: 'Error',position:'topRight',message: "Hay algunos campos que debes revisar"});  
+
+                     }else{
+
+                        iziToast.error({title: 'Error',position:'topRight',message: "Ha ocurrido un problema"});  
+
+                     }
+               
+                   }); 
+
+         },//getInstitutions
    
        },
    

@@ -30,13 +30,15 @@ class InstitutionController extends Controller
 
     $Modules=Module::orderBy('module_name','ASC')->get(['id','module_name','module_description']);
     
-    return view('admin.business.index')->with(['Modules'=>json_encode($Modules),'Institutions'=>json_encode($this->institutions())]);
+    return view('admin.business.index')->with(['Modules'=>json_encode($Modules)]);
 
   }// public function index()
 
-  public function institutions(){
+  public function getInstitutions(Request $request){
 
     $array=array();
+
+    $institutions=array();
 
     $Institution=Institution::query()->select(['id','rut','institution_name','reason_social','address','website_link','logo',])->orderBy('id','ASC');
 
@@ -44,10 +46,8 @@ class InstitutionController extends Controller
 
             'modules' => function($query){ },  
 
-    ])->paginate(6);
+    ])->paginate(20);
 
-   
-    
     foreach($Institution as $inst){
       
       $modules=array();
@@ -63,21 +63,34 @@ class InstitutionController extends Controller
       }//if(count($inst->modules)>0)
 
       $array[]=[
-             'id'=>$inst->id,
-             'rut'=>$inst->rut,
-             'institution_name'=>$inst->institution_name,
-             'reason_social'=>$inst->reason_social,
-             'address'=>$inst->address,
-             'website_link'=>$inst->website_link,
-             'logo'=>$inst->logo,
-             'modules'=>$modules,   
+             'id'               =>$inst->id,
+             'rut'              =>$inst->rut,
+             'institution_name' =>$inst->institution_name,
+             'reason_social'    =>$inst->reason_social,
+             'address'          =>$inst->address,
+             'website_link'     =>$inst->website_link,
+             'logo'             =>$inst->logo,
+             'modules'          =>$modules,   
       ];
 
     }//foreach($inst as $Institution)
 
-    return $array;
+    $institutions=[
+                'institutions'=>$array,
+                'paginate'=>[
+                   'total'        =>$Institution->total(),
+                   'current_page' =>$Institution->currentPage(),
+                   'per_page'     =>$Institution->perPage(),
+                   'last_page'    =>$Institution->lastPage(),
+                   'from'         =>$Institution->firstItem(),
+                   'to'           =>$Institution->lastPage(),
 
-  }//public function institutions()
+                ]
+    ];
+
+    return response()->json(["success" => true, "msg" => "Datos obtenidos exitosamente!","Institutions"=>$institutions],200);
+
+  }//public function getInstitutions(Resquest $request)
 
   /**
   * Store a newly created resource in storage.
