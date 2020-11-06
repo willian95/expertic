@@ -155,6 +155,10 @@ class TeacherController extends Controller
 
           $User=User::where('id', $Teacher->user_id)->first();
 
+          $User->name = $request->data['teacher_name'];
+
+          $User->lastname = $request->data['teacher_lastname'];
+
           $User->email = $request->data['email'];
 
           if(array_key_exists('password',$request->data)!=""){
