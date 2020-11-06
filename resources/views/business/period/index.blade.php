@@ -16,14 +16,28 @@
    <div class="custom-modal-cover hide-modal" id="modal">
       <div class="container-fluid">
          <div class="row justify-content-center">
-            <div class="col-12 col-lg-4 col-md-4">
+            <div class="col-12 col-lg-10 col-md-10">
                <div class="modal-content">
                   <div class="modal-header">
                      <h5 class="modal-title">Periodos</h5>
                   </div>
                   <div class="modal-body">
                      <div class="row justify-content-center">
-                        <div class="col-12">
+                        <div class="col-12 col-md-4 col-lg-4">
+                           <div class="form-group">
+                              <label for="start_date_period">Fecha Inicio</label>
+                              <input type="date" v-model="start_date_period" class="form-control" id="start_date_period" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('start_date_period') }">
+                              <small v-if="errors.hasOwnProperty('start_date_period')" class="text-danger ml-2">@{{ errors['start_date_period'][0] }}</small>
+                           </div>
+                        </div>
+                        <div class="col-12 col-md-4 col-lg-4">
+                           <div class="form-group">
+                              <label for="end_date_period">Fecha Fin</label>
+                              <input type="date" v-model="end_date_period" class="form-control" id="end_date_period" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('end_date_period') }">
+                              <small v-if="errors.hasOwnProperty('end_date_period')" class="text-danger ml-2">@{{ errors['end_date_period'][0] }}</small>
+                           </div>
+                        </div>
+                        <div class="col-12 col-md-4 col-lg-4">
                            <div class="form-group">
                               <label for="period">Perido</label>
                               <input type="text" v-model="period" class="form-control" id="period" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('period') }">
@@ -62,14 +76,22 @@
                      <table class="table table-hover m-b-0">
                         <thead>
                            <tr>
-                              <th class="adjust-tr-10">#</th>
-                              <th class="adjust-tr-80">Periodo</th>
-                              <th class="adjust-tr-10">Acciones</th>
+                              <th class="adjust-tr-20">#</th>
+                              <th class="adjust-tr-20">Fecha Inico</th>
+                              <th class="adjust-tr-20">Fecha Fin</th>
+                              <th class="adjust-tr-20">Periodo</th>
+                              <th class="adjust-tr-20">Acciones</th>
                            </tr>
                         </thead>
                         <tbody>
                            <tr  v-for="(periodItem,index) in Periods.periods">
                               <td>@{{periodItem.num}}</td>
+                              <td>
+                                 <p>@{{periodItem.start_date_period2}}</p>
+                              </td>                                                            
+                              <td>
+                                 <p>@{{periodItem.end_date_period2}}</p>
+                              </td>
                               <td>
                                  <p>@{{periodItem.period}}</p>
                               </td>
@@ -118,6 +140,10 @@
             Periods:'',
    
             period:'',
+
+            start_date_period:'',
+
+            end_date_period:'',
    
             buttonShowDos:true, 
    
@@ -221,6 +247,10 @@
            },//closeModal()
    
          clear:function(){
+
+            this.start_date_period='';
+
+            this.end_date_period='';
    
             this.period='';
                      
@@ -243,6 +273,10 @@
             self.errors = []
    
             axios.post('{{ url("storePeriod") }}', {
+
+               start_date_period:self.start_date_period,
+
+               end_date_period:self.end_date_period,
    
                period:self.period,
    
@@ -290,6 +324,10 @@
             this.buttonNameDos="Actualizar";
    
             this.id=value.id;
+
+            this.start_date_period=value.start_date_period,
+
+            this.end_date_period=value.end_date_period,
    
             this.period=value.period;
                   
@@ -324,6 +362,10 @@
             axios.post('{{ url("updatePeriod") }}', {
    
                id:self.id,
+
+               start_date_period:self.start_date_period,
+
+               end_date_period:self.end_date_period,
    
                period:self.period,
    

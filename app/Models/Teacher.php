@@ -9,6 +9,7 @@ class Teacher extends Model
     public $table='teachers';
 
     protected $fillable=[
+        'user_id',
         'institution_id',
         'rut',
         'teacher_name',
@@ -19,6 +20,11 @@ class Teacher extends Model
 
         return $this->belongsToMany('App\Models\Subject');
 
+    }
+
+    public function users()
+    {
+        return $this->belongsTo('App\User','user_id');
     }
 }
 

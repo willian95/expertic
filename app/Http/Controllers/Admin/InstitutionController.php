@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateInstitutionPost;
 use App\Http\Requests\DestroyInstitutionPost;
 use App\Models\Module;
 use App\Models\Institution;
+use Illuminate\Support\Facades\Storage;
 use App\User;
 use App\Models\UserRole;
 use App\Models\InstitutionUser;

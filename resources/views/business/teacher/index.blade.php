@@ -28,6 +28,7 @@
                               <label for="rut">Rut</label>
                               <input type="text" v-model="rut" class="form-control" id="rut" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('rut') }">
                               <small v-if="errors.hasOwnProperty('rut')" class="text-danger ml-2">@{{ errors['rut'][0] }}</small>
+                              <small v-if="errors.hasOwnProperty('data.rut')" class="text-danger ml-2">@{{ errors['data.rut'][0] }}</small>
                            </div>
                         </div>
                         <div class="col-12 col-md-6 col-lg-4">
@@ -35,6 +36,7 @@
                               <label for="teacher_name">Nombre</label>
                               <input type="text" v-model="teacher_name" class="form-control" id="teacher_name" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('teacher_name') }">
                               <small v-if="errors.hasOwnProperty('teacher_name')" class="text-danger ml-2">@{{ errors['teacher_name'][0] }}</small>
+                              <small v-if="errors.hasOwnProperty('data.teacher_name')" class="text-danger ml-2">@{{ errors['data.teacher_name'][0] }}</small>
                            </div>
                         </div>
                         <div class="col-12 col-md-6 col-lg-4">
@@ -42,6 +44,7 @@
                               <label for="teacher_lastname">Apellido</label>
                               <input type="text" v-model="teacher_lastname" class="form-control" id="teacher_lastname" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('teacher_lastname') }">
                               <small v-if="errors.hasOwnProperty('teacher_lastname')" class="text-danger ml-2">@{{ errors['teacher_lastname'][0] }}</small>
+                              <small v-if="errors.hasOwnProperty('data.teacher_lastname')" class="text-danger ml-2">@{{ errors['data.teacher_lastname'][0] }}</small>
                            </div>
                         </div>
                         <div class="col-12 col-md-6 col-lg-4">
@@ -49,6 +52,7 @@
                               <label for="email">Email</label>
                               <input type="email" v-model="email" class="form-control" id="email" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('email') }">
                               <small v-if="errors.hasOwnProperty('email')" class="text-danger ml-2">@{{ errors['email'][0] }}</small>
+                              <small v-if="errors.hasOwnProperty('data.email')" class="text-danger ml-2">@{{ errors['data.email'][0] }}</small>
                            </div>
                         </div>
                         <div class="col-12 col-md-6 col-lg-4">
@@ -56,6 +60,7 @@
                               <label for="password">Contraseña</label>
                               <input type="password" v-model="password" class="form-control" id="password"  v-bind:class="{ 'is-invalid': errors.hasOwnProperty('password') }">
                               <small v-if="errors.hasOwnProperty('password')" class="text-danger ml-2">@{{ errors['password'][0] }}</small>
+                              <small v-if="errors.hasOwnProperty('data.password')" class="text-danger ml-2">@{{ errors['data.password'][0] }}</small>
                            </div>
                         </div>
                         <div class="col-12 col-md-6 col-lg-4">
@@ -63,6 +68,7 @@
                               <label for="password_confirmation">Verificar Contraseña</label>
                               <input type="password" v-model="password_confirmation" class="form-control" id="password_confirmation" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('password_confirmation') }">
                               <small v-if="errors.hasOwnProperty('password_confirmation')" class="text-danger ml-2">@{{ errors['password_confirmation'][0] }}</small>
+                              <small v-if="errors.hasOwnProperty('data.password_confirmation')" class="text-danger ml-2">@{{ errors['data.password_confirmation'][0] }}</small>
                            </div>
                         </div>
                         <div class="col-12">
@@ -74,6 +80,7 @@
                         </div>
                         <div class="col-12 pb-4">
                               <small v-if="errors.hasOwnProperty('subjects')" class="text-danger ml-2">@{{ errors['subjects'][0] }}</small>
+                              <small v-if="errors.hasOwnProperty('data.subjects')" class="text-danger ml-2">@{{ errors['data.subjects'][0] }}</small>
                         </div>
                      </div>
                   </div>
@@ -128,7 +135,7 @@
                                  <p>@{{Teacher.teacher_lastname}}</p>
                               </td>
                               <td>
-                                 <p>@{{Teacher.teacher_lastname}}</p>
+                                 <p>@{{Teacher.email}}</p>
                               </td>
                               <td>
                                  <button class="btn btn-info" @click="captureRecord(Teacher)">
@@ -425,10 +432,14 @@
    
             self.loading = true;
    
-            self.errors = []
-   
-            axios.post('{{ url("updateTeacher") }}', {
-   
+            self.errors = [];
+
+            let data={};
+
+            if (self.password!=""){
+         
+              data={
+
                id:self.id,
    
                rut:self.rut,
@@ -444,6 +455,33 @@
                password_confirmation:self.password_confirmation,
    
                subjects:self.subjects,
+              }
+   
+            }else{
+
+              data={
+                 
+               id:self.id,
+   
+               rut:self.rut,
+   
+               teacher_name:self.teacher_name,
+   
+               teacher_lastname:self.teacher_lastname,
+   
+               email:self.email,
+
+   
+               subjects:self.subjects,
+              }
+
+            }
+
+            
+   
+            axios.post('{{ url("updateTeacher") }}', {
+                
+                data:data
    
             }).then(function (response) {
    

@@ -52,7 +52,7 @@ class StoreTeacherPost extends FormRequest
             'email.email'=>'El campo email es invalido',
             'password.required'=>'El campo contraseña es requerido',
             'password.required_with'=>'El campo contraseña no concuerda con la verificacón de la misma',
-            'password.string'=>'El campo contraseña debe ser de tipo alphanumerica',
+            'password.string'=>'El campo contraseña debe ser de tipo alfanumérico',
             'password.confirmed'=>'El campo contraseña no concuerda con la verificacón de la misma',
             'password_confirmation.required'=>'La confirmación de la contraseña es requerida',
             'password_confirmation.min'=>'La contraseña debe contener minimo 8 caracteres',

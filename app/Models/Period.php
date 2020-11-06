@@ -11,6 +11,8 @@ class Period extends Model
 
     protected $fillable=[
         'institution_id',
+        'start_date_period',
+        'end_date_period',   
         'period'
     ];    
 

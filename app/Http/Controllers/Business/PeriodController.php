@@ -8,6 +8,7 @@ use App\Http\Requests\StorePeriodPost;
 use App\Http\Requests\UpdatePeriodPost;
 use App\Http\Requests\DestroyPeriodPost;
 use App\Models\Period;
+use Carbon\Carbon;
 
 class PeriodController extends Controller
 {
@@ -32,7 +33,7 @@ class PeriodController extends Controller
 
     $periods=array();
 
-    $Period=Period::query()->where('institution_id',getIdInstitution())->select(['id','institution_id','period'])->orderBy('id','ASC')->paginate(5);
+    $Period=Period::query()->where('institution_id',getIdInstitution())->select(['id','institution_id','start_date_period','end_date_period','period'])->orderBy('id','ASC')->paginate(5);
 
     if($request->page!=1){
 
@@ -43,9 +44,13 @@ class PeriodController extends Controller
     foreach($Period as $peri){
 
       $array[]=[
-             'num'   =>$i,
-             'id'    =>$peri->id,
-             'period'   =>$peri->period,
+             'num'                   =>$i,
+             'id'                    =>$peri->id,
+             'period'                =>$peri->period,
+             'start_date_period'     =>$peri->start_date_period,
+             'end_date_period'       =>$peri->end_date_period,
+             'start_date_period2'     =>\Carbon\Carbon::parse($peri->start_date_period)->format('d-m-Y'),
+             'end_date_period2'       =>\Carbon\Carbon::parse($peri->end_date_period)->format('d-m-Y'),
       ];
 
        $i++;
@@ -81,7 +86,12 @@ class PeriodController extends Controller
 
         try{
 
-          $Period=Period::create(['period'=>$request->period,'institution_id'=>getIdInstitution()]);   
+          $Period=Period::create([
+                                  'start_date_period'=>$request->start_date_period,
+                                  'end_date_period'=>$request->end_date_period,
+                                  'period'=>$request->period,
+                                  'institution_id'=>getIdInstitution()
+                                  ]);   
 
           return response()->json(["success" => true, "msg" => "Se registraron los datos exitosamente!"],200);
 
@@ -106,7 +116,12 @@ class PeriodController extends Controller
 
           $Period=Period::find($request->id);
 
-          $Period->fill(['period'=>$request->period,'institution_id'=>getIdInstitution()])->save();
+          $Period->fill([
+                        'start_date_period'=>$request->start_date_period,
+                        'end_date_period'=>$request->end_date_period,
+                        'period'=>$request->period,
+                        'institution_id'=>getIdInstitution()
+                      ])->save();
 
           return response()->json(["success" => true, "msg" => "Se actualizaron los datos exitosamente!"],200);
 

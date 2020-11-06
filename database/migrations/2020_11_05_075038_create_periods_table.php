@@ -16,6 +16,8 @@ class CreatePeriodsTable extends Migration
         Schema::create('periods', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('institution_id');
+            $table->date('start_date_period');
+            $table->date('end_date_period');
             $table->string('period',20);
             $table->timestamps();
             //relations

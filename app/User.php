@@ -43,5 +43,10 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\UserRole','user_id');
     }
 
+    public function teachers(){
+
+        return $this->belongsTo('App\Models\Teacher','user_id');
+
+    }
     
 }

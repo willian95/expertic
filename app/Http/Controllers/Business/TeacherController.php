@@ -41,11 +41,13 @@ class TeacherController extends Controller
 
     $teachers=array();
 
-    $Teacher=Teacher::query()->select(['id','rut','teacher_name','teacher_lastname'])->orderBy('id','ASC');
+    $Teacher=Teacher::query()->select(['id','user_id','institution_id','rut','teacher_name','teacher_lastname'])->orderBy('id','ASC');
 
     $Teacher= $Teacher->with([
 
-            'subjects' => function($query){ },  
+            'subjects' => function($query){ },
+            
+            'users' => function($query){ },
 
     ])->paginate(5);
 
@@ -75,7 +77,7 @@ class TeacherController extends Controller
              'rut'                 =>$teac->rut,
              'teacher_name'        =>$teac->teacher_name,
              'teacher_lastname'    =>$teac->teacher_lastname,
-             'email'               =>"correo",
+             'email'               =>$teac->users->email,
              'subjects'            =>$subjects,   
       ];
 
@@ -116,17 +118,17 @@ class TeacherController extends Controller
 
           $institution_id=getIdInstitution();
 
-          $data = array_merge($data, ['institution_id'=>$institution_id]);
-
-          $Teacher=Teacher::create($data);   
-
-          $Teacher->subjects()->attach($request->get('subjects'));
-
           $User = User::create(['name'=>$request->teacher_name,'lastname'=>$request->teacher_lastname, 'email'=>$request->email, 'password'=>Hash::make($request->password),]);
 
           $UserRole = UserRole::create(['user_id'=>$User->id,'role_id'=>3]);
 
           $InstitutionUser = InstitutionUser::create(['user_id'=>$User->id,'institution_id'=>$institution_id]);
+
+          $data = array_merge($data, ['user_id'=>$User->id,'institution_id'=>$institution_id]);
+
+          $Teacher=Teacher::create($data);   
+
+          $Teacher->subjects()->attach($request->get('subjects'));
 
           return response()->json(["success" => true, "msg" => "Se registraron los datos exitosamente!"],200);
 
@@ -149,23 +151,23 @@ class TeacherController extends Controller
   {
         try{
 
-          $Teacher=Teacher::find($request->id);
+          $Teacher=Teacher::find($request->data['id']);
 
-          $User=User::where('email', $request->email)->first();
+          $User=User::where('id', $Teacher->user_id)->first();
 
-          $User->email = $request->email;
+          $User->email = $request->data['email'];
 
-          if($request->password!=""){
+          if(array_key_exists('password',$request->data)!=""){
 
-            $User->password = Hash::make($request->password);
+            $User->password = Hash::make($request->data['password']);
 
-          }//if($request->password!="")
+          }//if($request->data['password']!="")
     
           $User->save();
 
           $Teacher->fill($request->all())->save();
       
-          $Teacher->subjects()->sync($request->get('subjects')); 
+          $Teacher->subjects()->sync($request->data['subjects']); 
 
           return response()->json(["success" => true, "msg" => "Se actualizaron los datos exitosamente!"],200);
 
@@ -188,11 +190,11 @@ class TeacherController extends Controller
 
           $Teacher=Teacher::find($request->id);
 
-          $InstitutionUser=InstitutionUser::where('institution_id', $Teacher->InstitutionUser)->first();
+          $InstitutionUser=InstitutionUser::where('user_id', $Teacher->user_id)->where('institution_id', $Teacher->institution_id)->first();
 
-          $UserRole=UserRole::where('user_id', $InstitutionUser->user_id)->first();
+          $UserRole=UserRole::where('user_id', $Teacher->user_id)->first();
 
-          $user_id=$InstitutionUser->user_id;
+          $user_id=$Teacher->user_id;
 
           $User=User::where('id', $user_id)->first();
 
