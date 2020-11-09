@@ -54,7 +54,7 @@
                                  <p>@{{Representative.representative_name}}</p>
                               </td>
                               <td>
-                                 <p>@{{Representative.representative_lastname}}</p>
+                                 <p>@{{Representative.representative_name}}</p>
                               </td>
                               <td>
                                  <p>@{{Representative.email}}</p>
@@ -196,9 +196,7 @@
    
    
                if(response.data.success==true){
-   
-                  self.closeModal();
-   
+     
                   self.getRepresentatives(1);
    
                   Swal.fire('Información','Actualizo Satisfactorio','success');
@@ -242,14 +240,12 @@
             
                if (result.isConfirmed) {
    
-                  axios.post('{{ url("destroyTeacher") }}', {
+                  axios.post('{{ url("destroyRepresentative") }}', {
                      id:id,
                   }).then(function (response) {
    
                      if(response.data.success==true){
-   
-                        self.closeModal();
-   
+      
                         self.getRepresentatives(1);
    
                         Swal.fire('Eliminado!','El registro ha sido eliminado.','success');
@@ -294,7 +290,7 @@
             this.getRepresentatives(page);
    
          },//changePage()
-   
+            
          async getRepresentatives(page){
    
             let self = this;
@@ -340,7 +336,7 @@
                
                    }); 
    
-         },//getRepresentatives
+         },//getTeachers
    
        },
    

@@ -17,6 +17,8 @@ use App\Models\InstitutionUser;
 use App\Models\Student;
 use App\Models\Representative;
 use App\Models\RepresentativeStudent;
+use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 
 class RepresentativeController extends Controller
@@ -120,14 +122,13 @@ class RepresentativeController extends Controller
 
               $InstitutionUser = InstitutionUser::create(['user_id'=>$User->id,'institution_id'=>$institution_id]);
 
-              $student = array_merge($student, ['user_id'=>$User->id,'institution_id'=>$institution_id]);
+              $student = array_merge($student, ['user_id'=>$User->id,'institution_id'=>$institution_id,'representative_id'=>$Representative->id]);
 
               $Student=Student::create($student);  
               
               $RepresentativeStudent=RepresentativeStudent::create(['representative_id'=>$Representative->id,'student_id'=>$Student->id]);
 
           }//foreach($request->students as $student)
-
 
           //Registro de Apoderados
 
@@ -155,7 +156,7 @@ class RepresentativeController extends Controller
 
   }//public function store(StoreRepresentativePost $request)
 
-  public function getRepresentatives(Resquest $request){
+  public function getRepresentatives(Request $request){
 
     $i=1;
 
@@ -163,7 +164,7 @@ class RepresentativeController extends Controller
 
     $representatives=array();
 
-    $Representative=Representative::query()->orderBy('id','ASC');
+    $Representative=Representative::query()->where('leading',1)->orderBy('id','ASC');
 
     $Representative= $Representative->with([
 
@@ -175,7 +176,6 @@ class RepresentativeController extends Controller
 
     ])->paginate(5);
 
-
     if($request->page!=1){
 
       $i=$i+(5*($request->page-1));
@@ -186,14 +186,27 @@ class RepresentativeController extends Controller
       
       $students=array();
 
-      if(count($repre->students)>0){
+      $viewfinder=array();
+      
 
-         foreach($repre->students as $subject){
+      if($repre->representatives!=null){
 
-          $students[]= $subject->pivot->subject_id;
+          $viewfinder[]=[
             
-         }//foreach($repre->students as $module)
+             'id'                       =>$repre->representatives['id'],
+             'user_id'                  =>$repre->representatives['user_id'],
+             'institution_id'           =>$repre->representatives['institution_id'],
+             'representative_id'        =>$repre->representatives['representative_id'],
+             'rut'                      =>$repre->representatives['rut'],                
+             'representative_name'      =>$repre->representatives['representative_name'],
+             'representative_lastname'  =>$repre->representatives['representative_lastname'],
+             'address'                  =>$repre->representatives['address'],
+             'phone'                    =>$repre->representatives['phone'],
+             'leading'                  =>$repre->representatives['leading'],
+             'email'                    =>$repre->users->email,
 
+          ];
+            
       }//if(count($repre->students)>0)
 
       if(count($repre->students)>0){
@@ -201,15 +214,15 @@ class RepresentativeController extends Controller
          foreach($repre->students as $student){
 
           $students[]= [
-                    'user_id'           => $student->pivot->user_id,
-                    'institution_id'    => $student->pivot->institution_id,
-                    'rut'               => $student->pivot->rut,
-                    'student_name'      => $student->pivot->student_name,
-                    'student_lastname'  => $student->pivot->student_lastname,
-                    'blood_type'        => $student->pivot->blood_type,
-                    'phone'             => $student->pivot->phone,
-                    'allergies'         => $student->pivot->allergies,
-                    'address'           => $student->pivot->address,
+                    'user_id'           => $student->user_id,
+                    'institution_id'    => $student->institution_id,
+                    'rut'               => $student->rut,
+                    'student_name'      => $student->student_name,
+                    'student_lastname'  => $student->student_lastname,
+                    'blood_type'        => $student->blood_type,
+                    'phone'             => $student->phone,
+                    'allergies'         => $student->allergies,
+                    'address'           => $student->address,
           ];
 
          }//foreach($repre->students as $student)
@@ -217,13 +230,20 @@ class RepresentativeController extends Controller
       }//if(count($repre->students)>0)
 
       $array[]=[
-             'num'                 =>$i,
-             'id'                  =>$repre->id,
-             'rut'                 =>$repre->rut,
-             'teacher_name'        =>$repre->teacher_name,
-             'teacher_lastname'    =>$repre->teacher_lastname,
-             'email'               =>$repre->users->email,
-             'students'            =>$students,   
+             'num'                      =>$i,
+             'id'                       =>$repre->id,
+             'user_id'                  =>$repre->user_id,
+             'institution_id'           =>$repre->institution_id,
+             'representative_id'        =>$repre->representative_id,
+             'rut'                      =>$repre->rut,                
+             'representative_name'      =>$repre->representative_name,
+             'representative_lastname'  =>$repre->representative_lastname,
+             'address'                  =>$repre->address,
+             'phone'                    =>$repre->phone,
+             'leading'                  =>$repre->phone,
+             'email'                    =>$repre->users->email,
+             'viewfinder'               =>$viewfinder,   
+             'students'                 =>$students,   
       ];
 
        $i++;
@@ -246,5 +266,88 @@ class RepresentativeController extends Controller
     return response()->json(["success" => true, "msg" => "Datos obtenidos exitosamente!","Representatives"=>$representatives],200);
 
   }//public function getRepresentatives(Resquest $request)
+
+  /**
+  * Remove the specified resource from storage.
+  * @param  int  $id
+  * @return \Illuminate\Http\Response
+  */
+  public function destroy(DestroyRepresentativePost $request)
+  {
+        try{
+
+          $Representative=Representative::find($request->id);
+
+          //Borrado de Apoderado Visor
+
+          $Viewfinder=Representative::where('representative_id', $Representative->id)->first();
+
+          if(!empty($Viewfinder)){
+
+            $InstitutionUser=InstitutionUser::where('user_id', $Viewfinder->user_id)->where('institution_id', $Viewfinder->institution_id)->first();
+
+            $UserRole=UserRole::where('user_id', $Viewfinder->user_id)->first();
+
+            $user_id=$Viewfinder->user_id;
+
+            $User=User::where('id', $user_id)->first();
+
+            $UserRole->delete();
+
+            $InstitutionUser->delete();
+
+            $User->delete();
+
+            $Viewfinder->delete();
+
+          }//if(!empty($Viewfinder))
+
+          //Borrado de Estudiantes
+
+          $user_id=Student::where('representative_id',$Representative->id)->get(['user_id']);
+
+          $student_id=Student::where('representative_id',$Representative->id)->get(['id']);
+
+          if(count($user_id)>0){
+
+              $RepresentativeStudent=RepresentativeStudent::whereIn('student_id',$student_id)->delete();
+
+              $InstitutionUser = InstitutionUser::whereIn('user_id',$user_id)->where('institution_id', $Representative->institution_id)->delete();
+
+              $UserRole = UserRole::whereIn('user_id',$user_id)->delete();
+
+              $User = User::whereIn('id',$user_id)->delete();
+
+          }//if(count($user_id)>0)
+
+          $Representative->students()->delete();
+
+          //Borrado de Apoderado Principal
+
+          $InstitutionUser=InstitutionUser::where('user_id', $Representative->user_id)->where('institution_id', $Representative->institution_id)->first();
+
+          $UserRole=UserRole::where('user_id', $Representative->user_id)->first();
+
+          $user_id=$Representative->user_id;
+
+          $User=User::where('id', $user_id)->first();
+
+          $UserRole->delete();
+
+          $InstitutionUser->delete();
+
+          $User->delete();
+
+          $Representative->delete();
+
+          return response()->json(["success" => true, "msg" => "Se elimino los datos exitosamente!"],200);
+
+        }catch(\Exception $e){
+
+          return response()->json(["success" => false, "msg" => "Error en el servidor", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+
+        }//catch(\Exception $e)
+
+   }//public function destroy(DestroyRepresentativePost $request)
   
 }

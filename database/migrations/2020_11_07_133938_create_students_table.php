@@ -17,6 +17,7 @@ class CreateStudentsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('institution_id');
+            $table->unsignedBigInteger('representative_id');
             $table->string('rut',20)->unique();
             $table->string('student_name',50);
             $table->string('student_lastname',50);
@@ -28,6 +29,7 @@ class CreateStudentsTable extends Migration
             //relations
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('institution_id')->references('id')->on('institutions')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('representative_id')->references('id')->on('representatives')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

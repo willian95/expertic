@@ -13,7 +13,7 @@ class DestroyRepresentativePost extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,17 @@ class DestroyRepresentativePost extends FormRequest
     public function rules()
     {
         return [
-            //
+            'id'=>'required|integer',
         ];
+
+    }
+
+    public function messages(){
+
+        return [
+            'id.required'=>'El campo id es requerido',
+            'id.integer'=>'El campo id es invalido',
+        ];
+
     }
 }
