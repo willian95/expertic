@@ -50,7 +50,7 @@ p{
     align-items: center;
     height: 100vh;
     width: 100%;
-    background: rgb(23, 22, 22,0.3);
+    background: rgb(23, 22, 22,0.9);
     position: fixed;
     top: 0;
     left: 0;
@@ -61,4 +61,33 @@ p{
 .loader{
     position: relative;
     left: 10%;
+}
+
+.theme-blush .sidebar .menu .list a{
+    font-weight: bold;
+    color: #3498db;
+}
+
+.normal-item{
+    font-weight: normal !important;
+}
+
+.form-control:focus {
+    border: 1px solid #f96332 !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+    color: #2c2c2c !important;
+}
+
+.custom-modal-cover {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    padding-left: 250px;
+    padding-top: 70px;
 }

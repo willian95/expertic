@@ -57,7 +57,7 @@ class StoreTeacherPost extends FormRequest
             'password_confirmation.required'=>'La confirmación de la contraseña es requerida',
             'password_confirmation.min'=>'La contraseña debe contener minimo 8 caracteres',
             'subjects.required'=>'Debe seleccionar la asignatura a relacionar',
-            'subjects.array'=>'El compo asignatura es invalido',
+            'subjects.array'=>'El campo asignatura es invalido',
 
 
         ];

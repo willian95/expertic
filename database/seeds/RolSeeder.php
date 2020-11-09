@@ -23,7 +23,8 @@ class RolSeeder extends Seeder
                 ['role_name' => 'administrator','role_description'=>'Admin','created_at' => Carbon::now(),'updated_at'=> Carbon::now()],
                 ['role_name' => 'business_administrator','role_description'=>'Admin de Empresa','created_at' => Carbon::now(),'updated_at'=> Carbon::now()],
                 ['role_name' => 'teacher','role_description'=>'Profesor','created_at' => Carbon::now(),'updated_at'=> Carbon::now()],
-                ['role_name' => 'attorney','role_description'=>'Apoderado','created_at' => Carbon::now(),'updated_at'=> Carbon::now()],
+                ['role_name' => 'representative_leading','role_description'=>'Apoderado Principal','created_at' => Carbon::now(),'updated_at'=> Carbon::now()],
+                ['role_name' => 'representative_viewfinder','role_description'=>'Apoderado Visor','created_at' => Carbon::now(),'updated_at'=> Carbon::now()],
                 ['role_name' => 'student','role_description'=>'Estudiante','created_at' => Carbon::now(),'updated_at'=> Carbon::now()],
                 ['role_name' => 'administrative','role_description'=>'Administrativo','created_at' => Carbon::now(),'updated_at'=> Carbon::now()],
             ];

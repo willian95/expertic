@@ -15,6 +15,8 @@
 <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/color_skins.css') }}">
 <link href="{{ url('assets/plugins/izitoast/css/iziToast.min.css') }}" rel="stylesheet">
+<link href="{{ url('assets/plugins/fontawesome/css/all.css') }}" rel="stylesheet">
+
 <link href="{{ url('assets/css/style.css') }}" rel="stylesheet">
 </head>
 
@@ -94,18 +96,18 @@
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('business.period') }}"><i class="zmdi zmdi-calendar-alt"></i><span>Periodos</span></a></li>
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('business.level') }}"><i class="zmdi zmdi-graduation-cap"></i><span>Niveles</span></a></li>
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('business.section') }}"><i class="zmdi zmdi-sort-asc"></i><span>Secciones</span></a></li>
-                    <li v-if="roleId == 2" class="active open"><a href="{{ route('business.subject') }}"><i class="zmdi zmdi-book"></i></i><span>Asignaturas</span></a></li>
-                    <li v-if="roleId == 2" class="active open"><a href="{{ route('business.teacher') }}"><i class="zmdi zmdi-male-alt"></i><span>Profesores</span></a></li>
-                    <li v-if="roleId == 2"><a onclick="toggleSubmenu('schedule-submenu')" href="javascript:void(0);" class="menu-toggle waves-effect waves-block toggled"><i class="zmdi zmdi-accounts-outline"></i><span>Horarios</span> </a>
+                    <li v-if="roleId == 2" class="active open"><a href="{{ route('business.subject') }}"><i class="fas fa-book-reader"></i><span>Asignaturas</span></a></li>
+                    <li v-if="roleId == 2" class="active open"><a href="{{ route('business.teacher') }}"><i class="fas fa-user-graduate"></i><span>Profesores</span></a></li>
+                    <li v-if="roleId == 2"><a onclick="toggleSubmenu('schedule-submenu')" href="javascript:void(0);" class="menu-toggle waves-effect waves-block toggled"><i class="fas fa-clock"></i><span>Horarios</span> </a>
                         <ul class="ml-menu submenu-hidden" id="schedule-submenu">
-                            <li><a href="{{ route('schedule.create') }}" class=" waves-effect waves-block">Crear horario</a></li>
-                            <li><a href="{{ route('schedule.list') }}" class=" waves-effect waves-block">Listado de horarios</a></li>
+                            <li><a href="{{ route('schedule.create') }}" class=" waves-effect waves-block normal-item">Crear horario</a></li>
+                            <li><a href="{{ route('schedule.list') }}" class=" waves-effect waves-block normal-item">Listado de horarios</a></li>
                         </ul>
                     </li>
-                    <li v-if="roleId == 2"><a onclick="toggleSubmenu('attorney-submenu')" href="javascript:void(0);" class="menu-toggle waves-effect waves-block toggled"><i class="zmdi zmdi-male-female"></i><span>Apoderados</span> </a>
+                    <li v-if="roleId == 2"><a onclick="toggleSubmenu('attorney-submenu')" href="javascript:void(0);" class="menu-toggle waves-effect waves-block toggled"><i class="fas fa-users"></i><span>Apoderados</span> </a>
                         <ul class="ml-menu submenu-hidden" id="attorney-submenu">
-                            <li><a href="{{ url('admin/attorney/create') }}" class=" waves-effect waves-block">Registrar Apoderado</a></li>
-                            <li><a href="{{ url('admin/attorney/list') }}" class=" waves-effect waves-block">Listado de Apoderados</a></li>
+                            <li><a href="{{ route('business.representative.create') }}" class=" waves-effect waves-block normal-item">Registrar Apoderado</a></li>
+                            <li><a href="{{ route('business.representative.list') }}" class=" waves-effect waves-block normal-item">Listado de Apoderados</a></li>
                         </ul>
                     </li>
                     <li v-if="roleId == 2" class="active open"><a href="{{ route('admin.student') }}"><i class="zmdi zmdi-accounts-alt"></i><span>Estudiante</span></a></li>
@@ -115,13 +117,13 @@
                            {{--<li class="active open"><a href="{{ route('representative.home') }}"><i class="zmdi zmdi-balance"></i><span>Dashboard</span></a></li>
                            <li><a class="menu-toggle waves-effect waves-block toggled"><i class="zmdi zmdi-accounts-outline"></i><span>Estudiantes</span> </a>
                                <ul class="ml-menu" style="display:block">
-                                  <li><a href="#" class=" waves-effect waves-block">Estudiante 1</a></li>
-                                  <li><a href="#" class=" waves-effect waves-block">Estudiante 2</a></li>
+                                  <li><a href="#" class=" waves-effect waves-block normal-item">Estudiante 1</a></li>
+                                  <li><a href="#" class=" waves-effect waves-block normal-item">Estudiante 2</a></li>
                                </ul>
                            </li>--}}
                     
                           <li class="active open"><a href="{{ route('teacher.home') }}"><i class="zmdi zmdi-balance"></i><span>Dashboard</span></a></li>
-                          <li><a onclick="toggleSubmenu('virtualRoom-submenu')" href="javascript:void(0);" class="menu-toggle waves-effect waves-block toggled"><i class="zmdi zmdi-laptop-mac"></i><span>Sala Virtual</span> </a>
+                          <li><a onclick="toggleSubmenu('virtualRoom-submenu')" href="javascript:void(0);" class="menu-toggle waves-effect waves-block toggled"><i class="fas fa-chalkboard-teacher"></i><span>Sala Virtual</span> </a>
                              <ul class="ml-menu submenu-hidden" id="virtualRoom-submenu">
                                  <li><a href="{{ route('teacher.virtualRoom.create') }}" class=" waves-effect waves-block">Registrar Sala Virtual</a></li>
                                  <li><a href="{{ route('teacher.virtualRoom.list') }}" class=" waves-effect waves-block">Listado de Salas Virtuales</a></li>
@@ -178,6 +180,9 @@
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('/assets/plugins/sweetalert/sweetalert2@10.js') }}"></script>
 <script src="{{ asset('assets/plugins/izitoast/js/iziToast.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/fontawesome/js/all.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/vamzfe.js') }}"></script>
+
 
 
 <script>

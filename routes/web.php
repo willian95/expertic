@@ -128,6 +128,25 @@ Route::group(['middleware' => ['auth']], function () {
         //Eliminar Profesor
         Route::post('destroyTeacher', "Business\TeacherController@destroy")->name("destroyTeacher"); 
 
+        //CRUD APODERADOS
+        //Vista de registro de Apoderados
+        Route::get('/business/representative/create', 'Business\RepresentativeController@create')->name("business.representative.create");
+
+        //Agregar Apoderado Visor
+        Route::post('storeViewfinder', 'Business\RepresentativeController@storeViewfinder')->name("storeViewfinder");
+
+        //Agregar Estudiante
+        Route::post('storeStudent', 'Business\RepresentativeController@storeStudent')->name("storeStudent");
+
+        //Listado de Apoderados
+        Route::get('/business/representative/list', 'Business\RepresentativeController@show')->name("business.representative.list");
+
+        //Agregar Apoderado
+        Route::post('storeRepresentative', 'Business\RepresentativeController@store')->name("storeRepresentative");
+
+        //Obtener Apoderados Principales
+        Route::post('getRepresentatives', 'Business\RepresentativeController@getRepresentatives')->name("getRepresentatives");
+
     });//role:business_administrator
 
 });//auth
@@ -136,13 +155,7 @@ Route::get('/admin/payments', function () {
     return view('admin.payments.index');
 })->name("admin.payments");
 
-Route::get('/admin/attorney/create', function () {
-    return view('admin.attorney.create');
-})->name("admin.attorney.create");;
 
-Route::get('/admin/attorney/list', function () {
-    return view('admin.attorney.index');
-})->name("admin.attorney.list");
 
 Route::get('/admin/student', function () {
     return view('admin.student.index');

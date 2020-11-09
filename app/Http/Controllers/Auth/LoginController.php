@@ -71,7 +71,13 @@ class LoginController extends Controller
 
             break; 
 
-            case 'attorney':
+            case 'representative_leading':
+
+                return redirect('/representative/home');
+
+            break;
+
+            case 'representative_viewfinder':
 
                 return redirect('/representative/home');
 
