@@ -60,9 +60,7 @@
                                  <p>@{{Representative.email}}</p>
                               </td>
                               <td>
-                                 <button class="btn btn-info" @click="captureRecord(Representative)">
-                                 <i class="zmdi zmdi-edit"></i>
-                                 </button>
+                                 <a :href="'{{url('/')}}/business/representative/update/'+Representative.id" class="btn btn-info"><i class="zmdi zmdi-edit"></i></a>
                                  <button class="btn btn-secondary"  @click="destroy(Representative.id)">
                                  <i class="zmdi zmdi-delete"></i>
                                  </button>

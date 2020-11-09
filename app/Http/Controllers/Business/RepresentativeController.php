@@ -41,6 +41,97 @@ class RepresentativeController extends Controller
 
   }// public function show()
 
+  public function getRepresentative($id){
+
+    $array=array();
+
+    $Representative=Representative::query()->where('id',$id)->where('leading',1)->orderBy('id','ASC');
+
+    $Representative= $Representative->with([
+
+            'users' => function($query){ },
+
+            'representatives' => function($query){ },
+
+            'students' => function($query){ },
+
+    ])->first();
+
+    $viewfinder=array();
+      
+
+    if($Representative->representatives!=null){
+
+          $viewfinder[]=[
+            
+             'id'                       =>$Representative->representatives['id'],
+             'user_id'                  =>$Representative->representatives['user_id'],
+             'institution_id'           =>$Representative->representatives['institution_id'],
+             'representative_id'        =>$Representative->representatives['representative_id'],
+             'rut'                      =>$Representative->representatives['rut'],                
+             'representative_name'      =>$Representative->representatives['representative_name'],
+             'representative_lastname'  =>$Representative->representatives['representative_lastname'],
+             'address'                  =>$Representative->representatives['address'],
+             'phone'                    =>$Representative->representatives['phone'],
+             'leading'                  =>$Representative->representatives['leading'],
+             'email'                    =>$Representative->users->email,
+
+          ];
+            
+    }//if($Representative->representatives!=null)
+
+    $students=array();
+
+    if(count($Representative->students)>0){
+
+         foreach($Representative->students as $student){
+
+          $students[]= [
+                    'user_id'           => $student->user_id,
+                    'institution_id'    => $student->institution_id,
+                    'representative_id' => $student->representative_id,
+                    'rut'               => $student->rut,
+                    'student_name'      => $student->student_name,
+                    'student_lastname'  => $student->student_lastname,
+                    'blood_type'        => $student->blood_type,
+                    'phone'             => $student->phone,
+                    'allergies'         => $student->allergies,
+                    'address'           => $student->address,
+                    'email'             => $student->users->email,
+
+
+          ];
+
+         }//foreach($repre->students as $student)
+
+    }//if(count($repre->students)>0)
+
+    $array=[
+             'id'                       =>$Representative->id,
+             'user_id'                  =>$Representative->user_id,
+             'institution_id'           =>$Representative->institution_id,
+             'representative_id'        =>$Representative->representative_id,
+             'rut'                      =>$Representative->rut,                
+             'representative_name'      =>$Representative->representative_name,
+             'representative_lastname'  =>$Representative->representative_lastname,
+             'address'                  =>$Representative->address,
+             'phone'                    =>$Representative->phone,
+             'leading'                  =>$Representative->phone,
+             'email'                    =>$Representative->users->email,
+             'viewfinder'               =>$viewfinder,   
+             'students'                 =>$students,   
+  ];
+
+  return $array;
+
+  }//public function getRepresentatives($id)
+
+  public function update($id) {
+
+    return view('business.representative.update')->with(['Representative'=>json_encode($this->getRepresentative($id))]);
+
+  }// public function show()
+
   /**
   * Store a newly created resource in storage.
   *

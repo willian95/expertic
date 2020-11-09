@@ -147,6 +147,9 @@ Route::group(['middleware' => ['auth']], function () {
         //Obtener Apoderados Principales
         Route::post('getRepresentatives', 'Business\RepresentativeController@getRepresentatives')->name("getRepresentatives");
 
+        //Vista de aactuzalizacion de Apoderados
+        Route::get('/business/representative/update/{id}', 'Business\RepresentativeController@update')->name("business.representative.update");
+
         //Eliminar Apoderado Principal
         Route::post('destroyRepresentative', "Business\RepresentativeController@destroy")->name("destroyRepresentative"); 
 
