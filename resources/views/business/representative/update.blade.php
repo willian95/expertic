@@ -28,6 +28,7 @@
                     <label for="viewfinder_rut">Rut</label>
                     <input type="text" class="form-control" v-model="representative.rut" id="viewfinder_rut" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('representative.rut') }">
                     <small v-if="errors.hasOwnProperty('representative.rut')" class="text-danger ml-2">@{{ errors['representative.rut'][0] }}</small>
+                    <small v-if="errors.hasOwnProperty('Repre.rut')" class="text-danger ml-2">@{{ errors['Repre.rut'][0] }}</small>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-lg-4">
@@ -35,6 +36,7 @@
                     <label for="viewfinder_representative_name">Nombre</label>
                     <input type="text" class="form-control"  v-model="representative.representative_name" id="viewfinder_representative_name" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('representative.representative_name') }">
                     <small v-if="errors.hasOwnProperty('representative.representative_name')" class="text-danger ml-2">@{{ errors['representative.representative_name'][0] }}</small>
+                    <small v-if="errors.hasOwnProperty('Repre.representative_name')" class="text-danger ml-2">@{{ errors['Repre.representative_name'][0] }}</small>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-lg-4">
@@ -42,6 +44,7 @@
                     <label for="viewfinder_representative_lastname">Apellido</label>
                     <input type="text" class="form-control" v-model="representative.representative_lastname" id="viewfinder_representative_lastname" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('representative.representative_lastname') }">
                     <small v-if="errors.hasOwnProperty('representative.representative_lastname')" class="text-danger ml-2">@{{ errors['representative.representative_lastname'][0] }}</small>
+                    <small v-if="errors.hasOwnProperty('Repre.representative_lastname')" class="text-danger ml-2">@{{ errors['Repre.representative_lastname'][0] }}</small>
                   </div>
                 </div>
                 <div class="col-12 col-md-8 col-lg-8">
@@ -49,6 +52,7 @@
                     <label for="viewfinder_address">Dirección</label>
                     <input type="text" v-model="representative.address" class="form-control" id="viewfinder_address" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('representative.address') }">
                     <small v-if="errors.hasOwnProperty('representative.address')" class="text-danger ml-2">@{{ errors['representative.address'][0] }}</small>
+                    <small v-if="errors.hasOwnProperty('Repre.address')" class="text-danger ml-2">@{{ errors['Repre.address'][0] }}</small>
                   </div>
                 </div>
                 <div class="col-12 col-md-4 col-lg-4">
@@ -56,6 +60,7 @@
                     <label for="viewfinder_email">Email</label>
                     <input type="email" v-model="representative.email" class="form-control" id="viewfinder_email" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('representative.email') }">
                     <small v-if="errors.hasOwnProperty('representative.email')" class="text-danger ml-2">@{{ errors['representative.email'][0] }}</small>
+                    <small v-if="errors.hasOwnProperty('Repre.email')" class="text-danger ml-2">@{{ errors['Repre.email'][0] }}</small>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-lg-4">
@@ -63,6 +68,7 @@
                     <label for="viewfinder_phone">Teléfono</label>
                     <input type="viewfinder_phone"  onKeyPress="return soloNumeros(event)" v-model="representative.phone" class="form-control" id="phone" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('representative.phone') }" maxlength="12">
                     <small v-if="errors.hasOwnProperty('representative.phone')" class="text-danger ml-2">@{{ errors['representative.phone'][0] }}</small>
+                    <small v-if="errors.hasOwnProperty('Repre.phone')" class="text-danger ml-2">@{{ errors['Repre.phone'][0] }}</small>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-lg-4">
@@ -70,6 +76,7 @@
                     <label for="viewfinder_password">Contraseña</label>
                     <input type="password" v-model="representative.password" class="form-control" id="viewfinder_password"  v-bind:class="{ 'is-invalid': errors.hasOwnProperty('representative.password') }">
                     <small v-if="errors.hasOwnProperty('representative.password')" class="text-danger ml-2">@{{ errors['representative.password'][0] }}</small>
+                    <small v-if="errors.hasOwnProperty('Repre.password')" class="text-danger ml-2">@{{ errors['Repre.password'][0] }}</small>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-lg-4">
@@ -77,14 +84,15 @@
                     <label for="viewfinder_password_confirmation">Verificar Contraseña</label>
                     <input type="password" v-model="representative.password_confirmation" class="form-control" id="viewfinder_password_confirmation" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('representative.password_confirmation') }">
                     <small v-if="errors.hasOwnProperty('representative.password_confirmation')" class="text-danger ml-2">@{{ errors['representative.password_confirmation'][0] }}</small>
+                    <small v-if="errors.hasOwnProperty('Repre.password_confirmation')" class="text-danger ml-2">@{{ errors['Repre.password_confirmation'][0] }}</small>
                   </div>
                 </div>
               </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="closeModal2()">Cerrar</button>
-              <button type="button" class="btn btn-primary" @click="addViewfinder(0)" v-if="change==0">Agregar</button>
-              <button type="button" class="btn btn-primary" @click="update(1)" v-if="change==1">Modificar</button>
+              <button type="button" class="btn btn-primary" @click="StoreRepresentativeViewfinder()" v-if="change==0">Agregar</button>
+              <button type="button" class="btn btn-primary" @click="updateViewfinder" v-if="change==1">Modificar</button>
             </div>
           </div>
         </div>
@@ -106,7 +114,7 @@
                     <label for="name">Rut Estudiante</label>
                     <input type="text" class="form-control" v-model="student.rut" id="student_rut" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('student.rut'),  'is-invalid':error_rut }">
                     <small v-if="errors.hasOwnProperty('student.rut')" class="text-danger ml-2">@{{ errors['student.rut'][0] }}</small>
-                    <small v-if="error_rut!=''" class="text-danger ml-2">@{{error_rut }}</small>                              
+                    <small v-if="errors.hasOwnProperty('stud.rut')" class="text-danger ml-2">@{{ errors['stud.rut'][0] }}</small>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-lg-4">
@@ -114,6 +122,7 @@
                     <label for="student_name">Nombre</label>
                     <input type="text" class="form-control" v-model="student.student_name" id="student_name" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('student.student_name') }">
                     <small v-if="errors.hasOwnProperty('student.student_name')" class="text-danger ml-2">@{{ errors['student.student_name'][0] }}</small>
+                    <small v-if="errors.hasOwnProperty('stud.student_name')" class="text-danger ml-2">@{{ errors['stud.student_name'][0] }}</small>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-lg-4">
@@ -121,6 +130,7 @@
                     <label for="student_lastname">Apellido</label>
                     <input type="text" class="form-control" v-model="student.student_lastname" id="student_lastname" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('student.student_lastname') }">
                     <small v-if="errors.hasOwnProperty('student.student_lastname')" class="text-danger ml-2">@{{ errors['student.student_lastname'][0] }}</small>
+                    <small v-if="errors.hasOwnProperty('stud.student_lastname')" class="text-danger ml-2">@{{ errors['stud.student_lastname'][0] }}</small>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-lg-4">
@@ -128,13 +138,15 @@
                     <label for="phone">Teléfono</label>
                     <input type="phone"  onKeyPress="return soloNumeros(event)" v-model="student.phone" class="form-control" id="student_phone" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('student.phone') }" maxlength="12">
                     <small v-if="errors.hasOwnProperty('student.phone')" class="text-danger ml-2">@{{ errors['student.phone'][0] }}</small>
+                    <small v-if="errors.hasOwnProperty('stud.phone')" class="text-danger ml-2">@{{ errors['stud.phone'][0] }}</small>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-lg-4">
-                  <div class="form-group">
+                  <div class="form-group"> 
                     <label for="address">Dirección</label>
                     <input type="text" class="form-control" id="student_address"  v-model="student.address" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('student.address') }">
                     <small v-if="errors.hasOwnProperty('student.address')" class="text-danger ml-2">@{{ errors['student.address'][0] }}</small>
+                    <small v-if="errors.hasOwnProperty('stud.address')" class="text-danger ml-2">@{{ errors['stud.address'][0] }}</small>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-lg-4">
@@ -142,7 +154,7 @@
                     <label for="email">Email</label>
                     <input type="email" v-model="student.email" class="form-control" id="email" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('student.email') ,  'is-invalid':error_email  }">
                     <small v-if="errors.hasOwnProperty('student.email')" class="text-danger ml-2">@{{ errors['student.email'][0] }}</small>
-                    <small v-if="error_email!=''" class="text-danger ml-2">@{{error_email}}</small>
+                    <small v-if="errors.hasOwnProperty('stud.email')" class="text-danger ml-2">@{{ errors['stud.email'][0] }}</small>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-lg-4">
@@ -150,6 +162,7 @@
                     <label for="student_password">Contraseña</label>
                     <input type="password" v-model="student.password" class="form-control" id="student_password"  v-bind:class="{ 'is-invalid': errors.hasOwnProperty('student.password') }">
                     <small v-if="errors.hasOwnProperty('student.password')" class="text-danger ml-2">@{{ errors['student.password'][0] }}</small>
+                    <small v-if="errors.hasOwnProperty('stud.password')" class="text-danger ml-2">@{{ errors['stud.password'][0] }}</small>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-lg-4">
@@ -157,6 +170,7 @@
                     <label for="password_confirmation">Verificar Contraseña</label>
                     <input type="password" v-model="student.password_confirmation" class="form-control" id="student_password_confirmation" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('student.password_confirmation') }">
                     <small v-if="errors.hasOwnProperty('student.password_confirmation')" class="text-danger ml-2">@{{ errors['student.password_confirmation'][0] }}</small>
+                    <small v-if="errors.hasOwnProperty('stud.password_confirmation')" class="text-danger ml-2">@{{ errors['stud.password_confirmation'][0] }}</small>
                   </div>
                 </div>
                 <div class="col-12 col-md-6 col-lg-4">
@@ -174,6 +188,7 @@
                       <option value="AB+">AB+</option>
                     </select>
                     <small v-if="errors.hasOwnProperty('student.blood_type')" class="text-danger ml-2">@{{ errors['student.blood_type'][0] }}</small>
+                    <small v-if="errors.hasOwnProperty('stud.blood_type')" class="text-danger ml-2">@{{ errors['stud.blood_type'][0] }}</small>
                   </div>
                 </div>
                 <div class="col-12 pb-4 text-justify">
@@ -187,8 +202,8 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="closeModal()">Cerrar</button>
-              <button type="button" class="btn btn-primary" @click="validateStudent(1)" v-if="change==0">Agregar</button>
-              <button type="button" class="btn btn-primary" @click="update(2)" v-if="change==1">Modificar</button>
+              <button type="button" class="btn btn-primary" @click="registerStudent" v-if="change==0">Agregar</button>
+              <button type="button" class="btn btn-primary" @click="updateStudent" v-if="change==1">Modificar</button>
             </div>
           </div>
         </div>
@@ -216,6 +231,7 @@
                   <label for="rut">Rut</label>
                   <input type="text" class="form-control" v-model="rut" id="rut" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('rut') }">
                   <small v-if="errors.hasOwnProperty('rut')" class="text-danger ml-2">@{{ errors['rut'][0] }}</small>
+                  <small v-if="errors.hasOwnProperty('data.rut')" class="text-danger ml-2">@{{ errors['data.rut'][0] }}</small>
                 </div>
               </div>
               <div class="col-12 col-md-6 col-lg-4">
@@ -223,6 +239,7 @@
                   <label for="representative_name">Nombre</label>
                   <input type="text" class="form-control" v-model="representative_name" id="representative_name" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('representative_name') }">
                   <small v-if="errors.hasOwnProperty('representative_name')" class="text-danger ml-2">@{{ errors['representative_name'][0] }}</small>
+                  <small v-if="errors.hasOwnProperty('data.representative_name')" class="text-danger ml-2">@{{ errors['data.representative_name'][0] }}</small>                  
                 </div>
               </div>
               <div class="col-12 col-md-6 col-lg-4">
@@ -230,6 +247,7 @@
                   <label for="representative_lastname">Apellido</label>
                   <input type="text" class="form-control" v-model="representative_lastname"  id="representative_lastname" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('representative_lastname') }">
                   <small v-if="errors.hasOwnProperty('representative_lastname')" class="text-danger ml-2">@{{ errors['representative_lastname'][0] }}</small>
+                  <small v-if="errors.hasOwnProperty('data.representative_lastname')" class="text-danger ml-2">@{{ errors['data.representative_lastname'][0] }}</small>
                 </div>
               </div>
               <div class="col-12 col-md-8 col-lg-8">
@@ -237,6 +255,7 @@
                   <label for="address">Dirección</label>
                   <input type="text" class="form-control" v-model="address" id="address" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('address') }">
                   <small v-if="errors.hasOwnProperty('address')" class="text-danger ml-2">@{{ errors['address'][0] }}</small>
+                  <small v-if="errors.hasOwnProperty('data.address')" class="text-danger ml-2">@{{ errors['data.address'][0] }}</small>
                 </div>
               </div>
               <div class="col-12 col-md-4 col-lg-4">
@@ -244,6 +263,7 @@
                   <label for="email">Email</label>
                   <input type="email" v-model="email" class="form-control" id="email" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('email') }">
                   <small v-if="errors.hasOwnProperty('email')" class="text-danger ml-2">@{{ errors['email'][0] }}</small>
+                  <small v-if="errors.hasOwnProperty('data.email')" class="text-danger ml-2">@{{ errors['data.email'][0] }}</small>
                 </div>
               </div>
               <div class="col-12 col-md-6 col-lg-4">
@@ -251,6 +271,7 @@
                   <label for="phone">Teléfono</label>
                   <input type="phone" onKeyPress="return soloNumeros(event)" v-model="phone" class="form-control" id="phone" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('phone') }" maxlength="12">
                   <small v-if="errors.hasOwnProperty('phone')" class="text-danger ml-2">@{{ errors['phone'][0] }}</small>
+                  <small v-if="errors.hasOwnProperty('data.phone')" class="text-danger ml-2">@{{ errors['data.phone'][0] }}</small>
                 </div>
               </div>
               <div class="col-12 col-md-6 col-lg-4">
@@ -315,7 +336,7 @@
                               <button class="btn btn-info" @click="captureRecord(index,viewf,1)">
                               <i class="zmdi zmdi-edit"></i>
                               </button>
-                              <button class="btn btn-secondary" @click="removeRepresentative(index)">
+                              <button class="btn btn-secondary" @click="destroy(viewf.id)">
                               <i class="zmdi zmdi-delete"></i>
                               </button>
                             </td>
@@ -372,7 +393,7 @@
                               <button class="btn btn-info" @click="captureRecord(index,stud,2)">
                               <i class="zmdi zmdi-edit"></i>
                               </button>
-                              <button class="btn btn-secondary" @click="removeStudent(index)">
+                              <button class="btn btn-secondary" @click="destroyStudent(stud.id)">
                               <i class="zmdi zmdi-delete"></i>
                               </button>
                             </td>
@@ -386,7 +407,7 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary"  @click="register()" title="Actualizar">Actualizar</button>
+              <button type="button" class="btn btn-primary"  @click="updateRepresentativeLeading()" title="Actualizar">Actualizar</button>
             </div>
           </div>
         </div>
@@ -454,7 +475,9 @@
            viewfinders:[],
   
            student:{
-  
+
+                    representative_id: '',
+
                     rut:'',
   
                     student_name:'',
@@ -489,7 +512,23 @@
       },
       mounted(){   
 
+        this.rut=this.Representative.rut;
+  
+        this.representative_name=this.Representative.representative_name;
+  
+        this.representative_lastname=this.Representative.representative_lastname;
+  
+        this. address=this.Representative.address;
+  
+        this.phone=this.Representative.phone;
+  
+        this.leading=this.Representative.leading;
+  
+        this.email=this.Representative.email;
+
         this.students=this.Representative.students;
+
+        this.student.representative_id=this.Representative.id;
 
         this.viewfinders=this.Representative.viewfinder;
 
@@ -512,7 +551,7 @@
   
           },//closeModal()
   
-           toggleModal2(){
+          toggleModal2(){
   
               document.getElementById("modal2").classList.remove("hide-modal");
   
@@ -564,7 +603,7 @@
   
         },//clearViewfinder()
   
-        async addViewfinder(op){
+        async StoreRepresentativeViewfinder(){
            
            let self = this;
   
@@ -572,7 +611,9 @@
   
            self.errors = [];
   
-           axios.post('{{ url("storeViewfinder") }}', {
+           axios.post('{{ url("StoreRepresentativeViewfinder") }}', {
+
+              representative_id:self.Representative.id,
   
               representative:self.representative,
   
@@ -580,14 +621,8 @@
   
               if(response.data.success==true){
 
-                 if(op==1){
+                 self.getRepresentatives2(self.Representative.id);
 
-                    self.viewfinders.splice(self.id, 1 );
-
-                 }//if(op==1)
-  
-                 self.viewfinders.push(self.representative);
-  
                  self.clearViewfinder();
   
                  self.closeModal2();
@@ -623,185 +658,12 @@
   
         },//addViewfinder() 
   
-        removeRepresentative(index){
-  
-           let self = this;
-  
-           self.loading = true;
-  
-           self.errors = [];
-  
-           Swal.fire({title: 'Estas seguro?',text: "No podrás revertir esto!",icon: 'warning',showCancelButton: true,confirmButtonColor: '#3085d6',cancelButtonColor: '#d33',confirmButtonText: 'Si, bórralo!',cancelButtonText: 'Cancelar'}).then((result) => {
-           
-              if (result.isConfirmed) {
-  
-                 self.viewfinders.splice(index, 1 );
-  
-                  Swal.fire('Eliminado!','El registro ha sido eliminado.','success');
-  
-              }
-  
-              self.loading = false;
-  
-           })
-              
-        },//removeStudent(index)  
-  
-        validateStudent(op){
-  
-           let self = this; 
-  
-           let error_msj;
-  
-           this.error_rut='';
-  
-           this.error_email='';
-  
-           let win=0;
-
-           let i=0;
-  
-           for (let value of this.students) {
-  
-              if(self.student.rut==value.rut){
-
-                 if((this.id!=i && op == 2) || (op == 1)){
-
-                     this.error_rut="El campo rut ya se encuentra agregado";
-  
-                     win=1;
-
-                 }//if((this.id!=i && op ==2) || (op==1))
-                 
-              }//if(student.rut==value.rut)
-  
-              if(self.student.email==value.email){
-
-                 if((this.id!=i && op ==2) || (op==1)){
-
-                     this.error_email="El campo email ya se encuentra agregado";
-  
-                     win=1;
-
-                 }//if((this.id!=i && op ==2) || (op==1))
-                  
-              }//if(student.email==value.email)
-
-              i=i+1;
-           }  
-  
-           this.addStudent(op);      
-  
-        },//validateStudent()  
-  
-        async addStudent(op){
-           
-           let self = this;
-  
-           self.loading = true;
-  
-           self.errors = [];
-  
-           axios.post('{{ url("storeStudent") }}', {
-  
-              student:self.student,
-  
-           }).then(function (response) {
-  
-              if(response.data.success==true){
-
-                 if(op==1){
-
-                     self.students.push(self.student);
-
-                 }else{
-
-                     self.students[self.id].rut=self.student.rut;
-  
-                     self.students[self.id].student_name=self.student.student_name;
-  
-                     self.students[self.id].student_lastname=self.student.student_lastname;
-  
-                     self.students[self.id].blood_type=self.student.blood_type;
-  
-                     self.students[self.id].phone=self.student.phone;
-  
-                     self.students[self.id].allergies=self.student.allergies;
-  
-                     self.students[self.id].address=self.student.address;
-  
-                     self.students[self.id].email=self.student.email;
-  
-                     self.students[self.id].password=self.student.password;
-  
-                     self.students[self.id].password_confirmation=self.student.password_confirmation;
-
-                 }//else if(op==1)
-  
-  
-                 self.clearStudent();
-  
-                 self.closeModal();
-  
-                 self.loading = false;
-  
-                 Swal.fire('Información','Registro Agregado Satisfactoriamente','success');
-  
-              }//if(response.data.success==true)
-              else{       
-  
-                 iziToast.error({title: 'Error',position:'topRight',message: response.data.msg}); 
-  
-              }//else if(response.data.success==false)
-  
-           }).catch(err => {
-  
-              self.loading = false;
-  
-              self.errors = err.response.data.errors;
-  
-              if(self.errors){
-  
-                 iziToast.error({title: 'Error',position:'topRight',message: "Hay algunos campos que debes revisar"});  
-             
-              }else{
-  
-                 iziToast.error({title: 'Error',position:'topRight',message: "Ha ocurrido un problema"}); 
-  
-              }
-              
-           }); 
-  
-        },//addStudent()  
-        
-        removeStudent(index){
-  
-           let self = this;
-  
-           self.loading = true;
-  
-           self.errors = [];
-  
-           Swal.fire({title: 'Estas seguro?',text: "No podrás revertir esto!",icon: 'warning',showCancelButton: true,confirmButtonColor: '#3085d6',cancelButtonColor: '#d33',confirmButtonText: 'Si, bórralo!',cancelButtonText: 'Cancelar'}).then((result) => {
-           
-              if (result.isConfirmed) {
-  
-                 self.students.splice(index, 1 );
-  
-                  Swal.fire('Eliminado!','El registro ha sido eliminado.','success');
-  
-              }
-  
-              self.loading = false;
-  
-           })
-              
-        },//removeStudent(index) 
-  
         clearStudent(){
   
            this.student={
-  
+
+                    representative_id: this.Representative.id,
+
                     rut:'',
   
                     student_name:'',
@@ -910,6 +772,8 @@
 
                this.id=index;
 
+               this.representative.id=value.id;
+
                this.representative.rut=value.rut;
   
                this.representative.representative_name=value.representative_name;
@@ -935,7 +799,9 @@
 
                this.toggleModal();
 
-               this.id=index;
+               this.id=value.id;
+
+               this.representative_id=this.Representative.id;
 
                this.student.rut=value.rut;
   
@@ -963,20 +829,548 @@
 
         },//captureRecord: function(value)
 
+        async updateRepresentativeLeading(){
+   
+            let self = this;
+   
+            self.loading = true;
+   
+            self.errors = [];
 
-        update(op){
+            let data={};
 
-           if(op==1){
+            if (self.password!=""){
+         
+              data={
 
-             this.addViewfinder(1);
+                    id:this.Representative.id,
+   
+                    rut:this.rut,
+  
+                    representative_name:this.representative_name,
+  
+                    representative_lastname:this.representative_lastname,
+  
+                    address:this.address,
+  
+                    phone:this.phone,
+  
+                    leading:1,
+  
+                    email:this.email,
+   
+                    password:this.password,
+   
+                    password_confirmation:this.password_confirmation,
+   
+                    students:this.students,
+              }
+   
+            }else{
 
-           }else{
+              data={
+                 
+                    id:this.Representative.id,
+   
+                    rut:this.rut,
+  
+                    representative_name:this.representative_name,
+  
+                    representative_lastname:this.representative_lastname,
+  
+                    address:this.address,
+  
+                    phone:this.phone,
+  
+                    leading:1,
+  
+                    email:this.email,
 
-            this.validateStudent(2);
-             
-           }//else if(op==1)
+                    students:this.students,
+              }
 
-        },//update(op)
+            }
+
+            axios.post('{{ url("updateRepresentativeLeading") }}', {
+                
+                data:data
+   
+            }).then(function (response) {
+   
+   
+               if(response.data.success==true){
+   
+      
+                Swal.fire('Información','Actualización Satisfactorio','success').then(function() {
+                    
+                     window.location.href="{{ url('business/representative/list') }}";
+
+                });
+   
+               }//if(response.data.success==true)
+               else{         
+   
+                  iziToast.error({title: 'Error',position:'topRight',message: response.data.msg});   
+   
+               }//else if(response.data.success==false)
+   
+            }).catch(err => {
+   
+               self.loading = false
+   
+               self.errors = err.response.data.errors
+   
+               if(self.errors){
+   
+                  iziToast.error({title: 'Error',position:'topRight',message: "Hay algunos campos que debes revisar"});
+   
+               }else{
+   
+                  iziToast.error({title: 'Error',position:'topRight',message: "Ha ocurrido un problema"});  
+   
+               }
+               
+            }); 
+   
+        },//updateRepresentativeLeading()
+
+        async updateViewfinder(){
+   
+            let self = this;
+   
+            self.loading = true;
+   
+            self.errors = [];
+
+            let Repre={};
+
+            if (self.representative.password!=""){
+         
+              Repre={
+
+                    id:self.representative.id,
+   
+                    rut:self.representative.rut,
+  
+                    representative_name:self.representative.representative_name,
+  
+                    representative_lastname:self.representative.representative_lastname,
+  
+                    address:self.representative.address,
+  
+                    phone:self.representative.phone,
+  
+                    leading:0,
+  
+                    email:self.representative.email,
+   
+                    password:self.representative.password,
+   
+                    password_confirmation:self.representative.password_confirmation,
+   
+              }
+   
+            }else{
+
+              Repre={
+                 
+                    id:self.representative.id,
+   
+                    rut:self.representative.rut,
+  
+                    representative_name:self.representative.representative_name,
+  
+                    representative_lastname:self.representative.representative_lastname,
+  
+                    address:self.representative.address,
+  
+                    phone:self.representative.phone,
+  
+                    leading:0,
+  
+                    email:self.representative.email,
+              }
+
+            }
+
+            axios.post('{{ url("UpdateRepresentativeViewfinder") }}', {
+                
+                Repre:Repre
+   
+            }).then(function (response) {
+   
+               if(response.data.success==true){
+   
+                 self.getRepresentatives2(self.Representative.id);
+
+                 self.clearViewfinder();
+  
+                 self.closeModal2();
+  
+                 self.loading = false;
+
+                Swal.fire('Información','Actualización Satisfactorio','success');
+   
+               }//if(response.data.success==true)
+               else{         
+   
+                  iziToast.error({title: 'Error',position:'topRight',message: response.data.msg});   
+   
+               }//else if(response.data.success==false)
+   
+            }).catch(err => {
+   
+               self.loading = false
+   
+               self.errors = err.response.data.errors
+   
+               if(self.errors){
+   
+                  iziToast.error({title: 'Error',position:'topRight',message: "Hay algunos campos que debes revisar"});
+   
+               }else{
+   
+                  iziToast.error({title: 'Error',position:'topRight',message: "Ha ocurrido un problema"});  
+   
+               }
+               
+            }); 
+   
+        },//updateViewfinder()
+
+        async destroy(id){
+   
+            let self = this;
+   
+            self.loading = true;
+   
+            self.errors = [];
+   
+            Swal.fire({title: 'Estas seguro?',text: "No podrás revertir esto!",icon: 'warning',showCancelButton: true,confirmButtonColor: '#3085d6',cancelButtonColor: '#d33',confirmButtonText: 'Si, bórralo!',cancelButtonText: 'Cancelar'}).then((result) => {
+            
+               if (result.isConfirmed) {
+   
+                  axios.post('{{ url("destroyRepresentative") }}', {
+
+                     id:id,
+
+                  }).then(function (response) {
+   
+                     if(response.data.success==true){
+         
+                        self.getRepresentatives2(id);
+
+                        Swal.fire('Eliminado!','El registro ha sido eliminado.','success');
+                        
+                     }//if(response.data.success==true)
+                     else{              
+   
+                        iziToast.error({title: 'Error',position:'topRight',message: response.data.msg}); 
+   
+                     }//else if(response.data.success==false)
+   
+                   }).catch(err => {
+   
+                     self.loading = false
+   
+                     self.errors = err.response.data.errors
+   
+                     if(self.errors){
+   
+                        iziToast.error({title: 'Error',position:'topRight',message: "Hay algunos campos que debes revisar"});  
+   
+                     }else{
+   
+                        iziToast.error({title: 'Error',position:'topRight',message: "Ha ocurrido un problema"});  
+   
+                     }
+               
+                   }); 
+               }
+   
+               self.loading = false
+   
+            })
+   
+         },// destroy:function(id)
+
+         async registerStudent(){
+   
+            let self = this;
+   
+            self.loading = true;
+   
+            self.errors = []
+   
+            axios.post('{{ url("storeStudent") }}', {
+   
+               student:self.student
+   
+            }).then(function (response) {
+   
+               if(response.data.success==true){
+   
+                  self.closeModal();
+
+                  self.clearStudent();
+   
+                  self.getRepresentatives2(self.Representative.id);
+   
+                  Swal.fire('Información','Registro Satisfactorio','success');
+   
+               }//if(response.data.success==true)
+               else{       
+   
+                  iziToast.error({title: 'Error',position:'topRight',message: response.data.msg}); 
+   
+               }//else if(response.data.success==false)
+   
+            }).catch(err => {
+   
+               self.loading = false
+   
+               self.errors = err.response.data.errors
+   
+               if(self.errors){
+   
+                  iziToast.error({title: 'Error',position:'topRight',message: "Hay algunos campos que debes revisar"});  
+              
+               }else{
+   
+                  iziToast.error({title: 'Error',position:'topRight',message: "Ha ocurrido un problema"}); 
+   
+               }
+               
+            }); 
+   
+         },//register:function()
+
+         async updateStudent(){
+   
+            let self = this;
+   
+            self.loading = true;
+   
+            self.errors = [];
+
+            let data={};
+
+            if (self.student.password!=""){
+         
+              data={
+
+               id:self.id,
+   
+               representative_id:self.student.representative_id,
+                    
+               rut:self.student.rut,
+  
+               student_name:self.student.student_name,
+  
+               student_lastname:self.student.student_lastname,
+  
+               blood_type:self.student.blood_type,
+  
+               phone:self.student.phone,
+  
+               allergies:self.student.allergies,
+  
+               address:self.student.address,
+  
+               email:self.student.email,
+  
+               password:self.student.password,
+  
+               password_confirmation:self.student.password_confirmation,
+              }
+   
+            }else{
+
+              data={
+                 
+               id:self.id,
+   
+               representative_id:self.student.representative_id,
+                    
+               rut:self.student.rut,
+  
+               student_name:self.student.student_name,
+  
+               student_lastname:self.student.student_lastname,
+  
+               blood_type:self.student.blood_type,
+  
+               phone:self.student.phone,
+  
+               allergies:self.student.allergies,
+  
+               address:self.student.address,
+  
+               email:self.student.email,
+
+              }
+
+            }
+
+            axios.post('{{ url("updateStudent") }}', {
+                
+                stud:data
+   
+            }).then(function (response) {
+   
+               if(response.data.success==true){
+      
+                  self.getRepresentatives2(self.Representative.id);
+
+                  self.clearStudent();
+
+                  self.closeModal();
+
+                  Swal.fire('Información','Actualizo Satisfactorio','success');
+   
+               }//if(response.data.success==true)
+               else{         
+   
+                  iziToast.error({title: 'Error',position:'topRight',message: response.data.msg});   
+   
+               }//else if(response.data.success==false)
+   
+            }).catch(err => {
+   
+               self.loading = false
+   
+               self.errors = err.response.data.errors
+   
+               if(self.errors){
+   
+                  iziToast.error({title: 'Error',position:'topRight',message: "Hay algunos campos que debes revisar"});
+   
+               }else{
+   
+                  iziToast.error({title: 'Error',position:'topRight',message: "Ha ocurrido un problema"});  
+   
+               }
+               
+            }); 
+   
+         },//updateStudent()
+
+        async destroyStudent(id){
+   
+            let self = this;
+   
+            self.loading = true;
+   
+            self.errors = []
+   
+            Swal.fire({title: 'Estas seguro?',text: "No podrás revertir esto!",icon: 'warning',showCancelButton: true,confirmButtonColor: '#3085d6',cancelButtonColor: '#d33',confirmButtonText: 'Si, bórralo!',cancelButtonText: 'Cancelar'}).then((result) => {
+            
+               if (result.isConfirmed) {
+   
+                  axios.post('{{ url("destroyStudent") }}', {
+
+                     id:id,
+
+                  }).then(function (response) {
+   
+                     if(response.data.success==true){
+   
+                        self.getRepresentatives2(self.Representative.id);
+   
+                        Swal.fire('Eliminado!','El registro ha sido eliminado.','success');
+                        
+                     }//if(response.data.success==true)
+                     else{              
+   
+                        iziToast.error({title: 'Error',position:'topRight',message: response.data.msg}); 
+   
+                     }//else if(response.data.success==false)
+   
+                   }).catch(err => {
+   
+                     self.loading = false
+   
+                     self.errors = err.response.data.errors
+   
+                     if(self.errors){
+   
+                        iziToast.error({title: 'Error',position:'topRight',message: "Hay algunos campos que debes revisar"});  
+   
+                     }else{
+   
+                        iziToast.error({title: 'Error',position:'topRight',message: "Ha ocurrido un problema"});  
+   
+                     }
+               
+                   }); 
+               }
+   
+               self.loading = false
+   
+            })
+   
+         },// destroyStudent(id)
+
+        async getRepresentatives2(id){
+   
+            let self = this;
+   
+            self.loading = true;
+   
+                  axios.post('{{ url("getRepresentatives2") }}', {
+                     
+                     id:id,
+                     
+                  }).then(function (response) {
+   
+                     self.loading = false
+   
+                     if(response.data.success==true){
+      
+                        self.rut=response.data.Representative.rut;
+  
+                        self.representative_name=response.data.Representative.representative_name;
+  
+                        self.representative_lastname=response.data.Representative.representative_lastname;
+  
+                        self. address=response.data.Representative.address;
+  
+                        self.phone=response.data.Representative.phone;
+  
+                        self.leading=response.data.Representative.leading;
+  
+                        self.email=response.data.Representative.email;
+
+                        self.students=response.data.Representative.students;
+
+                        self.viewfinders=response.data.Representative.viewfinder;
+   
+                     }//if(response.data.success==true)
+                     else{              
+   
+                        iziToast.error({title: 'Error',position:'topRight',message: response.data.msg}); 
+   
+                     }//else if(response.data.success==false)
+   
+                   }).catch(err => {
+   
+                     self.loading = false
+   
+                     self.errors = err.response.data.errors
+   
+                     if(self.errors){
+   
+                        iziToast.error({title: 'Error',position:'topRight',message: "Hay algunos campos que debes revisar"});  
+   
+                     }else{
+   
+                        iziToast.error({title: 'Error',position:'topRight',message: "Ha ocurrido un problema"});  
+   
+                     }
+               
+                   }); 
+   
+         },//getRepresentatives()
   
       },
   

@@ -147,11 +147,43 @@ Route::group(['middleware' => ['auth']], function () {
         //Obtener Apoderados Principales
         Route::post('getRepresentatives', 'Business\RepresentativeController@getRepresentatives')->name("getRepresentatives");
 
-        //Vista de aactuzalizacion de Apoderados
+        //Vista de actuzalizacion de Apoderados
         Route::get('/business/representative/update/{id}', 'Business\RepresentativeController@update')->name("business.representative.update");
 
         //Eliminar Apoderado Principal
-        Route::post('destroyRepresentative', "Business\RepresentativeController@destroy")->name("destroyRepresentative"); 
+        Route::post('destroyRepresentative', "Business\RepresentativeController@destroy")->name("destroyRepresentative");
+
+        //Actualizar Apoderado Principal
+        Route::post('updateRepresentativeLeading', "Business\RepresentativeController@updateRepresentativeLeading")->name("updateRepresentativeLeading"); 
+
+        //Obtener Apoderados Principales JSON (recibe como parametro el id del apoderado)
+        Route::post('getRepresentatives2', 'Business\RepresentativeController@getRepresentatives2')->name("getRepresentatives2");
+
+        //Agregar Apoderado Visor 
+        Route::post('StoreRepresentativeViewfinder', 'Business\RepresentativeController@StoreRepresentativeViewfinder')->name("StoreRepresentativeViewfinder");
+ 
+        //Actualizar Apoderado Visor
+        Route::post('UpdateRepresentativeViewfinder', 'Business\RepresentativeController@UpdateRepresentativeViewfinder')->name("UpdateRepresentativeViewfinder");
+
+        //CRUD ESTUDIANTES
+        //Estudiantes
+        Route::get('/business/student', 'Business\StudentController@index')->name("business.student");
+        
+        //Busscar apoderado por  rut
+        Route::post('SearchRepresentative', "Business\StudentController@SearchRepresentative")->name("SearchRepresentative");
+
+        //Obtener Estudiantes
+        Route::post('getStudents', 'Business\StudentController@getStudents');
+
+        //Agregar Estudiante
+        Route::post('storeStudent', "Business\StudentController@store")->name("storeStudent");
+
+        //Actualizar Profesor
+        Route::post('updateStudent', "Business\StudentController@update")->name("updateStudent");
+
+        //Eliminar Estudiante
+        Route::post('destroyStudent', "Business\StudentController@destroy")->name("destroyStudent"); 
+
 
     });//role:business_administrator
 
@@ -161,11 +193,6 @@ Route::get('/admin/payments', function () {
     return view('admin.payments.index');
 })->name("admin.payments");
 
-
-
-Route::get('/admin/student', function () {
-    return view('admin.student.index');
-})->name("admin.student");
 
 Route::get('/business/timetable/create', function () {
     return view('business.timetable.create');

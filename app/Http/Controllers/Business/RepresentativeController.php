@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRepresentativePost;
 use App\Http\Requests\StoreRepresentativeViewfinderPost;
+use App\Http\Requests\UpdateRepresentativeViewfinderPost;
 use App\Http\Requests\UpdateRepresentativePost;
 use App\Http\Requests\DestroyRepresentativePost;
 use App\Http\Requests\StoreStudentPost;
@@ -58,9 +59,10 @@ class RepresentativeController extends Controller
     ])->first();
 
     $viewfinder=array();
-      
 
-    if($Representative->representatives!=null){
+    if($Representative!=null){
+
+      if($Representative->representatives!=null){
 
           $viewfinder[]=[
             
@@ -74,19 +76,20 @@ class RepresentativeController extends Controller
              'address'                  =>$Representative->representatives['address'],
              'phone'                    =>$Representative->representatives['phone'],
              'leading'                  =>$Representative->representatives['leading'],
-             'email'                    =>$Representative->users->email,
+             'email'                    =>$Representative->representatives->users->email,
 
           ];
             
-    }//if($Representative->representatives!=null)
+      }//if($Representative->representatives!=null)
 
-    $students=array();
+      $students=array();
 
-    if(count($Representative->students)>0){
+      if(count($Representative->students)>0){
 
          foreach($Representative->students as $student){
 
           $students[]= [
+                    'id'                => $student->id,
                     'user_id'           => $student->user_id,
                     'institution_id'    => $student->institution_id,
                     'representative_id' => $student->representative_id,
@@ -98,39 +101,201 @@ class RepresentativeController extends Controller
                     'allergies'         => $student->allergies,
                     'address'           => $student->address,
                     'email'             => $student->users->email,
-
-
           ];
 
          }//foreach($repre->students as $student)
 
-    }//if(count($repre->students)>0)
+      }//if(count($repre->students)>0)
 
-    $array=[
-             'id'                       =>$Representative->id,
-             'user_id'                  =>$Representative->user_id,
-             'institution_id'           =>$Representative->institution_id,
-             'representative_id'        =>$Representative->representative_id,
-             'rut'                      =>$Representative->rut,                
-             'representative_name'      =>$Representative->representative_name,
-             'representative_lastname'  =>$Representative->representative_lastname,
-             'address'                  =>$Representative->address,
-             'phone'                    =>$Representative->phone,
-             'leading'                  =>$Representative->phone,
-             'email'                    =>$Representative->users->email,
-             'viewfinder'               =>$viewfinder,   
-             'students'                 =>$students,   
-  ];
+       $array=[
+             'id'                       => $Representative->id,
+             'user_id'                  => $Representative->user_id,
+             'institution_id'           => $Representative->institution_id,
+             'representative_id'        => $Representative->representative_id,
+             'rut'                      => $Representative->rut,                
+             'representative_name'      => $Representative->representative_name,
+             'representative_lastname'  => $Representative->representative_lastname,
+             'address'                  => $Representative->address,
+             'phone'                    => $Representative->phone,
+             'leading'                  => $Representative->phone,
+             'email'                    => $Representative->users->email,
+             'viewfinder'               => $viewfinder,   
+             'students'                 => $students,   
+        ];
+
+    }// if($Representative!=null)
 
   return $array;
 
   }//public function getRepresentatives($id)
 
+  public function getRepresentatives2(Request $request){
+
+        try{   
+          
+          $Representative=$this->getRepresentative($request->id);
+
+          return response()->json(["success" => true, "msg" => "Se obtenieron los datos exitosamente!","Representative"=>$Representative],200);
+
+        }catch(\Exception $e){
+
+            return response()->json(["success" => false, "msg" => "Error en el servidor", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+
+        }//catch(\Exception $e)
+
+  }//public function getRepresentative2(Request $request)
+
+
+  public function StoreRepresentativeViewfinder(StoreRepresentativeViewfinderPost $request){
+
+        try{
+
+          $data=$request->all();
+
+          $institution_id=getIdInstitution();
+
+          //Registro de Apoderados Visor
+
+          $User = User::create(['name'=>$request->representative['representative_name'],'lastname'=>$request->representative['representative_lastname'], 'email'=>$request->representative['email'], 'password'=>Hash::make($request->representative['password']),]);
+
+          $UserRole = UserRole::create(['user_id'=>$User->id,'role_id'=>5]);
+
+          $InstitutionUser = InstitutionUser::create(['user_id'=>$User->id,'institution_id'=>$institution_id]);
+
+          $data = array_merge($data, ['user_id'=>$User->id,'institution_id'=>$institution_id]);
+
+          $Representative=Representative::create([
+                                                  'user_id'=>$User->id,
+                                                  'institution_id'=>$institution_id,
+                                                  'representative_id'=>$request->representative_id,
+                                                  'rut'=>$request->representative['rut'],
+                                                  'representative_name'=>$request->representative['representative_name'],
+                                                  'representative_lastname'=>$request->representative['representative_lastname'],
+                                                  'address'=>$request->representative['address'],
+                                                  'phone'=>$request->representative['phone'],
+                                                  'leading'=>0,
+          ]);   
+
+          return response()->json(["success" => true, "msg" => "Se registraron los datos exitosamente!"],200);
+
+        }catch(\Exception $e){
+
+            return response()->json(["success" => false, "msg" => "Error en el servidor", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+
+        }//catch(\Exception $e)
+
+  }//public function StoreRepresentativeViewfinder(StoreRepresentativeViewfinderPost $request)
+
+  /**
+  * Update the specified resource in storage.
+  *
+  * @param  \Illuminate\Http\Request  $request
+  * @param  int  $id
+  * @return \Illuminate\Http\Response
+  */
+  public function UpdateRepresentativeViewfinder(UpdateRepresentativeViewfinderPost $request)
+  {
+        try{
+          
+          $Representative=Representative::find($request->Repre['id']);
+
+          $User=User::where('id', $Representative->user_id)->first();
+
+          $User->name = $request->Repre['representative_name'];
+
+          $User->lastname = $request->Repre['representative_lastname'];
+
+          $User->email = $request->Repre['email'];
+
+          if(array_key_exists('password',$request->Repre)!=""){
+
+            $User->password = Hash::make($request->Repre['password']);
+
+          }//if($request->Repre['password']!="")
+    
+          $User->save();
+
+          $Representative->fill([
+   
+                                'rut'=>$request->Repre['rut'],
+  
+                                'representative_name'=>$request->Repre['representative_name'],
+  
+                                'representative_lastname'=>$request->Repre['representative_lastname'],
+  
+                                'address'=>$request->Repre['address'],
+  
+                                'phone'=>$request->Repre['phone'],               
+          ])->save();
+      
+          return response()->json(["success" => true, "msg" => "Se actualizaron los datos exitosamente!"],200);
+
+        }catch(\Exception $e){
+
+            return response()->json(["success" => false, "msg" => "Error en el servidor", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+
+        }//catch(\Exception $e)
+
+  }// public function updateRepresentative(UpdateRepresentativeViewfinderPost $request)
+
   public function update($id) {
 
     return view('business.representative.update')->with(['Representative'=>json_encode($this->getRepresentative($id))]);
 
-  }// public function show()
+  }// public function update()
+
+  /**
+  * Update the specified resource in storage.
+  *
+  * @param  \Illuminate\Http\Request  $request
+  * @param  int  $id
+  * @return \Illuminate\Http\Response
+  */
+  public function updateRepresentativeLeading(UpdateRepresentativePost $request)
+  {
+        try{
+
+          $Representative=Representative::find($request->data['id']);
+
+          $User=User::where('id', $Representative->user_id)->first();
+
+          $User->name = $request->data['representative_name'];
+
+          $User->lastname = $request->data['representative_lastname'];
+
+          $User->email = $request->data['email'];
+
+          if(array_key_exists('password',$request->data)!=""){
+
+            $User->password = Hash::make($request->data['password']);
+
+          }//if($request->data['password']!="")
+    
+          $User->save();
+
+          $Representative->fill([
+   
+                                'rut'=>$request->data['rut'],
+  
+                                'representative_name'=>$request->data['representative_name'],
+  
+                                'representative_lastname'=>$request->data['representative_lastname'],
+  
+                                'address'=>$request->data['address'],
+  
+                                'phone'=>$request->data['phone'],
+                                      
+          ])->save();
+      
+          return response()->json(["success" => true, "msg" => "Se actualizaron los datos exitosamente!"],200);
+
+        }catch(\Exception $e){
+
+            return response()->json(["success" => false, "msg" => "Error en el servidor", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+
+        }//catch(\Exception $e)
+
+  }// public function updateRepresentative(UpdateRepresentativePost $request)
 
   /**
   * Store a newly created resource in storage.
@@ -294,7 +459,7 @@ class RepresentativeController extends Controller
              'address'                  =>$repre->representatives['address'],
              'phone'                    =>$repre->representatives['phone'],
              'leading'                  =>$repre->representatives['leading'],
-             'email'                    =>$repre->users->email,
+             'email'                    =>$repre->representatives->users->email,
 
           ];
             
@@ -305,6 +470,7 @@ class RepresentativeController extends Controller
          foreach($repre->students as $student){
 
           $students[]= [
+                    'id'                => $student->id,
                     'user_id'           => $student->user_id,
                     'institution_id'    => $student->institution_id,
                     'rut'               => $student->rut,

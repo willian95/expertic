@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateStudentPost extends FormRequest
+class UpdateStudentPost2 extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,6 +25,7 @@ class UpdateStudentPost extends FormRequest
     {
         return [
 
+            'stud.representative_id'=>'required',
             'stud.rut'=>'required|max:20',
             'stud.student_name'=>'required|max:50',
             'stud.student_lastname'=>'required|max:50',
@@ -41,6 +42,8 @@ class UpdateStudentPost extends FormRequest
         public function messages(){
 
         return [
+            
+            'student.representative_id.required'=>'El campo rut del apoderado es requerido',
             'stud.rut.required'=>'El campo rut es requerido',
             'stud.rut.max'=>'El campo rut solo acepta un maximo de 20 caracteres',
             'stud.student_name.required'=>'El campo nombre es requerido',
@@ -49,7 +52,7 @@ class UpdateStudentPost extends FormRequest
             'stud.student_lastname.max'=>'El campo nombre solo acepta un maximo de 50 caracteres', 
             'stud.phone.required'=>'El campo teléfono es requerido', 
             'stud.phone.min'=>'Cantidad de digitos incompleta',
-            'stud.phone.max'=>'Excede la cantidad de digitos', 
+            'stud.phone.max'=>'Excede la cantidad de digitos',  
             'stud.address.required'=>'El campo dirección es requerido', 
             'stud.email.required'=>'El campo email es requerido',
             'stud.email.email'=>'El campo email es invalido',

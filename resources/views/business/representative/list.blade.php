@@ -54,7 +54,7 @@
                                  <p>@{{Representative.representative_name}}</p>
                               </td>
                               <td>
-                                 <p>@{{Representative.representative_name}}</p>
+                                 <p>@{{Representative.representative_lastname}}</p>
                               </td>
                               <td>
                                  <p>@{{Representative.email}}</p>
@@ -278,9 +278,8 @@
    
             })
    
-         },// destroy:function(value)
-   
-  
+         },// destroy:function(id)
+
          changePage(page){
    
             this.paginate.current_page=page;
@@ -334,7 +333,7 @@
                
                    }); 
    
-         },//getTeachers
+         },//getRepresentatives(page)
    
        },
    

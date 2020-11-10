@@ -25,4 +25,9 @@ class Student extends Model
     {
         return $this->belongsTo('App\User','user_id');
     }
+
+    public function representatives()
+    {
+        return $this->belongsTo('App\Models\Representative', 'representative_id');
+    }
 }
