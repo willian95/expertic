@@ -41,7 +41,7 @@ class TeacherController extends Controller
 
     $teachers=array();
 
-    $Teacher=Teacher::query()->select(['id','user_id','institution_id','rut','teacher_name','teacher_lastname'])->orderBy('id','ASC');
+    $Teacher=Teacher::query()->select(['id','user_id','institution_id','rut','teacher_name','teacher_lastname'])->where('institution_id',getIdInstitution())->orderBy('id','ASC');
 
     $Teacher= $Teacher->with([
 

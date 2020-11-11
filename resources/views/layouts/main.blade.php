@@ -92,25 +92,25 @@
                         @break
 
                         @case('business_administrator')
-                    <li v-if="roleId == 2" class="active open"><a href="{{ route('business.home') }}"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>
-                    <li v-if="roleId == 2" class="active open"><a href="{{ route('business.period') }}"><i class="zmdi zmdi-calendar-alt"></i><span>Periodos</span></a></li>
-                    <li v-if="roleId == 2" class="active open"><a href="{{ route('business.level') }}"><i class="zmdi zmdi-graduation-cap"></i><span>Niveles</span></a></li>
-                    <li v-if="roleId == 2" class="active open"><a href="{{ route('business.section') }}"><i class="zmdi zmdi-sort-asc"></i><span>Secciones</span></a></li>
-                    <li v-if="roleId == 2" class="active open"><a href="{{ route('business.subject') }}"><i class="fas fa-book-reader"></i><span>Asignaturas</span></a></li>
-                    <li v-if="roleId == 2" class="active open"><a href="{{ route('business.teacher') }}"><i class="fas fa-user-graduate"></i><span>Profesores</span></a></li>
-                    {{--<li v-if="roleId == 2"><a onclick="toggleSubmenu('schedule-submenu')" href="javascript:void(0);" class="menu-toggle waves-effect waves-block toggled"><i class="fas fa-clock"></i><span>Horarios</span> </a>
-                        <ul class="ml-menu submenu-hidden" id="schedule-submenu">
-                            <li><a href="{{ route('schedule.create') }}" class=" waves-effect waves-block normal-item">Crear horario</a></li>
-                            <li><a href="{{ route('schedule.list') }}" class=" waves-effect waves-block normal-item">Listado de horarios</a></li>
-                        </ul>
-                    </li>--}}
-                    <li v-if="roleId == 2"><a onclick="toggleSubmenu('representative-submenu')" href="javascript:void(0);" class="menu-toggle waves-effect waves-block toggled"><i class="fas fa-users"></i><span>Apoderados</span> </a>
-                        <ul class="ml-menu submenu-hidden" id="representative-submenu">
-                            <li><a href="{{ route('business.representative.create') }}" class=" waves-effect waves-block normal-item">Registrar Apoderado</a></li>
-                            <li><a href="{{ route('business.representative.list') }}" class=" waves-effect waves-block normal-item">Listado de Apoderados</a></li>
-                        </ul>
-                    </li>
-                    <li v-if="roleId == 2" class="active open"><a href="{{ route('business.student') }}"><i class="zmdi zmdi-accounts-alt"></i><span>Estudiante</span></a></li>
+                            <li v-if="roleId == 2" class="active open"><a href="{{ route('business.home') }}"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>
+                            <li v-if="roleId == 2" class="active open"><a href="{{ route('business.period') }}"><i class="zmdi zmdi-calendar-alt"></i><span>Periodos</span></a></li>
+                            <li v-if="roleId == 2" class="active open"><a href="{{ route('business.level') }}"><i class="zmdi zmdi-graduation-cap"></i><span>Niveles</span></a></li>
+                            <li v-if="roleId == 2" class="active open"><a href="{{ route('business.section') }}"><i class="zmdi zmdi-sort-asc"></i><span>Secciones</span></a></li>
+                            <li v-if="roleId == 2" class="active open"><a href="{{ route('business.subject') }}"><i class="fas fa-book-reader"></i><span>Asignaturas</span></a></li>
+                            <li v-if="roleId == 2" class="active open"><a href="{{ route('business.teacher') }}"><i class="fas fa-user-graduate"></i><span>Profesores</span></a></li>
+                            <li v-if="roleId == 2"><a onclick="toggleSubmenu('timetable-submenu')" href="javascript:void(0);" class="menu-toggle waves-effect waves-block toggled"><i class="fas fa-clock"></i><span>Horarios</span> </a>
+                                <ul class="ml-menu submenu-hidden" id="timetable-submenu">
+                                    <li><a href="{{ route('business.timetable.create') }}" class=" waves-effect waves-block normal-item">Crear horario</a></li>
+                                    <li><a href="{{ route('business.timetable.list') }}" class=" waves-effect waves-block normal-item">Listado de horarios</a></li>
+                                </ul>
+                            </li>
+                            <li v-if="roleId == 2"><a onclick="toggleSubmenu('representative-submenu')" href="javascript:void(0);" class="menu-toggle waves-effect waves-block toggled"><i class="fas fa-users"></i><span>Apoderados</span> </a>
+                                <ul class="ml-menu submenu-hidden" id="representative-submenu">
+                                    <li><a href="{{ route('business.representative.create') }}" class=" waves-effect waves-block normal-item">Registrar Apoderado</a></li>
+                                    <li><a href="{{ route('business.representative.list') }}" class=" waves-effect waves-block normal-item">Listado de Apoderados</a></li>
+                                </ul>
+                            </li>
+                            <li v-if="roleId == 2" class="active open"><a href="{{ route('business.student') }}"><i class="zmdi zmdi-accounts-alt"></i><span>Estudiante</span></a></li>
                         @break
 
                         @case('teacher')

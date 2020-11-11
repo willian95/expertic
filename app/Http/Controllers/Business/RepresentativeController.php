@@ -46,7 +46,7 @@ class RepresentativeController extends Controller
 
     $array=array();
 
-    $Representative=Representative::query()->where('id',$id)->where('leading',1)->orderBy('id','ASC');
+    $Representative=Representative::query()->where('institution_id',getIdInstitution())->where('id',$id)->where('leading',1)->orderBy('id','ASC');
 
     $Representative= $Representative->with([
 
@@ -420,7 +420,7 @@ class RepresentativeController extends Controller
 
     $representatives=array();
 
-    $Representative=Representative::query()->where('leading',1)->orderBy('id','ASC');
+    $Representative=Representative::query()->where('institution_id',getIdInstitution())->where('leading',1)->orderBy('id','ASC');
 
     $Representative= $Representative->with([
 

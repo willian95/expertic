@@ -38,7 +38,7 @@ class StudentController extends Controller
 
     $students=array();
 
-    $Student=Student::query()->orderBy('id','ASC');
+    $Student=Student::query()->where('institution_id',getIdInstitution())->orderBy('id','ASC');
 
     $Student= $Student->with([
             

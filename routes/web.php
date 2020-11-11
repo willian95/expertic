@@ -184,6 +184,12 @@ Route::group(['middleware' => ['auth']], function () {
         //Eliminar Estudiante
         Route::post('destroyStudent', "Business\StudentController@destroy")->name("destroyStudent"); 
 
+        //CRUD HORARIOS
+        //Vista de registro de horarios
+        Route::get('/business/timetable/create', 'Business\TimetableController@create')->name("business.timetable.create");
+
+        //Listado de horarios
+        Route::get('/business/timetable/list', 'Business\TimetableController@list')->name("business.timetable.list");
 
     });//role:business_administrator
 
@@ -192,15 +198,6 @@ Route::group(['middleware' => ['auth']], function () {
 Route::get('/admin/payments', function () {
     return view('admin.payments.index');
 })->name("admin.payments");
-
-
-Route::get('/business/timetable/create', function () {
-    return view('business.timetable.create');
-})->name("schedule.create");
-
-Route::get('/business/timetable', function () {
-    return view('business.timetable.index');
-})->name("schedule.list");
 
 Route::get('/representative/home', function () {
     return view('representative.dashboard');
