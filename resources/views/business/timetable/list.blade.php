@@ -56,9 +56,7 @@
                                  <p>@{{time.section}}</p>
                               </td>
                               <td>
-                                 <button class="btn btn-info" @click="captureRecord(time)">
-                                 <i class="zmdi zmdi-edit"></i>
-                                 </button>
+                                 <a :href="'{{url('/')}}/business/timetable/update/'+time.id" class="btn btn-info"><i class="zmdi zmdi-edit"></i></a>
                                  <button class="btn btn-secondary"  @click="destroy(time.id)">
                                  <i class="zmdi zmdi-delete"></i>
                                  </button>
@@ -282,30 +280,6 @@
             })
    
          },// destroy:function(value)
-          destroy2(index){
-   
-              Swal.fire({
-                   title: 'Estas seguro',
-                   text: "¡No podrás revertir esto!",
-                   icon: 'warning',
-                   showCancelButton: true,
-                   confirmButtonColor: '#3085d6',
-                   cancelButtonColor: '#d33',
-                   confirmButtonText: '¡Sí, bórralo!'
-               }).then((result) => {
-                   if (result.isConfirmed) {
-                       Swal.fire(
-                           'Eliminado!',
-                           'Su registro ha sido eliminado.',
-                           'success'
-                       )
-                       this.timetables.splice(index, 1);
-                       window.localStorage.setItem("timetables", JSON.stringify(this.timetables))
-   
-                   }
-               });
-   
-          },//dedestroylete()
    
        },
    

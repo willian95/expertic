@@ -145,8 +145,6 @@ class TimetableController extends Controller
             foreach($request->timetable2['hours'] as $timet)
             {
 
-              // 0:{hour:'07:00 am 08:00 am'
-
                 if($timet['Monday']!=""){
 
                    $TimetableDetail=TimetableDetail::create([
@@ -343,7 +341,51 @@ class TimetableController extends Controller
 
   }//public function getTimeTables(Resquest $request)
 
-    /**
+   public function getTimeTable(Request $request)
+   {
+
+    $i=1;
+
+    $array=array();
+
+    $timetables=array();
+
+    $Timetable=Timetable::query()->where('institution_id',getIdInstitution())->where('id',$request->id)->orderBy('id','ASC');
+
+    $Timetable= $Timetable->with([
+
+            'periods' => function($query){ },
+            
+            'levels' => function($query){ },
+
+            'sections' => function($query){ },
+
+
+    ])->get();
+
+    foreach($Timetable as $Time){
+ 
+      $array[]=[
+             'num'         => $i,
+             'id'          => $Time->id,
+             'period'      => $Time->periods->period,
+             'level'       => $Time->levels->level,
+             'section'     => $Time->sections->section,
+             'period_id'   => $Time->periods->id,
+             'level_id'    => $Time->levels->id,
+             'section_id'  => $Time->sections->id,
+             'timetable'   => $Time->timetable,
+      ];
+
+      $i++;
+
+    }//foreach($teac as $Timetable)
+
+    return response()->json(["success" => true, "msg" => "Datos obtenidos exitosamente!","Timetable"=>$array[0]],200);
+
+  }//public function getTimeTables(Resquest $request) 
+
+  /**
   * Remove the specified resource from storage.
   * @param  int  $id
   * @return \Illuminate\Http\Response
@@ -366,6 +408,45 @@ class TimetableController extends Controller
 
         }//catch(\Exception $e)
 
-   }//public function destroy(DestroyTimeTablePost $request)
+  }//public function destroy(DestroyTimeTablePost $request)
+
+  public function update($id) {
+
+    $Period=Period::where('institution_id',getIdInstitution())->orderBy('id','desc')->get();
+
+    $Level=Level::where('institution_id',getIdInstitution())->orderBy('level','asc')->get();
+
+    $Section=Section::where('institution_id',getIdInstitution())->orderBy('section','asc')->get();
+
+    $Teacher=Teacher::where('institution_id',getIdInstitution())->orderBy('teacher_name','asc')->get();
+
+    $Subject=Subject::where('institution_id',getIdInstitution())->orderBy('subject','asc')->get();
+
+    return view('business.timetable.update')->with(['Period'=>json_encode($Period),'Level'=>json_encode($Level),'Section'=>json_encode($Section),'Teacher'=>json_encode($Teacher),'Subjects'=>json_encode($Subject),'Id'=>json_encode($id)]);
+
+  }//public function index()
+
+
+  public function deleteAssignment(Request $request){
+
+        try{
+
+
+          $Timetable=Timetable::find($request->timetable_id);
+
+          $Timetable->fill(['timetable'=>$request->timetable])->save();
+
+          $TimetableDetail=TimetableDetail::where('timetable_id', $request->timetable_id)->where('teacher_id', $request->teacher_id)->where('subject_id', $request->subject_id)->where('day', $request->day)->where('hour', $request->hour)->first();
+
+          return response()->json(["success" => true, "msg" => "Se elimino los datos exitosamente!"],200);
+
+        }catch(\Exception $e){
+
+          return response()->json(["success" => false, "msg" => "Error en el servidor", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+
+        }//catch(\Exception $e)
+
+  }// public function deleteAssignment(Request $request)
+  
 
 }

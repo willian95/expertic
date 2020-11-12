@@ -209,6 +209,17 @@ Route::group(['middleware' => ['auth']], function () {
         //Eliminar Horario
         Route::post('destroyTimeTables', "Business\TimetableController@destroy")->name("TimeTables"); 
 
+        //Vista de actuzalizacion de Horario
+        Route::get('/business/timetable/update/{id}', 'Business\TimetableController@update')->name("business.timetable.update");
+
+        //Obtener Horario
+        Route::post('getTimeTable', 'Business\TimetableController@getTimeTable');
+
+        //Eliminar Asignación
+        Route::post('deleteAssignment', "Business\TimetableController@deleteAssignment")->name("deleteAssignment"); 
+
+        
+
     });//role:business_administrator
 
 });//auth

@@ -106,13 +106,13 @@
             <div class="card student-list">
                <div class="body">
                   <div class="modal-header">
-                     <h5 class="modal-title">Crear Horario</h5>
+                     <h5 class="modal-title">Actualizar Horario</h5>
                   </div>
                   <div class="row justify-content-center align-items-center pt-2 pl-4 pr-4">
                      <div class="col-12 col-md-3">
                         <div class="form-group">
                            <label class="font-weight-bold">Periodos</label>
-                           <select class="form-control custom-select" v-model="timetable.periodId" @change="checkTimetable">
+                           <select class="form-control custom-select" v-model="timetable.periodId" @change="checkTimetable" disabled>
                               <option value="">Seleccione</option>
                               <option v-for="option in periods" v-bind:value="option.id">
                                  @{{ option.period }}
@@ -123,7 +123,7 @@
                      <div class="col-12 col-md-3">
                         <div class="form-group">
                            <label class="font-weight-bold">Niveles</label>
-                           <select class="form-control custom-select" v-model="timetable.yearId"  @change="checkTimetable">
+                           <select class="form-control custom-select" v-model="timetable.yearId"  @change="checkTimetable" disabled>
                               <option value="">Seleccione</option>
                               <option v-for="option in levels" v-bind:value="option.id">
                                  @{{ option.level }}
@@ -134,7 +134,7 @@
                      <div class="col-12 col-md-3">
                         <div class="form-group">
                            <label class="font-weight-bold">Secciones</label>
-                           <select class="form-control custom-select" v-model="timetable.sectionId" @change="nameSection()">
+                           <select class="form-control custom-select" v-model="timetable.sectionId" @change="nameSection()" disabled>
                               <option value="">Seleccione</option>
                               <option v-for="option in sections" v-bind:value="option.id">
                                  @{{ option.section }}
@@ -163,7 +163,7 @@
                            </div>
                         </div>
                      </div>
-                     <div class="col-12 text-center" v-if="timetable.periodId!='' && timetable.yearId!=''  && timetable.sectionId!='' && teacherId!=''">
+                     <div class="col-12 text-center" v-if="timetable.periodId!='' && timetable.yearId!=''  && timetable.sectionId!=''">
                         <h4>Horario</h4>
                         <table class="table table-hover table-bordered">
                            <thead>
@@ -217,7 +217,9 @@
                      </div>
                   </div>
                   <div class="modal-footer">
-                     <button type="button" class="btn btn-primary" @click="create">Crear</button>
+                     <form action="{{ url('/business/timetable/list') }}" method="get">
+                        <button  class="btn btn-primary" type="submit">Volver</button>
+                     </form>  
                   </div>
                </div>
             </div>
@@ -316,6 +318,8 @@
 
             timetables:[],
 
+            Id:{!! $Id ? $Id : "''"!!},
+
             periods:{!! $Period ? $Period : "''"!!},
 
             levels:{!! $Level ? $Level : "''"!!},
@@ -334,7 +338,7 @@
        },
        mounted(){
 
-           //this.timetables= jQuery.parseJSON(window.localStorage.getItem("timetables"))
+           this.getTimeTable();
        },
        methods:{
 
@@ -561,7 +565,6 @@
 
           search(){
                  
-
               this.sections="";
    
               this.matters="";
@@ -833,37 +836,150 @@
    
           deleteSubject(index,day){
    
-             this.delete=1;
+              this.delete=1;
+
+              let teacher_id='';
+
+              let subject_id='';
+
+              let dayN='';
+
+              let hour=this.timetable.hours[index].hour;
              
              if(day==1){
+
+                teacher_id=this.timetable.hours[index].Monday.teacher_id;
+
+                subject_id=this.timetable.hours[index].Monday.id;
+
+                dayN='Monday';
    
                this.timetable.hours[index].Monday="";
    
              }else if(day==2){
-   
+
+                teacher_id=this.timetable.hours[index].Tuesday.teacher_id;
+
+                subject_id=this.timetable.hours[index].Tuesday.id;
+
+                dayN='Tuesday';
+  
                this.timetable.hours[index].Tuesday="";
    
              }else if(day==3){
-   
+
+                teacher_id=this.timetable.hours[index].Wednesday.teacher_id;
+
+                subject_id=this.timetable.hours[index].Wednesday.id;
+
+                dayN='Wednesday';
+
                this.timetable.hours[index].Wednesday="";
    
              }else if(day==4){
+
+                teacher_id=this.timetable.hours[index].Thursday.teacher_id;
+
+                subject_id=this.timetable.hours[index].Thursday.id;
+
+                dayN='Thursday';
    
                this.timetable.hours[index].Thursday="";
    
              }else if(day==5){
-   
+
+                teacher_id=this.timetable.hours[index].Friday.teacher_id;
+                                
+                subject_id=this.timetable.hours[index].Friday.id;
+
+                dayN='Friday';
+
                this.timetable.hours[index].Friday="";
    
              }else if(day==6){
+
+                teacher_id=this.timetable.hours[index].Saturday.teacher_id;
+
+                subject_id=this.timetable.hours[index].Saturday.id;
+
+                dayN='Saturday';
    
                this.timetable.hours[index].Saturday="";
    
              }else if(day==7){
-   
+
+               teacher_id=this.timetable.hours[index].Sunday.teacher_id;
+
+               subject_id=this.timetable.hours[index].Sunday.id;
+
+                dayN='Sunday';
+
                this.timetable.hours[index].Sunday="";
    
-             }//else if(day==7)      
+             }//else if(day==7)  
+
+            let self = this;
+   
+            self.loading = true;
+   
+            self.errors = [];
+   
+            Swal.fire({title: 'Estas seguro?',text: "No podrás revertir esto!",icon: 'warning',showCancelButton: true,confirmButtonColor: '#3085d6',cancelButtonColor: '#d33',confirmButtonText: 'Si, bórralo!',cancelButtonText: 'Cancelar'}).then((result) => {
+            
+               if (result.isConfirmed) {
+   
+                  axios.post('{{ url("deleteAssignment") }}', {
+
+                      timetable_id:self.Id,
+
+                      teacher_id:teacher_id,
+
+                      subject_id:subject_id,
+
+                      day:dayN,
+
+                      hour:hour,
+
+                      timetable:JSON.stringify(self.timetable),
+
+                  }).then(function (response) {
+   
+                     if(response.data.success==true){
+      
+                        self.getTimeTable();
+   
+                        Swal.fire('Eliminado!','El registro ha sido eliminado.','success');
+                        
+                     }//if(response.data.success==true)
+                     else{              
+   
+                        iziToast.error({title: 'Error',position:'topRight',message: response.data.msg}); 
+   
+                     }//else if(response.data.success==false)
+   
+                   }).catch(err => {
+   
+                     self.loading = false
+   
+                     self.errors = err.response.data.errors
+   
+                     if(self.errors){
+   
+                        iziToast.error({title: 'Error',position:'topRight',message: "Hay algunos campos que debes revisar"});  
+   
+                     }else{
+   
+                        iziToast.error({title: 'Error',position:'topRight',message: "Ha ocurrido un problema"});  
+   
+                     }
+               
+                   }); 
+               }
+   
+               self.loading = false
+   
+            })
+      
    
           },//deleteSubject(index,day)
    
@@ -971,80 +1087,24 @@
    
           },//clear()
 
-
-          emptyTimeTable(){
-
-             for(let i in this.timetable.hours){
-                
-                if(this.timetable.hours.Monday == '' || this.timetable.Tuesday == '' || this.timetable.Wednesday == '' || this.timetable.Thursday == '' || this.timetable.Friday == '' || this.timetable.Saturday == '' || this.timetable.Sunday == '')
-
-                  return 1;
-
-             }//for(let i in this.timetable.hours)
-
-             return 0;
-
-          },//emptyTimeTable()
+         async getTimeTable(){
    
-          create(){
-
-             if(this.timetable.periodId=='' || this.timetable.yearId==''  || this.timetable.sectionId=='' || this.teacherId==''){
-
-               iziToast.error({title: 'Error',position:'topRight',message: "Los campos periodo, nivel y sección son requridos"});  
-               
-               return -1;
-
-             }else if(this.emptyTimeTable()==1){
-
-                iziToast.error({title: 'Error',position:'topRight',message: "Se debe asignar por lo menos una materia"});  
-
-               return -1;
-
-             }if(this.checkTimetables==true){
-
-               iziToast.error({title: 'Error',position:'topRight',message: "Ya existe un horario creado para este periodo, nivel y sección"});  
-
-               return -1;
-
-             }else {
-
             let self = this;
    
             self.loading = true;
    
-                  axios.post('{{ url("StoreTimeTable") }}', {
-
-                     period_id:self.timetable.periodId,
-
-                     level_id:self.timetable.yearId,
-
-                     section_id:self.timetable.sectionId,
-
-                     timetable:JSON.stringify(self.timetable),
-
-                     timetable2:self.timetable,
-                
+                  axios.post('{{ url("getTimeTable") }}', {
+                     
+                     id:self.Id,
+                     
                   }).then(function (response) {
    
                      self.loading = false
    
                      if(response.data.success==true){
-              
-
-                        Swal.fire(
-
-                                 'Información',
-
-                                 'Registro Satisfactorio',
-
-                                 'success'
-
-                         ).then(function() {
-
-                              window.location.href="{{ url('business/timetable/list') }}";
-                              
-                         });                      
    
+                        self.timetable=jQuery.parseJSON(response.data.Timetable.timetable);
+      
                      }//if(response.data.success==true)
                      else{              
    
@@ -1069,10 +1129,8 @@
                      }
                
                    }); 
-
-             }//else
-
-          },//create()
+   
+         },//getTimeTable
 
        },
    
