@@ -139,7 +139,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('storeViewfinder', 'Business\RepresentativeController@storeViewfinder')->name("storeViewfinder");
 
         //Agregar Estudiante
-        Route::post('storeStudent', 'Business\RepresentativeController@storeStudent')->name("storeStudent");
+        Route::post('storeRepresentativeStudent', 'Business\RepresentativeController@storeStudent')->name("storeRepresentativeStudent");
 
         //Listado de Apoderados
         Route::get('/business/representative/list', 'Business\RepresentativeController@show')->name("business.representative.list");

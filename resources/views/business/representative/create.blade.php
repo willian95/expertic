@@ -695,7 +695,7 @@
   
            self.errors = [];
   
-           axios.post('{{ url("storeStudent") }}', {
+           axios.post('{{ url("storeRepresentativeStudent") }}', {
   
               student:self.student,
   
