@@ -431,12 +431,11 @@ class TimetableController extends Controller
 
         try{
 
-
           $Timetable=Timetable::find($request->timetable_id);
 
           $Timetable->fill(['timetable'=>$request->timetable])->save();
 
-          $TimetableDetail=TimetableDetail::where('timetable_id', $request->timetable_id)->where('teacher_id', $request->teacher_id)->where('subject_id', $request->subject_id)->where('day', $request->day)->where('hour', $request->hour)->first();
+          $TimetableDetail=TimetableDetail::where('timetable_id', intval($request->timetable_id))->where('teacher_id', $request->teacher_id)->where('subject_id', $request->subject_id)->where('day', 'Monday')->where('hour', '07:00 am 08:00 am')->delete();
 
           return response()->json(["success" => true, "msg" => "Se elimino los datos exitosamente!"],200);
 
@@ -447,6 +446,48 @@ class TimetableController extends Controller
         }//catch(\Exception $e)
 
   }// public function deleteAssignment(Request $request)
+
+
+  public function makeAssignment(Request $request){
+
+        try{
+
+          $TimetableDetail=TimetableDetail::where('timetable_id', intval($request->timetable_id))->where('teacher_id', $request->teacher_id)->where('subject_id', $request->subject_id)->where('day', 'Monday')->where('hour', '07:00 am 08:00 am')->first();
+
+          if($TimetableDetail!=null)
+            
+              return response()->json(["success" => false, "msg" => "Ya existe un resgitro con estas caracteristicas!"],200);
+
+          $Timetable=Timetable::find($request->timetable_id);
+
+          $Timetable->fill(['timetable'=>$request->timetable])->save();          
+
+          $TimetableDetail=TimetableDetail::create([
+
+                'timetable_id'=>$request->timetable_id,
+
+                'teacher_id'=>$request->teacher_id, 
+
+                'subject_id'=>$request->subject_id,
+
+                'day'=>$request->day,
+
+                'hour'=>$request->hour,
+
+            ]);  
+
+            return response()->json(["success" => true, "msg" => "Datos obtenidos exitosamente!"],200);
+            
+
+        }catch(\Exception $e){
+
+          return response()->json(["success" => false, "msg" => "Error en el servidor", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+
+        }//catch(\Exception $e)            
+
+  }//public function makeAssignment(Request $request)
   
 
 }
+
+

@@ -218,7 +218,8 @@ Route::group(['middleware' => ['auth']], function () {
         //Eliminar Asignación
         Route::post('deleteAssignment', "Business\TimetableController@deleteAssignment")->name("deleteAssignment"); 
 
-        
+        //Realizar asiganción en hora
+        Route::post('makeAssignment', "Business\TimetableController@makeAssignment")->name("makeAssignment"); 
 
     });//role:business_administrator
 

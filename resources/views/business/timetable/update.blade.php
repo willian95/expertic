@@ -79,8 +79,8 @@
                            </div>
                         </div>
                         <div class="col-12 pb-4">
-                              <small v-if="errors.hasOwnProperty('subjects')" class="text-danger ml-2">@{{ errors['subjects'][0] }}</small>
-                              <small v-if="errors.hasOwnProperty('data.subjects')" class="text-danger ml-2">@{{ errors['data.subjects'][0] }}</small>
+                           <small v-if="errors.hasOwnProperty('subjects')" class="text-danger ml-2">@{{ errors['subjects'][0] }}</small>
+                           <small v-if="errors.hasOwnProperty('data.subjects')" class="text-danger ml-2">@{{ errors['data.subjects'][0] }}</small>
                         </div>
                      </div>
                   </div>
@@ -219,7 +219,7 @@
                   <div class="modal-footer">
                      <form action="{{ url('/business/timetable/list') }}" method="get">
                         <button  class="btn btn-primary" type="submit">Volver</button>
-                     </form>  
+                     </form>
                   </div>
                </div>
             </div>
@@ -233,13 +233,13 @@
    const timetable = new Vue({
        el: '#timetable',
        data:{
-
+   
             loading:false,
-
+   
             errors:[],
    
             Subjects:{!! $Subjects ? $Subjects : "''"!!},
-
+   
             Teachers:'',
    
             rut:'',
@@ -261,13 +261,13 @@
             buttonNameDos:'Crear',
    
             id:'',
-
+   
             checkTimetables:false,
    
             change:0,
    
             timetable:{
-
+   
                periodId:"",
                
                yearId:"",
@@ -315,15 +315,15 @@
             },
    
             teacherId:'',
-
+   
             timetables:[],
-
+   
             Id:{!! $Id ? $Id : "''"!!},
-
+   
             periods:{!! $Period ? $Period : "''"!!},
-
+   
             levels:{!! $Level ? $Level : "''"!!},
-
+   
             sections:{!! $Section ? $Section : "''"!!},
    
             teachers:{!! $Teacher ? $Teacher : "''"!!},
@@ -333,15 +333,15 @@
             matterSelected:'',
    
             delete:0,
-
+   
             modal:false,
        },
        mounted(){
-
+   
            this.getTimeTable();
        },
        methods:{
-
+   
            toggleModal(){
    
                document.getElementById("modal").classList.remove("hide-modal");
@@ -383,9 +383,9 @@
             this.id='';
    
             this.change=0;  
-
+   
             this.errors=[];
- 
+   
    
          },//clear:function()
    
@@ -487,7 +487,7 @@
    
             this.change=0;
          },
-
+   
          ActionsCru:function(){
    
            if(this.change==0){
@@ -519,7 +519,7 @@
            }//else if(this.change==1)
    
          },//ActionsCc:function()
-
+   
          async getTeachers(){
    
             let self = this;
@@ -562,7 +562,7 @@
                    }); 
    
          },//getTeachers
-
+   
           search(){
                  
               this.sections="";
@@ -570,9 +570,9 @@
               this.matters="";
    
               this.teachers="";
-
+   
               this.teacherId='';
-
+   
               if(this.timetable.yearId!=""){
                  
                  for(let i in this.data)
@@ -603,25 +603,25 @@
                this.timetable.sectionName="";
    
                this.matterSelected='';
-
+   
                this.teacherId='';
                
                this.clearTimetable();
    
                this.searchMatter();
-
+   
                this.checkTimetable();
-
+   
                   for(let i in this.sections)
-
+   
                       if(this.sections[i].id==this.timetable.sectionId)
-
+   
                          this.timetable.sectionName=this.sections[i].name;
-
+   
           },//nameSection()
-
+   
           async searchMatter(){
-
+   
             this.matterSelected='';
                
             let self = this;
@@ -629,7 +629,7 @@
             self.loading = true;
    
                   axios.post('{{ url("getMattersTimetable") }}', {
-
+   
                      id:self.teacherId
                                          
                   }).then(function (response) {
@@ -664,11 +664,11 @@
                      }
                
                    }); 
-
+   
           },//searchMatter()
-
+   
          async checkTimetable(){
-
+   
             this.matterSelected='';
                
             let self = this;
@@ -676,11 +676,11 @@
             self.loading = true;
    
                   axios.post('{{ url("checkTimetable") }}', {
-
+   
                      period_id:self.timetable.periodId,
-
+   
                      level_id:self.timetable.yearId,
-
+   
                      section_id:self.timetable.sectionId,
                                          
                   }).then(function (response) {
@@ -690,13 +690,13 @@
                      if(response.data.success==true){
                         
                         if(response.data.checkTimetable==true)
-
+   
                            iziToast.error({title: 'Error',position:'topRight',message: 'Ya existe un horario creado para este periodo, nivel y sección!'});
                         
                         else
-
+   
                             self.checkTimetables=false;
-
+   
                      }//if(response.data.success==true)
                      else{              
    
@@ -721,7 +721,7 @@
                      }
                
                    }); 
-
+   
           },//checkTimetable()
    
           selectMatter(matter,index){
@@ -768,13 +768,27 @@
    
    
           assignSubject(index,day){
+   
+              let teacher_id='';
+   
+              let subject_id='';
+   
+              let dayN='';
+   
+              let hour=this.timetable.hours[index].hour;
              
              if(this.delete==0)
              if(day==1){
    
                  if(this.matterSelected!=""){
    
-                   this.timetable.hours[index].Monday=this.matterSelected;
+                     this.timetable.hours[index].Monday=this.matterSelected;
+   
+                     teacher_id=this.timetable.hours[index].Monday.teacher_id;
+   
+                     subject_id=this.timetable.hours[index].Monday.id;
+   
+                     dayN='Monday';
    
                  }// if(this.matterSelected!="")
    
@@ -783,6 +797,12 @@
                 if(this.matterSelected!=""){
    
                    this.timetable.hours[index].Tuesday=this.matterSelected;
+                 
+                   teacher_id=this.timetable.hours[index].Tuesday.teacher_id;
+   
+                   subject_id=this.timetable.hours[index].Tuesday.id;
+   
+                   dayN='Tuesday';                  
    
                  }// if(this.matterSelected!="")
    
@@ -792,6 +812,12 @@
    
                    this.timetable.hours[index].Wednesday=this.matterSelected;
    
+                   teacher_id=this.timetable.hours[index].Wednesday.teacher_id;
+   
+                   subject_id=this.timetable.hours[index].Wednesday.id;
+   
+                   dayN='Wednesday';
+   
                  }// if(this.matterSelected!="")
                  
              }else if(day==4){
@@ -799,6 +825,12 @@
                  if(this.matterSelected!=""){
    
                    this.timetable.hours[index].Thursday=this.matterSelected;
+   
+                   teacher_id=this.timetable.hours[index].Thursday.teacher_id;
+   
+                   subject_id=this.timetable.hours[index].Thursday.id;
+   
+                  dayN='Thursday';
    
                  }// if(this.matterSelected!="")
    
@@ -808,6 +840,12 @@
    
                    this.timetable.hours[index].Friday=this.matterSelected;
    
+                   teacher_id=this.timetable.hours[index].Friday.teacher_id;
+                                
+                   subject_id=this.timetable.hours[index].Friday.id;
+   
+                   dayN='Friday';
+   
                  }// if(this.matterSelected!="")
    
              }else if(day==6){
@@ -816,18 +854,87 @@
    
                    this.timetable.hours[index].Saturday=this.matterSelected;
    
+                   teacher_id=this.timetable.hours[index].Saturday.teacher_id;
+   
+                   subject_id=this.timetable.hours[index].Saturday.id;
+   
+                   dayN='Saturday';
+                      
                  }// if(this.matterSelected!="")
    
              }else if(day==7){
-   
    
                  if(this.matterSelected!=""){
    
                     this.timetable.hours[index].Sunday=this.matterSelected;
    
+                    teacher_id=this.timetable.hours[index].Sunday.teacher_id;
+   
+                    subject_id=this.timetable.hours[index].Sunday.id;
+   
+                    dayN='Sunday';
+   
                  }// if(this.matterSelected!="")
                 
-             }//else if(day==7)   
+             }//else if(day==7)  
+   
+             if(dayN!=''){
+
+                            let self = this;
+   
+            self.loading = true;
+   
+            self.errors = [];
+   
+                  axios.post('{{ url("makeAssignment") }}', {
+   
+                      timetable_id:self.Id,
+   
+                      teacher_id:teacher_id,
+   
+                      subject_id:subject_id,
+   
+                      day:dayN,
+   
+                      hour:hour,
+   
+                      timetable:JSON.stringify(self.timetable),
+   
+                  }).then(function (response) {
+   
+                     if(response.data.success==true){
+      
+                        self.getTimeTable();
+   
+                        Swal.fire('Información!','El registro ha sido asignado.','success');
+                        
+                     }//if(response.data.success==true)
+                     else{              
+   
+                        iziToast.error({title: 'Error',position:'topRight',message: response.data.msg}); 
+   
+                     }//else if(response.data.success==false)
+   
+                   }).catch(err => {
+   
+                     self.loading = false
+   
+                     self.errors = err.response.data.errors
+   
+                     if(self.errors){
+   
+                        iziToast.error({title: 'Error',position:'topRight',message: "Hay algunos campos que debes revisar"});  
+   
+                     }else{
+   
+                        iziToast.error({title: 'Error',position:'topRight',message: "Ha ocurrido un problema"});  
+   
+                     }
+               
+                   }); 
+
+             }  //         
+               
    
              this.delete=0;   
    
@@ -836,112 +943,112 @@
    
           deleteSubject(index,day){
    
-              this.delete=1;
-
+            Swal.fire({title: 'Estas seguro?',text: "No podrás revertir esto!",icon: 'warning',showCancelButton: true,confirmButtonColor: '#3085d6',cancelButtonColor: '#d33',confirmButtonText: 'Si, bórralo!',cancelButtonText: 'Cancelar'}).then((result) => {
+            
+               if (result.isConfirmed) {
+   
+                  this.delete=1;
+   
               let teacher_id='';
-
+   
               let subject_id='';
-
+   
               let dayN='';
-
+   
               let hour=this.timetable.hours[index].hour;
              
              if(day==1){
-
+   
                 teacher_id=this.timetable.hours[index].Monday.teacher_id;
-
+   
                 subject_id=this.timetable.hours[index].Monday.id;
-
+   
                 dayN='Monday';
    
                this.timetable.hours[index].Monday="";
    
              }else if(day==2){
-
+   
                 teacher_id=this.timetable.hours[index].Tuesday.teacher_id;
-
+   
                 subject_id=this.timetable.hours[index].Tuesday.id;
-
+   
                 dayN='Tuesday';
-  
+   
                this.timetable.hours[index].Tuesday="";
    
              }else if(day==3){
-
+   
                 teacher_id=this.timetable.hours[index].Wednesday.teacher_id;
-
+   
                 subject_id=this.timetable.hours[index].Wednesday.id;
-
+   
                 dayN='Wednesday';
-
+   
                this.timetable.hours[index].Wednesday="";
    
              }else if(day==4){
-
+   
                 teacher_id=this.timetable.hours[index].Thursday.teacher_id;
-
+   
                 subject_id=this.timetable.hours[index].Thursday.id;
-
+   
                 dayN='Thursday';
    
                this.timetable.hours[index].Thursday="";
    
              }else if(day==5){
-
+   
                 teacher_id=this.timetable.hours[index].Friday.teacher_id;
                                 
                 subject_id=this.timetable.hours[index].Friday.id;
-
+   
                 dayN='Friday';
-
+   
                this.timetable.hours[index].Friday="";
    
              }else if(day==6){
-
+   
                 teacher_id=this.timetable.hours[index].Saturday.teacher_id;
-
+   
                 subject_id=this.timetable.hours[index].Saturday.id;
-
+   
                 dayN='Saturday';
    
                this.timetable.hours[index].Saturday="";
    
              }else if(day==7){
-
+   
                teacher_id=this.timetable.hours[index].Sunday.teacher_id;
-
+   
                subject_id=this.timetable.hours[index].Sunday.id;
-
+   
                 dayN='Sunday';
-
+   
                this.timetable.hours[index].Sunday="";
    
              }//else if(day==7)  
-
+   
             let self = this;
    
             self.loading = true;
    
             self.errors = [];
    
-            Swal.fire({title: 'Estas seguro?',text: "No podrás revertir esto!",icon: 'warning',showCancelButton: true,confirmButtonColor: '#3085d6',cancelButtonColor: '#d33',confirmButtonText: 'Si, bórralo!',cancelButtonText: 'Cancelar'}).then((result) => {
-            
-               if (result.isConfirmed) {
-   
                   axios.post('{{ url("deleteAssignment") }}', {
-
+   
                       timetable_id:self.Id,
-
+   
                       teacher_id:teacher_id,
-
+   
                       subject_id:subject_id,
-
+   
                       day:dayN,
-
+   
                       hour:hour,
-
+   
                       timetable:JSON.stringify(self.timetable),
-
+   
                   }).then(function (response) {
    
                      if(response.data.success==true){
@@ -1024,7 +1131,7 @@
           clear(){
            
            this.timetable={
-
+   
                periodId:"",
                
                yearId:"",
@@ -1070,11 +1177,11 @@
                },
    
            };
-
+   
            this.periods={!! $Period ? $Period : "''"!!};
-
+   
            this.levels={!! $Level ? $Level : "''"!!};
-
+   
            this.sections={!! $Section ? $Section : "''"!!};
    
            this.teachers={!! $Teacher ? $Teacher : "''"!!};
@@ -1086,7 +1193,7 @@
            this.delete=0;
    
           },//clear()
-
+   
          async getTimeTable(){
    
             let self = this;
@@ -1131,7 +1238,7 @@
                    }); 
    
          },//getTimeTable
-
+   
        },
    
    })
