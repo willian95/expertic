@@ -102,6 +102,59 @@ class TeacherController extends Controller
 
   }//public function getTeacherss(Resquest $request)
 
+
+    public function getTeachersJson(){
+
+    $i=1;
+
+    $array=array();
+
+    $teachers=array();
+
+    $Teacher=Teacher::query()->where('institution_id',getIdInstitution())->orderBy('teacher_name','ASC');
+
+    $Teacher= $Teacher->with([
+
+            'subjects' => function($query){ },
+            
+            'users' => function($query){ },
+
+    ])->get();
+
+
+    foreach($Teacher as $teac){
+      
+      $subjects=array();
+
+      if(count($teac->subjects)>0){
+
+         foreach($teac->subjects as $subject){
+
+          $subjects[]= $subject->pivot->subject_id;
+            
+         }//foreach($teac->subjects as $module)
+
+      }//if(count($teac->subjects)>0)
+
+      $array[]=[
+             'num'                 =>$i,
+             'id'                  =>$teac->id,
+             'rut'                 =>$teac->rut,
+             'teacher_name'        =>$teac->teacher_name,
+             'teacher_lastname'    =>$teac->teacher_lastname,
+             'email'               =>$teac->users->email,
+             'subjects'            =>$subjects,   
+      ];
+
+       $i++;
+
+    }//foreach($teac as $Teacher)
+
+    return response()->json(["success" => true, "msg" => "Datos obtenidos exitosamente!","Teachers"=>$array],200);
+
+  }//public function getTeacherss()
+
+
   /**
   * Store a newly created resource in storage.
   *

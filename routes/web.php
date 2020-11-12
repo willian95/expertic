@@ -119,6 +119,9 @@ Route::group(['middleware' => ['auth']], function () {
         //Obtener Profesores
         Route::post('getTeachers', 'Business\TeacherController@getTeachers');
 
+        //Obtener Profesores
+        Route::get('getTeachersJson', 'Business\TeacherController@getTeachersJson');
+
         //Agregar Profesor
         Route::post('storeTeacher', "Business\TeacherController@store")->name("storeTeacher");
 
@@ -169,7 +172,7 @@ Route::group(['middleware' => ['auth']], function () {
         //Estudiantes
         Route::get('/business/student', 'Business\StudentController@index')->name("business.student");
         
-        //Busscar apoderado por  rut
+        //Busscar apoderado por rut
         Route::post('SearchRepresentative', "Business\StudentController@SearchRepresentative")->name("SearchRepresentative");
 
         //Obtener Estudiantes
@@ -190,6 +193,21 @@ Route::group(['middleware' => ['auth']], function () {
 
         //Listado de horarios
         Route::get('/business/timetable/list', 'Business\TimetableController@list')->name("business.timetable.list");
+
+        //Listado de asignaturas por profesor seleccionado parametro id del profesor
+        Route::post('getMattersTimetable', 'Business\TimetableController@getMattersTimetable')->name("getMattersTimetable");
+
+        //Chequear Horario (Se verifica si existe ya un horario creado para el mismo periodo)
+        Route::post('checkTimetable', 'Business\TimetableController@checkTimetable')->name("checkTimetable");
+
+        //Agregar Horario
+        Route::post('StoreTimeTable', 'Business\TimetableController@StoreTimeTable')->name("StoreTimeTable");
+
+        //Obtener Horarios
+        Route::post('getTimeTables', 'Business\TimetableController@getTimeTables');
+
+        //Eliminar Horario
+        Route::post('destroyTimeTables', "Business\TimetableController@destroy")->name("TimeTables"); 
 
     });//role:business_administrator
 
