@@ -91,3 +91,10 @@ p{
     padding-left: 250px;
     padding-top: 70px;
 }
+
+.sidebar .menu .list a {
+    color: #546e7a;
+    position: relative;
+    padding: 9px 10px;
+    font-size: 0.8rem;
+}

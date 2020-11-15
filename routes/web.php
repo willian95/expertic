@@ -221,7 +221,48 @@ Route::group(['middleware' => ['auth']], function () {
         //Realizar asiganción en hora
         Route::post('makeAssignment', "Business\TimetableController@makeAssignment")->name("makeAssignment"); 
 
+        //CRUD GRUPOS DE DE ESTUDIANTES
+        //Vista de asignación a grupos
+        Route::get('/business/groupStudent/create', 'Business\GroupStudentController@create')->name("business.groupStudent.create");
+
+        //Vista de asignación a grupos
+        Route::get('/business/groupStudent/list', 'Business\GroupStudentController@list')->name("business.groupStudent.list");
+
+        //Buscar Estudiante
+        Route::post('SearchStudent', 'Business\GroupStudentController@SearchStudent')->name("SearchStudent");
+
+        //Chequear Grupo
+        Route::post('CheckGroup', 'Business\GroupStudentController@CheckGroup')->name("CheckGroup");
+
+        //Agregar Grupo de Estudiantes
+        Route::post('StoreGroupStudent', 'Business\GroupStudentController@store')->name("StoreGroupStudent");
+
+        //Listado de grupos de estudiantes
+        Route::post('getGroupStudents', 'Business\GroupStudentController@getGroupStudents')->name("getGroupStudents");
+
+        //Eliminar Grupo de Estudisntes
+        Route::post('deleteGroupStudents', "Business\GroupStudentController@destroy")->name("deleteGroupStudents"); 
+
+        //Vista de actuzalizar grupos
+        Route::get('/business/groupStudent/update/{id}', 'Business\GroupStudentController@update')->name("business.groupStudent.update");
+
+        //Agregar Estudiante a grupo
+        Route::post('AddStudentGroup', 'Business\GroupStudentController@AddStudentGroup')->name("AddStudentGroup");   
+
+        //Listado de grupos de estudiantes
+        Route::post('getGroupStudents2', 'Business\GroupStudentController@getGroupStudents2')->name("getGroupStudents2");
+
+        //Eliminar Estudiante
+        Route::post('deleteStudent', "Business\GroupStudentController@destroy2")->name("deleteStudent"); 
+        
     });//role:business_administrator
+
+    /************************************Profesor**************************************/
+    Route::group(['middleware' => ['role:teacher']], function () {   
+
+        Route::get('/teacher/home', 'Teacher\DashboardController@index')->name("teacher.home");
+
+    });//role:teacher
 
 });//auth
 
@@ -233,9 +274,7 @@ Route::get('/representative/home', function () {
     return view('representative.dashboard');
 })->name("representative.home");
 
-Route::get('/teacher/home', function () {
-    return view('teacher.dashboard');
-})->name("teacher.home");
+
 
 Route::get('/teacher/virtualRoom/create', function () {
     return view('teacher.virtualRoom.create');

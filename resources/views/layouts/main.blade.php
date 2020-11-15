@@ -111,6 +111,12 @@
                                 </ul>
                             </li>
                             <li v-if="roleId == 2" class="active open"><a href="{{ route('business.student') }}"><i class="zmdi zmdi-accounts-alt"></i><span>Estudiante</span></a></li>
+                            <li v-if="roleId == 2"><a onclick="toggleSubmenu('groupStudent-submenu')" href="javascript:void(0);" class="menu-toggle waves-effect waves-block toggled"><i class="fas fa-users"></i><span>Grupos Estudiantes</span> </a>
+                                <ul class="ml-menu submenu-hidden" id="groupStudent-submenu">
+                                    <li><a href="{{ route('business.groupStudent.create') }}" class=" waves-effect waves-block normal-item">Registrar Grupo</a></li>
+                                    <li><a href="{{ route('business.groupStudent.list') }}" class=" waves-effect waves-block normal-item">Listado de Grupos</a></li>
+                                </ul>
+                            </li>
                         @break
 
                         @case('teacher')
