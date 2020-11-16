@@ -3,8 +3,8 @@
 <div class="login_admin" id="dev-login">
    <div class="row">
       <div class="login100-more mask col-md-6"
-         style="background-image: url('assets/images/photo-1531482615713-2afd69097998.webp');">
-         <p>Expertic</p>
+         style="background-image: url('assets/images/Experclass-logo-V3-2.png');">
+         {{--<p>Experclass</p>--}}
       </div>
       <form method="POST" action="{{ route('login') }}" class="login100-form col-md-6">
          @csrf

@@ -26,14 +26,14 @@
                      <div class="col-12 col-md-6 col-lg-4">
                         <div class="form-group">
                            <label class="font-weight-bold" for="date">Fecha</label>
-                           <input type="date" class="form-control" id="date"  v-model="date" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('date') }" v-bind:disabled="edit">
+                           <input type="date" class="form-control" id="date"  v-model="date" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('date') }" v-bind:disabled="edit==1">
                            <small v-if="errors.hasOwnProperty('date')" class="text-danger ml-2">@{{ errors['date'][0] }}</small>
                         </div>
                      </div>
                      <div class="col-12 col-md-4">
                         <div class="form-group">
                            <label class="font-weight-bold">Asignaturas</label>
-                           <select class="form-control custom-select" v-model="subject_id" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('subject_id') }" v-bind:disabled="edit">
+                           <select class="form-control custom-select" v-model="subject_id" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('subject_id') }" v-bind:disabled="edit==1">
                               <option value="">Seleccione</option>
                               <option v-for="option in Subjects" v-bind:value="option.id">
                                  @{{ option.subject }}
@@ -45,7 +45,7 @@
                      <div class="col-12 col-md-4">
                         <div class="form-group">
                            <label class="font-weight-bold">Periodos</label>
-                           <select class="form-control custom-select" v-model="period_id" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('period_id') }" @change="getLevels" v-bind:disabled="edit">
+                           <select class="form-control custom-select" v-model="period_id" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('period_id') }" @change="getLevels" v-bind:disabled="edit==1">
                               <option value="">Seleccione</option>
                               <option v-for="option in periods" v-bind:value="option.id">
                                  @{{ option.period }}
@@ -57,7 +57,7 @@
                      <div class="col-12 col-md-4">
                         <div class="form-group">
                            <label class="font-weight-bold">Niveles</label>
-                           <select class="form-control custom-select" v-model="level_id" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('level_id') }" @change="getSections" v-bind:disabled="edit">
+                           <select class="form-control custom-select" v-model="level_id" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('level_id') }" @change="getSections" v-bind:disabled="edit==1">
                               <option value="">Seleccione</option>
                               <option v-for="option in levels" v-bind:value="option.level_id">
                                  @{{ option.level }}
@@ -69,7 +69,7 @@
                      <div class="col-12 col-md-4">
                         <div class="form-group">
                            <label class="font-weight-bold">Secciones</label>
-                           <select class="form-control custom-select" v-model="section_id" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('section_id') }" @change="getStudents" v-bind:disabled="edit">
+                           <select class="form-control custom-select" v-model="section_id" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('section_id') }" @change="getStudents" v-bind:disabled="edit==1">
                               <option value="">Seleccione</option>
                               <option v-for="option in sections" v-bind:value="option.section_id">
                                  @{{ option.section }}
@@ -81,7 +81,7 @@
                      <div class="col-12 col-md-4">
                         <div class="form-group">
                            <label class="font-weight-bold">Estudiantes</label>
-                           <select class="form-control custom-select" v-model="student_id" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('student_id') }" v-bind:disabled="edit">
+                           <select class="form-control custom-select" v-model="student_id" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('student_id') }" v-bind:disabled="edit==1">
                               <option value="">Seleccione</option>
                               <option v-for="option in students" v-bind:value="option.student_id">
                                  @{{ option.student_names }}

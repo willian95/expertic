@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=Edge">
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <meta name="description" content="Responsive Bootstrap 4 and web Application ui kit.">
-<title>:: Expertic ::</title>
+<title>:: EXPERCLASS ::</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Favicon-->
 <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/plugins/jvectormap/jquery-jvectormap-2.0.3.min.css') }}"/>
@@ -40,7 +40,7 @@
         <li>
             <div class="navbar-header">
                 <a href="javascript:void(0);" class="bars"></a>
-                <a class="navbar-brand" href="index.html"><img src="{{ asset('assets/images/logo.svg') }}" width="30" alt="Oreo"><span class="m-l-10">Expertic</span></a>
+                <a class="navbar-brand" href="index.html"><img src="{{ asset('assets/images/logo1.png') }}" width="30" alt="logo1"><span class="m-l-10">EXPERCLASS</span></a>
             </div>
         </li>
         
