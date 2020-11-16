@@ -10,7 +10,6 @@ use App\Models\Period;
 use App\Models\Level;
 use App\Models\Section;
 use App\Models\GroupStudent;
-use App\Models\GroupsStudentsDetail;
 use App\Models\Student;
 use Carbon\Carbon;
 
@@ -361,5 +360,154 @@ class GroupStudentController extends Controller
         }//catch(\Exception $e)
 
    }//public function destroy(DestroyGroupStudentPost $request)
+
+    public function getLevels(Request $request) 
+    {
+    
+      try{
+
+        $GroupStudent=GroupStudent::query()->where('institution_id',getIdInstitution())->where('period_id',$request->period_id)->select(['period_id','level_id','section_id'])->distinct(['period_id','level_id','section_id']);
+
+        $GroupStudent= $GroupStudent->with([
+
+                'periods' => function($query){ },
+
+                'levels' => function($query){ },
+
+                'sections' => function($query){ },
+
+         ])->get();
+
+        $array=array();
+
+        $i=1;
+ 
+        foreach($GroupStudent as $group)
+        {
+
+            $array[]=[
+              'num'           =>$i,
+              'period_id'     =>$group->periods->id,
+              'period'        =>$group->periods->period,
+              'level_id'      =>$group->levels->id,
+              'level'         =>$group->levels->level,
+              'section_id'    =>$group->sections->id,
+              'section'       =>$group->sections->section,
+            ];
+
+            $i++;
+
+        }//foreach($GroupStudent as $group)
+
+        return response()->json(["success" => true, "msg" => "Datos obtenidos exitosamente!","Levels"=>$array],200);
+
+      }catch(\Exception $e){
+
+        return response()->json(["success" => false, "msg" => "Error en el servidor", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+
+       }//catch(\Exception $e)    
+
+  }//public function getLevels(Request $request)
+
+  public function getSections(Request $request) {
+
+    try{
+
+        $GroupStudent=GroupStudent::query()->where('institution_id',getIdInstitution())->where('period_id',$request->period_id)->where('level_id',$request->level_id)->select(['period_id','level_id','section_id'])->distinct(['period_id','level_id','section_id']);
+
+        $GroupStudent= $GroupStudent->with([
+
+                'periods' => function($query){ },
+
+                'levels' => function($query){ },
+
+                'sections' => function($query){ },
+
+         ])->get();
+
+        $array=array();
+
+        $i=1;
+ 
+        foreach($GroupStudent as $group)
+        {
+
+            $array[]=[
+              'num'           =>$i,
+              'period_id'     =>$group->periods->id,
+              'period'        =>$group->periods->period,
+              'level_id'      =>$group->levels->id,
+              'level'         =>$group->levels->level,
+              'section_id'    =>$group->sections->id,
+              'section'       =>$group->sections->section,
+            ];
+
+            $i++;
+
+        }//foreach($GroupStudent as $group)
+
+        return response()->json(["success" => true, "msg" => "Datos obtenidos exitosamente!","Sections"=>$array],200);
+
+    }catch(\Exception $e){
+
+      return response()->json(["success" => false, "msg" => "Error en el servidor", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+
+    }//catch(\Exception $e)    
+
+  }//public function getSections(Request $request)
+
+  public function getStudents(Request $request) {
+
+    try{
+
+        $GroupStudent=GroupStudent::query()->where('institution_id',getIdInstitution())->where('period_id',$request->period_id)->where('level_id',$request->level_id)->where('section_id',$request->section_id);
+
+        $GroupStudent= $GroupStudent->with([
+
+                'periods' => function($query){ },
+
+                'levels' => function($query){ },
+
+                'sections' => function($query){ },
+
+                'students' => function($query){ },
+
+         ])->get();
+
+        $array=array();
+
+        $i=1;
+ 
+        foreach($GroupStudent as $group)
+        {
+
+            $array[]=[
+              'num'                 =>$i,
+              'period_id'           =>$group->periods->id,
+              'period'              =>$group->periods->period,
+              'level_id'            =>$group->levels->id,
+              'level'               =>$group->levels->level,
+              'section_id'          =>$group->sections->id,
+              'section'             =>$group->sections->section,
+              'student_id'          =>$group->students->id,
+              'rut'                 =>$group->students->rut,
+              'student_name'        =>$group->students->student_name,
+              'student_lastname'    =>$group->students->student_lastname,
+              'student_names'       =>$group->students->student_name.' '.$group->students->student_lastname,
+            ];
+
+            $i++;
+
+        }//foreach($GroupStudent as $group)
+
+        return response()->json(["success" => true, "msg" => "Datos obtenidos exitosamente!","Students"=>$array],200);
+
+    }catch(\Exception $e){
+
+      return response()->json(["success" => false, "msg" => "Error en el servidor", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+
+    }//catch(\Exception $e)    
+
+  }//public function getStudents(Request $request)
 
 }

@@ -257,11 +257,37 @@ Route::group(['middleware' => ['auth']], function () {
         
     });//role:business_administrator
 
-    /************************************Profesor**************************************/
-    Route::group(['middleware' => ['role:teacher']], function () {   
+    //Obetener Niveles deacuerdo al periodo selecionado
+    Route::post('/business/groupStudent/getLevels', "Business\GroupStudentController@getLevels")->name("business.groupStudent.getLevels"); 
 
+    //Obetener Secciones deacuerdo al periodo y nivel selecionado
+    Route::post('/business/groupStudent/getSections', "Business\GroupStudentController@getSections")->name("business.groupStudent.getSections"); 
+
+    //Obetener Estudiantes deacuerdo al periodo, nivel, y sección selecionada
+    Route::post('/business/groupStudent/getStudents', "Business\GroupStudentController@getStudents")->name("business.groupStudent.getStudents"); 
+        
+    /************************************Profesor**************************************/
+    Route::group(['middleware' => ['role:teacher']], function () {  
+        
+        //Dashboard Profesor
         Route::get('/teacher/home', 'Teacher\DashboardController@index')->name("teacher.home");
 
+        //CRUD ANOTACIONES
+        //Anotaciones
+        Route::get('/teacher/annotations/list', 'Teacher\AnnotationController@index')->name("teacher.annotation.list");
+    
+        //Agregar anotación
+        Route::post("StoreAnnotation", 'Teacher\AnnotationController@store')->name("StoreAnnotation");
+
+        //Listado de anotaciones
+        Route::post("getAnnotations", 'Teacher\AnnotationController@getAnnotations')->name("getAnnotations");
+
+        //Actualizar Anotacion
+        Route::post("updateAnnotation", 'Teacher\AnnotationController@update')->name("updateAnnotation");
+
+        //Eliminar Anotacion
+        Route::post("destroyAnnotation", 'Teacher\AnnotationController@destroy')->name("destroyAnnotation");
+        
     });//role:teacher
 
 });//auth
@@ -291,10 +317,6 @@ Route::get('/teacher/evaluation/create', function () {
 Route::get('/teacher/evaluation/list', function () {
     return view('teacher.evaluation.index');
 })->name("teacher.evaluation.list");
-
-Route::get('/teacher/annotations/list', function () {
-    return view('teacher.annotations.index');
-})->name("teacher.annotations.list");
 
 Route::get('/administrative/home', function () {
     return view('administrative.dashboard');

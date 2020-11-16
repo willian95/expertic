@@ -2,6 +2,8 @@
 
   use App\Models\UserRole;
   use App\Models\InstitutionUser;
+  use App\Models\Teacher;
+
   use Illuminate\Support\Str;
 
   function saveImage($value, $destination_path, $disk='publicmedia', $size = array(), $watermark = array())
@@ -118,7 +120,6 @@
 
   }//function roleName()  
 
-  
   function getIdInstitution(){
 
     $InstitutionUser=InstitutionUser::where('user_id', auth()->id())->first();
@@ -126,6 +127,31 @@
     return $InstitutionUser->institution_id;
 
   }//function getIdInstitution()
+
+
+  function getIdTeacher(){
+
+    $Teacher=Teacher::where('user_id', auth()->id())->first();
+
+    return $Teacher->id;
+
+  }//function getIdTeacher()
+
+  function getTeacherSubjects(){
+
+    $Teacher=Teacher::where('user_id', auth()->id())->first();
+
+    $Teacher=Teacher::query()->where('user_id', auth()->id())->where('institution_id',getIdInstitution());
+
+    $Teacher= $Teacher->with([
+
+            'subjects' => function($query){ },
+
+    ])->first();
+
+    return $Teacher->subjects;
+
+  }//function getTeacherSubjects()
 
 
 ?>

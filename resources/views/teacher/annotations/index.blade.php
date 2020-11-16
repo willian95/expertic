@@ -1,7 +1,19 @@
 @extends('layouts.main')
 @section("content")
 <section class="content profile-page" id="annotations">
-   <div class="custom-modal-cover" v-show="modal">
+   <div class="preloader" v-if="loading">
+      <svg class="loader" width="200" height="200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-ripple" style="background:0 0">
+         <circle cx="50" cy="50" r="4.719" fill="none" stroke="#1d3f72" stroke-width="2">
+            <animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="-1.5s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="-1.5s" repeatCount="indefinite"/>
+         </circle>
+         <circle cx="50" cy="50" r="27.591" fill="none" stroke="#5699d2" stroke-width="2">
+            <animate attributeName="r" calcMode="spline" values="0;40" keyTimes="0;1" dur="3" keySplines="0 0.2 0.8 1" begin="0s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" calcMode="spline" values="1;0" keyTimes="0;1" dur="3" keySplines="0.2 0 0.8 1" begin="0s" repeatCount="indefinite"/>
+         </circle>
+      </svg>
+   </div>
+   <div class="custom-modal-cover hide-modal" id="modal">
       <div class="container-fluid">
          <div class="row justify-content-center">
             <div class="col-12 col-lg-10 col-md-10">
@@ -11,56 +23,85 @@
                   </div>
                   <div class="modal-body">
                   <div class="row justify-content-center align-items-center pt-2 pl-4 pr-4 mb-4">
-                     <div class="col-12 col-md-6 col-lg-3">
+                     <div class="col-12 col-md-6 col-lg-4">
                         <div class="form-group">
                            <label class="font-weight-bold" for="date">Fecha</label>
-                           <input type="date" class="form-control" id="date">
+                           <input type="date" class="form-control" id="date"  v-model="date" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('date') }" v-bind:disabled="edit">
+                           <small v-if="errors.hasOwnProperty('date')" class="text-danger ml-2">@{{ errors['date'][0] }}</small>
                         </div>
                      </div>
-                     <div class="col-12 col-md-3">
+                     <div class="col-12 col-md-4">
                         <div class="form-group">
-                           <label class="font-weight-bold">Años</label>
-                           <select class="form-control custom-select" v-model="yearId" @change="search()">
+                           <label class="font-weight-bold">Asignaturas</label>
+                           <select class="form-control custom-select" v-model="subject_id" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('subject_id') }" v-bind:disabled="edit">
                               <option value="">Seleccione</option>
-                              <option v-for="option in data" v-bind:value="option.id">
-                                 @{{ option.name }}
+                              <option v-for="option in Subjects" v-bind:value="option.id">
+                                 @{{ option.subject }}
                               </option>
                            </select>
+                          <small v-if="errors.hasOwnProperty('subject_id')" class="text-danger ml-2">@{{ errors['subject_id'][0] }}</small>
                         </div>
                      </div>
-                     <div class="col-12 col-md-3">
+                     <div class="col-12 col-md-4">
+                        <div class="form-group">
+                           <label class="font-weight-bold">Periodos</label>
+                           <select class="form-control custom-select" v-model="period_id" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('period_id') }" @change="getLevels" v-bind:disabled="edit">
+                              <option value="">Seleccione</option>
+                              <option v-for="option in periods" v-bind:value="option.id">
+                                 @{{ option.period }}
+                              </option>
+                           </select>
+                          <small v-if="errors.hasOwnProperty('period_id')" class="text-danger ml-2">@{{ errors['period_id'][0] }}</small>
+                        </div>
+                     </div>
+                     <div class="col-12 col-md-4">
+                        <div class="form-group">
+                           <label class="font-weight-bold">Niveles</label>
+                           <select class="form-control custom-select" v-model="level_id" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('level_id') }" @change="getSections" v-bind:disabled="edit">
+                              <option value="">Seleccione</option>
+                              <option v-for="option in levels" v-bind:value="option.level_id">
+                                 @{{ option.level }}
+                              </option>
+                           </select>
+                          <small v-if="errors.hasOwnProperty('level_id')" class="text-danger ml-2">@{{ errors['level_id'][0] }}</small>
+                        </div>
+                     </div>
+                     <div class="col-12 col-md-4">
                         <div class="form-group">
                            <label class="font-weight-bold">Secciones</label>
-                           <select class="form-control custom-select" v-model="sectionId">
+                           <select class="form-control custom-select" v-model="section_id" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('section_id') }" @change="getStudents" v-bind:disabled="edit">
                               <option value="">Seleccione</option>
-                              <option v-for="option in sections" v-bind:value="option.id">
-                                 @{{ option.name }}
+                              <option v-for="option in sections" v-bind:value="option.section_id">
+                                 @{{ option.section }}
                               </option>
                            </select>
+                          <small v-if="errors.hasOwnProperty('section_id')" class="text-danger ml-2">@{{ errors['section_id'][0] }}</small>
                         </div>
                      </div>
-                     <div class="col-12 col-md-3">
+                     <div class="col-12 col-md-4">
                         <div class="form-group">
-                           <label class="font-weight-bold">Alumno</label>
-                           <select class="form-control custom-select" v-model="matterId">
+                           <label class="font-weight-bold">Estudiantes</label>
+                           <select class="form-control custom-select" v-model="student_id" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('student_id') }" v-bind:disabled="edit">
                               <option value="">Seleccione</option>
-                              <option v-for="option in students" v-bind:value="option.id">
-                                 @{{ option.name }}
+                              <option v-for="option in students" v-bind:value="option.student_id">
+                                 @{{ option.student_names }}
                               </option>
                            </select>
+                          <small v-if="errors.hasOwnProperty('student_id')" class="text-danger ml-2">@{{ errors['student_id'][0] }}</small>
                         </div>
                      </div>
                      <div class="col-12">
                        <div class="form-group">
                           <label class="font-weight-bold" for="annotation">Anotación</label>
-                          <textarea  class="form-control border rounded" name="annotation"  cols="3" rows="2" id="summary"></textarea>
+                          <textarea  class="form-control border rounded" name="annotation"  v-model="annotation" cols="3" rows="2" id="annotation" v-bind:class="{ 'is-invalid': errors.hasOwnProperty('annotation') }"></textarea>
+                          <small v-if="errors.hasOwnProperty('annotation')" class="text-danger ml-2">@{{ errors['annotation'][0] }}</small>
                         </div>
                      </div> 
                   </div>
                   </div>
                   <div class="modal-footer">
-                     <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="toggleModal()">Cerrar</button>                  
-                     <button type="button" class="btn btn-info" @click="toggleModal()">Registrar</button>                  
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="closeModal()">Cerrar</button>                  
+                     <button type="button" class="btn btn-primary"@click="ActionsCru">@{{buttonNameDos}}</button>
                   </div>
                </div>
             </div>
@@ -88,64 +129,50 @@
                      <table class="table table-hover m-b-0">
                         <thead>
                            <tr>
-                              <th class="text-center">#</th>
-                              <th class="text-center">Año</th>
-                              <th class="text-center">Sección</th>
-                              <th class="text-center">Alumno</th>
-                              <th class="text-center">Anotacón</th>
-                              <th class="text-center">Fecha</th>
-                              <td class="text-center">Acciones</td>
+                              <th class="adjust-tr-10">#</th>
+                              <th class="adjust-tr-10">Periodo</th>
+                              <th class="adjust-tr-10">Nivel</th>
+                              <th class="adjust-tr-10">Sección</th>
+                              <th class="adjust-tr-10">Asignatura</th>
+                              <th class="adjust-tr-10">Alumno</th>
+                              <th class="adjust-tr-20">Anotacón</th>
+                              <th class="adjust-tr-10">Fecha</th>
+                              <th class="adjust-tr-10">Acciones</th>
                            </tr>
                         </thead>
                         <tbody>
-                           <tr>
-                              <td class="text-center">1</td>
-                              <td class="text-center">1er Año</td>
-                              <td class="text-center">A</td>
-                              <td class="text-center">Pedro Guitíerez</td>
-                              <td class="text-center">Llegada tarde a clases</td>
-                              <td class="text-center">06-10-2020</td>
-                              <td class="text-center"> 
-                                 <button class="btn btn-info" title="Editar">
+                           <tr  v-for="(annotations,index) in Annotations.annotations">
+                              <td>@{{annotations.num}}</td>
+                              <td>
+                                 <p>@{{annotations.period}}</p>
+                              </td>                                                            
+                              <td>
+                                 <p>@{{annotations.level}}</p>
+                              </td>
+                              <td>
+                                 <p>@{{annotations.section}}</p>
+                              </td>
+                              <td>
+                                 <p>@{{annotations.subject}}</p>
+                              </td>
+                              <td>
+                                 <p>@{{annotations.student_name}}</p>
+                              </td>
+                              <td>
+                                 <p>@{{annotations.annotation}}</p>
+                              </td>
+                              <td>
+                                 <p>@{{annotations.date2}}</p>
+                              </td>
+                              <td>
+                                 <button class="btn btn-info" @click="captureRecord(annotations)">
                                  <i class="zmdi zmdi-edit"></i>
                                  </button>
-                                 <button class="btn btn-secondary" title="Borrar">
+                                 <button class="btn btn-secondary"  @click="destroy(annotations.id)">
                                  <i class="zmdi zmdi-delete"></i>
                                  </button>
                               </td>
                            </tr>
-                           <tr>
-                              <td class="text-center">1</td>
-                              <td class="text-center">3er Año</td>
-                              <td class="text-center">C</td>
-                              <td class="text-center">Dana Márquez</td>
-                              <td class="text-center">Falto a clases</td>
-                              <td class="text-center">08-10-2020</td>
-                              <td class="text-center"> 
-                                 <button class="btn btn-info" title="Editar">
-                                 <i class="zmdi zmdi-edit"></i>
-                                 </button>
-                                 <button class="btn btn-secondary" title="Borrar">
-                                 <i class="zmdi zmdi-delete"></i>
-                                 </button>
-                              </td>
-                           </tr>
-                           <tr>
-                              <td class="text-center">1</td>
-                              <td class="text-center">5to Año</td>
-                              <td class="text-center">B</td>
-                              <td class="text-center">Noel Smith</td>
-                              <td class="text-center">Falta a clases, motivo de enfermedad</td>
-                              <td class="text-center">08-10-2020</td>
-                              <td class="text-center"> 
-                                 <button class="btn btn-info" title="Editar">
-                                 <i class="zmdi zmdi-edit"></i>
-                                 </button>
-                                 <button class="btn btn-secondary" title="Borrar">
-                                 <i class="zmdi zmdi-delete"></i>
-                                 </button>
-                              </td>
-                           </tr>                            
                         </tbody>
                      </table>
                   </div>
@@ -154,12 +181,9 @@
             <div class="card">
                <div class="body">
                   <ul class="pagination pagination-primary m-b-0">
-                     <li class="page-item"><a class="page-link" href="javascript:void(0);"><i class="zmdi zmdi-arrow-left"></i></a></li>
-                     <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
-                     <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
-                     <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
-                     <li class="page-item"><a class="page-link" href="javascript:void(0);">4</a></li>
-                     <li class="page-item"><a class="page-link" href="javascript:void(0);"><i class="zmdi zmdi-arrow-right"></i></a></li>
+                     <li class="page-item" v-if="paginate.current_page > 1"><a class="page-link" href="javascript:void(0);" @click.prevent="changePage(paginate.current_page - 1)"><i class="zmdi zmdi-arrow-left"></i></a></li>
+                     <li class="page-item" v-for="page in pagesNumber" v-bind:class="{ 'active': page== isActive }"><a class="page-link" href="javascript:void(0);" @click.prevent="changePage(page)">@{{page}}</a></li>
+                     <li class="page-item" v-if="paginate.current_page < paginate.last_page"><a class="page-link" href="javascript:void(0);" @click.prevent="changePage(paginate.current_page + 1)"><i class="zmdi zmdi-arrow-right"></i></a></li>
                   </ul>
                </div>
             </div>
@@ -173,79 +197,656 @@
    const business = new Vue({
         el: '#annotations',
         data:{
-           modal:false,
+            
+         loading:false,
+   
+         modal:false,
+   
+         errors:[],
 
-            data:{
-   
-                 0:{id: 1, name:'1er año',sections:{0:{id:1, name:'A'},1:{id:2, name:'B'},2:{id:3, name:'C'},3:{id:4, name:'D'},4:{id:5, name:'E'}},students:{0:{id:1,name:'ADRIANA CAROLINA HERNANDEZ MONTERROZA'},1:{id:2,name:'ADRIANA MARCELA REY SANCHEZ'},2:{id:3,name:'ADRIANA MARCELA REY SANCHEZ'},3:{id:4,name:'ALEJANDRO ABONDANO ACEVEDO'}, 4:{id:5,name:'ALEXANDER CARVAJAL VARGAS'},5:{id:6,name:'ANDREA CATALINA ACERO CARO'},6:{id:7,name:'ANDREA LILIANA CRUZ GARCIA'},7:{id:8,name:'ANDRES FELIPE VILLA MONROY'},8:{id:9,name:'ANGELA PATRICIA MAHECHA PIÑEROS'},9:{id:10,name:'ANGELICA LISSETH BLANCO CONCHA'},10:{id:11,name:'ANGELICA MARIA ROCHA GARCIA'},11:{id:12,name:'DIANA CAROLINA LOPEZ RODRIGUEZ'},12:{id:13,name:'ANGIE TATIANA FERNÁNDEZ MARTÍNEZ'}}},
-   
-                 1:{id: 2, name:'2do año',sections:{0:{id:1, name:'A'},1:{id:2, name:'B'},2:{id:3, name:'C'}},students:{0:{id:1,name:'BRIGITE POLANCO RUIZ'},1:{id:2,name:'CAMILO ENRIQUE GOMEZ RODRIGUEZ'},2:{id:3,name:'INGRID ROCIO GUERRERO PENAGOS'},3:{id:4,name:'IVONNE JOULIETTE BARRERA LOPEZ'}, 4:{id:5,name:'LISETH TATIANA SIERRA VILLAMIL'},5:{id:6,name:'RAFAEL ANDRES ALVAREZ CASTILLO'},6:{id:7,name:'SEBASTIÁN IREGUI GALEANO'},7:{id:8,name:'LISETH TATIANA SIERRA VILLAMIL'},8:{id:9,name:'JUAN FERNANDO BARJUCH MORENO'},9:{id:10,name:'JULIANA GAVIRIA GARCIA'},10:{id:11,name:'LEONARDO ANDRÉS DUEÑAS ROJAS'},11:{id:12,name:'ANGIE TATIANA FERNÁNDEZ MARTÍNEZ'},12:{id:13,name:'ESTEWIL CARLOS QUESADA CALDERÍN'}}},
-   
-                 2:{id: 3, name:'3er año',sections:{0:{id:1, name:'A'},1:{id:2, name:'B'},2:{id:3, name:'C'}},students:{0:{id:1,name:'CAMILO VILLAMIZAR ARISTIZABAL'},1:{id:2,name:'CARLOS ANDRÉS POLO CASTELLANOS'},2:{id:3,name:'CAROL RUCHINA GOMEZ GIANINE'},3:{id:4,name:'JORGE MARIO OROZCO DUSSÁN'}, 4:{id:5,name:'MARIA ALEJANDRA BOLÍVAR GALEANO '},5:{id:6,name:'BOLÍVAR GALEANO'},6:{id:7,name:'YURANY CATALINA CIFUENTES MENDEZ'},7:{id:8,name:'LISETH TATIANA SIERRA VILLAMIL'},8:{id:9,name:'JULIANA GAVIRIA GARCIA'},9:{id:10,name:'JUAN SEBASTIAN TARQUINO ACOSTA'},10:{id:11,name:'LISETH TATIANA SIERRA VILLAMIL'},11:{id:12,name:'CARLOS FELIPE MOGOLLÓN PACHÓN'},12:{id:13,name:'GABRIEL MAURICIO NIETO BUSTOS'}}},
+         periods:{!! $Period ? $Period : "''"!!},
 
-                 3:{id: 4, name:'4to año',sections:{0:{id:1, name:'A'},1:{id:2, name:'B'},2:{id:3, name:'C'}},students:{0:{id:1,name:'CAMILO RODRÍGUEZ BOTERO'},1:{id:2,name:'CARLOS DIDIER CASTAÑO CONTRERAS'},2:{id:3,name:'CATHERINE OSPINA ALFONSO'},3:{id:4,name:'JUAN CAMILO ORTEGA PEÑA'}, 4:{id:5,name:'MARIA CAMILA  NIETO BUSTOS'},5:{id:6,name:'OSCAR  FABIAN CASTELLANOS ROJAS'},6:{id:7,name:'SEBASTIÁN IREGUI GALEANO'},7:{id:8,name:'LISETH TATIANA SIERRA VILLAMIL'},8:{id:9,name:'LAURA DIAZ MEJIA'},9:{id:10,name:'JULIANA GAVIRIA GARCIA'},10:{id:11,name:'DIEGO ALEJANDRO FORERO PEÑA'},11:{id:12,name:'CRISTINA ELIZABETH BARTHEL GUARDIOLA'},12:{id:13,name:'CATHERINE OSPINA ALFONSO'}}},
+         Subjects:{!! $Subjects ? $Subjects : "''"!!},
+
+         levels:'',
+
+         sections:'',
+
+         students:'',
+
+         period_id:'',
+
+         level_id:'',
+
+         section_id:'',
+
+         subject_id:'',
+
+         student_id:'',
+
+         annotation:'',
+
+         date:'',
+
+         Annotations:'',
+
+         edit:0,
+
+         buttonShowDos:true, 
+   
+         buttonNameDos:'Crear',
+   
+         id:'',
+   
+         change:0,
+            
+         paginate:{
+   
+                   total:0,
+   
+                   current_page:0,
+   
+                   per_page:0,
+   
+                   last_page:0,
+   
+                   from:0,
+   
+                   to:0,
+   
+         },
+   
+         offset:3,
+        },
+       mounted(){
+          
+          this.getAnnotations(1);
+   
+       },
+       computed:{
+   
+          isActive(){
+   
+             return this.paginate.current_page;
+   
+          },//isActive()
+   
+          pagesNumber(){
+   
+               if(!this.paginate.to){
+   
+                  return [];
+   
+               }//if(!this.paginate.to)
+   
+               let from = this.paginate.current_page - this.offset;
+   
+               if (from < 1){
+   
+                  from = 1;
+                  
+               }//if (from < 1)
+   
+               let to = from + (this.offset * 2);
+   
+               if(to>=this.paginate.last_page){
+   
+                 to=this.paginate.last_page;
+   
+               }//if(to>=this.paginate.last_page)
+   
                
-                 4:{id: 5, name:'5to año',sections:{0:{id:1, name:'A'},1:{id:2, name:'B'},2:{id:3, name:'C'}},students:{0:{id:1,name:'CAMILO ALBERTO CORTÉS MONTEJO'},1:{id:2,name:'CARLOS FELIPE MOGOLLÓN PACHÓN '},2:{id:3,name:'DIANA CAROLINA LOPEZ RODRIGUEZ'},3:{id:4,name:'JUAN SEBASTIAN ROMERO ESCOBAR'}, 4:{id:5,name:'MARIA MARGARITA PEREZ MORENO'},5:{id:6,name:'RAFAEL ANDRES ALVAREZ CASTILLO'},6:{id:7,name:'DIEGO ALEJANDRO FORERO PEÑA'},7:{id:8,name:'LISETH TATIANA SIERRA VILLAMIL'},8:{id:9,name:'LINA MARÍA ZÚÑIGA RAMÍREZ'},9:{id:10,name:'LAURA CAMILA PUERTO CASTRO'},10:{id:11,name:'DIEGO ALEJANDRO FORERO PEÑA'},11:{id:12,name:'DANIELA HERNÁNDEZ BRAVO'},12:{id:13,name:'DANIELA HERNÁNDEZ BRAVO'}}},
+               let pagesArray=[];
    
-           },
+               while(from <= to){
+   
+                  pagesArray.push(from);
+   
+                  from++;
+   
+               }//while(from <= to)
+   
+               return pagesArray;
+   
+          }//pagesNumber()
+   
+       },//computed
+       methods:{
+   
+           toggleModal(){
+   
+               document.getElementById("modal").classList.remove("hide-modal");
+   
+               document.getElementById("modal").classList.add("show-modal");
+   
+           },//toggleModal()
+   
+            closeModal(){
+               
+               this.clear();
+   
+               document.getElementById("modal").classList.add("hide-modal");
+   
+               document.getElementById("modal").classList.remove("show-modal");
+   
+           },//closeModal()
+           
+           async getLevels(){
+  
+             let self = this;
+  
+             self.loading = true;
+  
+             self.errors = [];
 
-           yearId:"",
-   
-           yearName:"", 
-   
-           sectionId:"",
-   
-           sectionName:"",
+             self.level_id='';
 
-           sections:'',
-      
-           students:'',
+             self.section_id='';
 
-           matterId:'',
-        },
-        methods:{
-    
-            toggleModal(){
-    
-                if(this.modal){
-                    this.modal = false
+             self.student_id='';
+
+             axios.post('{{ url("/business/groupStudent/getLevels") }}', {
+  
+                period_id:self.period_id,
+     
+             }).then(function (response) {
+
+                self.loading = false
+
+                if(response.data.success==true){
+  
+                  self.levels=response.data.Levels;
+  
+                }//if(response.data.success==true)
+                else{       
+  
+                   iziToast.error({title: 'Error',position:'topRight',message: response.data.msg}); 
+  
+                }//else if(response.data.success==false)
+  
+             }).catch(err => {
+  
+                self.loading = false
+  
+                self.errors = err.response.data.errors;
+  
+                if(self.errors){
+  
+                   iziToast.error({title: 'Error',position:'topRight',message: "Hay algunos campos que debes revisar"});  
+             
                 }else{
-                    this.modal = true
+  
+                   iziToast.error({title: 'Error',position:'topRight',message: "Ha ocurrido un problema"}); 
+  
                 }
-    
-            },
+              
+             }); 
+  
+          },//getLevels() 
 
-                        search(){
-                 
+          async getSections(){
+  
+             let self = this;
+  
+             self.loading = true;
+  
+             self.errors = [];
 
-              this.sections="";
-   
-              this.students="";
+             self.section_id='';
 
-              this.sectionId="";
+             self.student_id='';
 
-              this.matterId="";
+             axios.post('{{ url("/business/groupStudent/getSections") }}', {
+  
+                period_id:self.period_id,
+
+                level_id:self.level_id,
+     
+             }).then(function (response) {
+
+                self.loading = false
+
+                if(response.data.success==true){
+  
+                  self.sections=response.data.Sections;
+  
+                }//if(response.data.success==true)
+                else{       
+  
+                   iziToast.error({title: 'Error',position:'topRight',message: response.data.msg}); 
+  
+                }//else if(response.data.success==false)
+  
+             }).catch(err => {
+  
+                self.loading = false
+  
+                self.errors = err.response.data.errors;
+  
+                if(self.errors){
+  
+                   iziToast.error({title: 'Error',position:'topRight',message: "Hay algunos campos que debes revisar"});  
+             
+                }else{
+  
+                   iziToast.error({title: 'Error',position:'topRight',message: "Ha ocurrido un problema"}); 
+  
+                }
+              
+             }); 
+  
+          },//getSections()
+
+          async getStudents(){
+  
+             let self = this;
+  
+             self.loading = true;
+  
+             self.errors = [];
+
+             self.student_id='';
+             
+             axios.post('{{ url("/business/groupStudent/getStudents") }}', {
+  
+                period_id:self.period_id,
+
+                level_id:self.level_id,
+
+                section_id:self.section_id,
+       
+             }).then(function (response) {
+
+                self.loading = false
+
+                if(response.data.success==true){
+  
+                  self.students=response.data.Students;
+  
+                }//if(response.data.success==true)
+                else{       
+  
+                   iziToast.error({title: 'Error',position:'topRight',message: response.data.msg}); 
+  
+                }//else if(response.data.success==false)
+  
+             }).catch(err => {
+  
+                self.loading = false
+  
+                self.errors = err.response.data.errors;
+  
+                if(self.errors){
+  
+                   iziToast.error({title: 'Error',position:'topRight',message: "Hay algunos campos que debes revisar"});  
+             
+                }else{
+  
+                   iziToast.error({title: 'Error',position:'topRight',message: "Ha ocurrido un problema"}); 
+  
+                }
+              
+             }); 
+  
+          },//getStudents()  
+
+         clear:function(){
+
+            this.edit=0;
+
+            self.errors = [];
+
+            this.levels='';
+
+            this.sections='';
+
+            this.students='';
+
+            this.period_id='';
+
+            this.level_id='';
+
+            this.section_id='';
+
+            this.subject_id='';
+
+            this.student_id='';
+
+            this.annotation='';
+
+            this.date='';
+                     
+            this.buttonShowDos=true;
    
-              if(this.yearId!=""){
-                 
-                 for(let i in this.data)
-                   if(this.data[i].id==this.yearId){
-   
-                       this.yearName=this.data[i].name;
-                       
-                       this.sectionId="";
-   
-                       this.sections=this.data[i].sections;
+            this.buttonNameDos="Crear";
       
-                       this.students=this.data[i].students;
+            this.id='';
    
-                   }//if(this.data[i].id==this.yearId)
+            this.change=0;
+      
+         },//clear:function()              
+
+          async register(){
+  
+           let self = this;
+  
+           self.loading = true;
+  
+           self.errors = [];
+  
+           axios.post('{{ url("StoreAnnotation") }}', {
+  
+              period_id:self.period_id,
+
+              level_id:self.level_id,
+
+              section_id:self.section_id,
+  
+              student_id:self.student_id,
+
+              date:self.date,
+
+              subject_id:self.subject_id,
+
+              annotation:self.annotation,
+
+           }).then(function (response) {
+
+              self.loading = false;
+  
+              if(response.data.success==true){
+  
+                  self.closeModal();
    
+                  self.getAnnotations(1);
+   
+                  Swal.fire('Información','Registro Satisfactorio','success');
+  
+              }//if(response.data.success==true)
+              else{       
+  
+                 iziToast.error({title: 'Error',position:'topRight',message: response.data.msg}); 
+  
+              }//else if(response.data.success==false)
+  
+           }).catch(err => {
+  
+              self.loading = false
+  
+              self.errors = err.response.data.errors;
+  
+              if(self.errors){
+  
+                 iziToast.error({title: 'Error',position:'topRight',message: "Hay algunos campos que debes revisar"});  
+             
+              }else{
+  
+                 iziToast.error({title: 'Error',position:'topRight',message: "Ha ocurrido un problema"}); 
+  
               }
+              
+           }); 
+  
+        },//register()  
+
+         captureRecord: function(value){
+
+            this.clear();
+
+            this.edit=1;
+
+            this.buttonNameDos="Actualizar";
    
-          },//search()
-    
-        },
+            this.id=value.id;
+
+            this.period_id=value.period_id;
+
+            this.getLevels();
+
+            this.level_id=value.level_id;
+            
+            this.getSections();
+
+            this.section_id=value.section_id;
+
+            this.getStudents();
+  
+            this.student_id=value.student_id;
+
+            this.date=value.date;
+
+            this.subject_id=value.subject_id;
+
+            this.annotation=value.annotation;
+                  
+            this.change=1;
+   
+            this.toggleModal();
+   
+         },//captureRecord: function(value)
+   
+         cancel:function(){
+   
+            this.clear();
+   
+            this.id="";
+   
+            this.buttonNameDos="Crear";
+   
+            this.buttonShowDos=true;
+   
+            this.change=0;
+         },
+   
+         async update(){
+   
+            let self = this;
+   
+            self.loading = true;
+   
+            self.errors = []
+   
+            axios.post('{{ url("updateAnnotation") }}', {
+   
+              id:self.id,
+
+              period_id:self.period_id,
+
+              level_id:self.level_id,
+
+              section_id:self.section_id,
+  
+              student_id:self.student_id,
+
+              date:self.date,
+
+              subject_id:self.subject_id,
+
+              annotation:self.annotation,
+   
+            }).then(function (response) {
+   
+               if(response.data.success==true){
+   
+                  self.closeModal();
+   
+                  self.getAnnotations(1);
+   
+                  Swal.fire('Información','Actualizo Satisfactorio','success');
+   
+               }//if(response.data.success==true)
+               else{         
+   
+                  iziToast.error({title: 'Error',position:'topRight',message: response.data.msg});   
+   
+               }//else if(response.data.success==false)
+   
+            }).catch(err => {
+   
+               self.loading = false
+   
+               self.errors = err.response.data.errors
+   
+               if(self.errors){
+   
+                  iziToast.error({title: 'Error',position:'topRight',message: "Hay algunos campos que debes revisar"});
+   
+               }else{
+   
+                  iziToast.error({title: 'Error',position:'topRight',message: "Ha ocurrido un problema"});  
+   
+               }
+               
+            }); 
+   
+         },//update:function()
+   
+         async destroy(id){
+   
+            let self = this;
+   
+            self.loading = true;
+   
+            self.errors = []
+   
+            Swal.fire({title: 'Estas seguro?',text: "No podrás revertir esto!",icon: 'warning',showCancelButton: true,confirmButtonColor: '#3085d6',cancelButtonColor: '#d33',confirmButtonText: 'Si, bórralo!',cancelButtonText: 'Cancelar'}).then((result) => {
+            
+               if (result.isConfirmed) {
+   
+                  axios.post('{{ url("destroyAnnotation") }}', {
+   
+                     id:id,
+   
+                  }).then(function (response) {
+   
+                     if(response.data.success==true){
+   
+                        self.closeModal();
+   
+                        self.getAnnotations(1);
+   
+                        Swal.fire('Eliminado!','El registro ha sido eliminado.','success');
+                        
+                     }//if(response.data.success==true)
+                     else{              
+   
+                        iziToast.error({title: 'Error',position:'topRight',message: response.data.msg}); 
+   
+                     }//else if(response.data.success==false)
+   
+                   }).catch(err => {
+   
+                     self.loading = false
+   
+                     self.errors = err.response.data.errors
+   
+                     if(self.errors){
+   
+                        iziToast.error({title: 'Error',position:'topRight',message: "Hay algunos campos que debes revisar"});  
+   
+                     }else{
+   
+                        iziToast.error({title: 'Error',position:'topRight',message: "Ha ocurrido un problema"});  
+   
+                     }
+               
+                   }); 
+               }
+
+               self.loading = false;
+
+            })
+   
+         },// destroy:function(value)
+   
+         ActionsCru:function(){
+   
+           if(this.change==0){
+   
+             this.register();
+   
+           }//if(this.change==0)
+   
+           else if(this.change==1){
+   
+             this.update();
+   
+           }//else if(this.change==1)
+   
+         },//ActionsCru:function()
+   
+         ActionsCc:function(){
+   
+            if(this.change==0){
+   
+             this.clear();
+   
+           }//if(this.change==0)
+   
+           else if(this.change==1 || this.change==2){
+   
+             this.cancel();
+   
+           }//else if(this.change==1)
+   
+         },//ActionsCc:function()
+   
+         changePage(page){
+   
+            this.paginate.current_page=page;
+   
+            this.getAnnotations(page);
+   
+         },//changePage()        
+
+         async getAnnotations(page){
+   
+            let self = this;
+   
+            self.loading = true;
+   
+                  axios.post('{{ url("getAnnotations") }}', {
+                     
+                     page:page,
+                     
+                  }).then(function (response) {
+   
+                     self.loading = false
+   
+                     if(response.data.success==true){
+   
+                        self.Annotations=response.data.Annotations;
+   
+                        self.paginate=response.data.Annotations.paginate;
+   
+                     }//if(response.data.success==true)
+                     else{              
+   
+                        iziToast.error({title: 'Error',position:'topRight',message: response.data.msg}); 
+   
+                     }//else if(response.data.success==false)
+   
+                   }).catch(err => {
+   
+                     self.loading = false
+   
+                     self.errors = err.response.data.errors
+   
+                     if(self.errors){
+   
+                        iziToast.error({title: 'Error',position:'topRight',message: "Hay algunos campos que debes revisar"});  
+   
+                     }else{
+   
+                        iziToast.error({title: 'Error',position:'topRight',message: "Ha ocurrido un problema"});  
+   
+                     }
+               
+                   }); 
+   
+         },//getAnnotations    
+
+        },  
     
     })        
 </script>

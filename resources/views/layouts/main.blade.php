@@ -141,7 +141,7 @@
                                  <li><a href="{{ route('teacher.evaluation.list') }}" class=" waves-effect waves-block">Listado de Evaluaciones</a></li>
                              </ul>
                           </li>
-                          <li class="active open"><a href="{{ route('teacher.annotations.list') }}"><i class="zmdi zmdi-attachment-alt"></i><span>Anotaciones</span></a></li>
+                          <li class="active open"><a href="{{ route('teacher.annotation.list') }}"><i class="zmdi zmdi-attachment-alt"></i><span>Anotaciones</span></a></li>
                         @break
 
                         @case('administrative')
