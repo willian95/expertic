@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-lg-5 col-md-5 col-sm-12">
                 <h2>Dashboard
-                <small>Welcome to Oreo</small>
+                <small>Welcome to experclass</small>
                 </h2>
             </div>            
         </div>
