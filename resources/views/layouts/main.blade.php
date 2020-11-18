@@ -135,6 +135,7 @@
                                  <li><a href="{{ route('teacher.virtualRoom.list') }}" class=" waves-effect waves-block">Listado de Salas Virtuales</a></li>
                              </ul>
                           </li>
+                          <li class="active open"><a href="{{ route('teacher.studyPlan.list') }}"><i class="fas fa-tasks"></i><span>Planes de Estudio</span></a></li>
                           <li><a onclick="toggleSubmenu('evaluation-submenu')" href="javascript:void(0);" class="menu-toggle waves-effect waves-block toggled"><i class="zmdi zmdi-assignment"></i><span>Evaluación</span> </a>
                              <ul class="ml-menu submenu-hidden" id="evaluation-submenu">
                                  <li><a href="{{ route('teacher.evaluation.create') }}" class=" waves-effect waves-block">Crear Evaluación</a></li>

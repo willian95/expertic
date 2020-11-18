@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Annotation extends Model
+class StudyPlan extends Model
 {
-    public $table='annotations';
+    public $table='study_plans';
 
     protected $fillable=[
         'institution_id',
@@ -15,9 +15,10 @@ class Annotation extends Model
         'section_id',
         'teacher_id',
         'subject_id',
-        'student_id',
-        'date',
-        'annotation',
+        'start_date_study_plan',
+        'end_date_study_plan',
+        'title',
+        'content',
     ];
 
     public function institutions(){
@@ -55,12 +56,4 @@ class Annotation extends Model
         return $this->belongsTo('App\Models\Subject','subject_id');
 
     }
-    public function students()
-    {
-        
-        return $this->belongsTo('App\Models\Student','student_id');
-        
-    }
 }
-
-

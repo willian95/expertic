@@ -287,6 +287,22 @@ Route::group(['middleware' => ['auth']], function () {
 
         //Eliminar Anotacion
         Route::post("destroyAnnotation", 'Teacher\AnnotationController@destroy')->name("destroyAnnotation");
+
+        //CRUD PLAN DE ESTUDIO
+        //Planes de estudio
+        Route::get('/teacher/studyPlan/list', 'Teacher\StudyPlanController@index')->name("teacher.studyPlan.list");
+    
+        //Agregar anotación
+        Route::post("StoreStudyPlan", 'Teacher\StudyPlanController@store')->name("StoreStudyPlan");
+
+        //Listado de anotaciones
+        Route::post("getStudyPlans", 'Teacher\StudyPlanController@getStudyPlans')->name("getStudyPlans");
+
+        //Actualizar Anotacion
+        Route::post("updateStudyPlan", 'Teacher\StudyPlanController@update')->name("updateStudyPlan");
+
+        //Eliminar Anotacion
+        Route::post("destroyStudyPlan", 'Teacher\StudyPlanController@destroy')->name("destroyStudyPlan");        
         
     });//role:teacher
 
