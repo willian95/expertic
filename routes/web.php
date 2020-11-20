@@ -292,18 +292,37 @@ Route::group(['middleware' => ['auth']], function () {
         //Planes de estudio
         Route::get('/teacher/studyPlan/list', 'Teacher\StudyPlanController@index')->name("teacher.studyPlan.list");
     
-        //Agregar anotación
+        //Agregar Plan de estudio
         Route::post("StoreStudyPlan", 'Teacher\StudyPlanController@store')->name("StoreStudyPlan");
 
-        //Listado de anotaciones
+        //Listado de Planes
         Route::post("getStudyPlans", 'Teacher\StudyPlanController@getStudyPlans')->name("getStudyPlans");
 
-        //Actualizar Anotacion
+        //Actualizar Plan
         Route::post("updateStudyPlan", 'Teacher\StudyPlanController@update')->name("updateStudyPlan");
 
-        //Eliminar Anotacion
-        Route::post("destroyStudyPlan", 'Teacher\StudyPlanController@destroy')->name("destroyStudyPlan");        
+        //Eliminar Plan
+        Route::post("destroyStudyPlan", 'Teacher\StudyPlanController@destroy')->name("destroyStudyPlan");      
         
+        //CRUD EVALUACION
+        //Evaluaciones
+        Route::get('/teacher/evaluation/list', 'Teacher\EvaluationController@index')->name("teacher.evaluation.list");
+
+        //Formulario crear evaluación
+        Route::get('/teacher/evaluation/create', 'Teacher\EvaluationController@create')->name("teacher.evaluation.create");
+    
+        //Agregar Evaluación
+        Route::post("StoreEvaluation", 'Teacher\EvaluationController@store')->name("StoreEvaluation");
+
+        //Listado de Evaluaciones
+        Route::post("getEvaluations", 'Teacher\EvaluationController@getEvaluations')->name("getEvaluations");
+
+        //Actualizar Evaluación
+        Route::post("updateEvaluation", 'Teacher\EvaluationController@update')->name("updateEvaluation");
+
+        //Eliminar Evaluación
+        Route::post("destroyEvaluation", 'Teacher\EvaluationController@destroy')->name("destroyEvaluation");   
+       
     });//role:teacher
 
 });//auth
@@ -316,8 +335,6 @@ Route::get('/representative/home', function () {
     return view('representative.dashboard');
 })->name("representative.home");
 
-
-
 Route::get('/teacher/virtualRoom/create', function () {
     return view('teacher.virtualRoom.create');
 })->name("teacher.virtualRoom.create");
@@ -325,14 +342,6 @@ Route::get('/teacher/virtualRoom/create', function () {
 Route::get('/teacher/virtualRoom/list', function () {
     return view('teacher.virtualRoom.index');
 })->name("teacher.virtualRoom.list");
-
-Route::get('/teacher/evaluation/create', function () {
-    return view('teacher.evaluation.create');
-})->name("teacher.evaluation.create");
-
-Route::get('/teacher/evaluation/list', function () {
-    return view('teacher.evaluation.index');
-})->name("teacher.evaluation.list");
 
 Route::get('/administrative/home', function () {
     return view('administrative.dashboard');

@@ -14,6 +14,10 @@
     width: 20% !important;
 }
 
+.adjust-tr-25 {
+    width: 25% !important;
+}
+
 .adjust-tr-30 {
     width: 30% !important;
 }
@@ -97,4 +101,21 @@ p{
     position: relative;
     padding: 9px 10px;
     font-size: 0.8rem;
+}
+
+.btn-outline-secondary {
+    margin-left: -1px;
+    height: 38px;
+    position: relative;
+    top: -5px;
+    border-top-right-radius: 60px !important;
+    border-bottom-right-radius: 60px !important;
+}
+
+.gj-timepicker-bootstrap [role="right-icon"] button .gj-icon,
+.gj-timepicker-bootstrap [role="right-icon"] button .material-icons {
+    position: absolute;
+    font-size: 21px;
+    top: 9px;
+    left: 11px;
 }

@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="{{ asset('assets/css/color_skins.css') }}">
 <link href="{{ url('assets/plugins/izitoast/css/iziToast.min.css') }}" rel="stylesheet">
 <link href="{{ url('assets/plugins/fontawesome/css/all.css') }}" rel="stylesheet">
-
+<link href="{{ url('assets/plugins/gijgo/css/gijgo.min.css') }}" rel="stylesheet">
 <link href="{{ url('assets/css/style.css') }}" rel="stylesheet">
 </head>
 
@@ -188,6 +188,7 @@
 <script src="{{ asset('/assets/plugins/sweetalert/sweetalert2@10.js') }}"></script>
 <script src="{{ asset('assets/plugins/izitoast/js/iziToast.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/fontawesome/js/all.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/gijgo/js/gijgo.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/vamzfe.js') }}"></script>
 
 

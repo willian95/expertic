@@ -494,6 +494,7 @@ class GroupStudentController extends Controller
               'student_name'        =>$group->students->student_name,
               'student_lastname'    =>$group->students->student_lastname,
               'student_names'       =>$group->students->student_name.' '.$group->students->student_lastname,
+              'student_email'       =>$group->students->users->email,
             ];
 
             $i++;
