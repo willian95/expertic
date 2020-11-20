@@ -329,7 +329,7 @@ class EvaluationController extends Controller
 
              if($students['score']!=null && $students['score']!="")
 
-                  $EvaluationStudent->fill(['score'=>$students['score']])->save();
+                  $EvaluationStudent->fill(['score'=>floatval($students['score'])])->save();
 
           }//foreach($request->students as $students)
 
