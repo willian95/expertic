@@ -116,9 +116,7 @@
                                  <button class="btn btn-warning" title="Calificar" @click="toggleModal">
                                  <i class="zmdi zmdi-assignment"></i>
                                  </button>
-                                 <button class="btn btn-info" title="Editar">
-                                 <i class="zmdi zmdi-edit"></i>
-                                 </button>
+                                 <a :href="'{{url('/')}}/teacher/evaluation/update/'+evaluations.id" class="btn btn-info"><i class="zmdi zmdi-edit"></i></a>
                                  <button class="btn btn-secondary" title="Borrar" @click="destroy(evaluations.id)">
                                  <i class="zmdi zmdi-delete"></i>
                                  </button>

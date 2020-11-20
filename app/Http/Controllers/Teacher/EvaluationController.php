@@ -89,7 +89,6 @@ class EvaluationController extends Controller
 
     $evaluations=array();
 
-
     $Evaluation = Evaluation::query()->where('institution_id',getIdInstitution())->orderBy('id','ASC');
 
     $Evaluation = $Evaluation->with([
@@ -135,6 +134,7 @@ class EvaluationController extends Controller
              $students[]=[
           
                   'id'             =>  $evalStu->students->id,
+                  'student_email'  =>  $evalStu->students->users->email,
                   'student_name'   =>  $evalStu->students->student_name.' '.$evalStu->students->student_lastname,
                   'score'          =>  $evalStu->score,
 
@@ -188,24 +188,108 @@ class EvaluationController extends Controller
 
   }//public function getEvaluations(Request $request)
 
+  public function getDataEvaluations($id){
+
+    $array=array();
+
+    $evaluations=array();
+    
+    $Evaluation=Evaluation::query()->where('institution_id',getIdInstitution())->where('id',$id);
+
+    $Evaluation= $Evaluation->with([
+
+            'periods' => function($query){ },
+
+            'levels' => function($query){ },
+
+            'sections' => function($query){ },
+
+            'teachers' => function($query){ },
+
+            'subjects' => function($query){ },
+
+            'students' => function($query){ },
+
+    ])->first();
+
+
+        $EvaluationStudent = EvaluationStudent::query()->where('evaluation_id',$Evaluation->id)->orderBy('id','ASC');
+
+        $EvaluationStudent = $EvaluationStudent->with([
+
+            'students' => function($query){ },
+
+        ])->get();
+
+
+        if(count($EvaluationStudent)>0){
+
+          $students=array();
+
+          foreach($EvaluationStudent as $evalStu){
+
+             $students[]=$evalStu->students->id;
+
+          }//foreach($EvaluationStudent as $evalStu)
+
+        }//if(count($EvaluationStudent)>0)
+
+
+      $array=[
+
+             'id'             => $Evaluation->id,
+             'period_id'      => $Evaluation->period_id,
+             'level_id'       => $Evaluation->level_id,
+             'section_id'     => $Evaluation->section_id,
+             'subject_id'     => $Evaluation->subject_id,
+             'date'           => $Evaluation->date,
+             'start_time'     => $Evaluation->start_time,
+             'end_time'       => $Evaluation->end_time,
+             'date2'          => \Carbon\Carbon::parse($Evaluation->date)->format('d-m-Y'),
+             'start_time2'    => \Carbon\Carbon::parse($Evaluation->start_time)->format('g:i A'),
+             'end_time2'      => \Carbon\Carbon::parse($Evaluation->end_time)->format('g:i A'),
+             'period'         => $Evaluation->periods->period,
+             'level'          => $Evaluation->levels->level,
+             'section'        => $Evaluation->sections->section,
+             'subject'        => $Evaluation->subjects->subject,
+             'students'       => $students,
+
+      ];
+
+    return $array;
+
+  }//public function getDataEvaluations($id)
+
+  public function updateF($id) {
+
+    $Period=Period::where('institution_id',getIdInstitution())->orderBy('id','desc')->get();
+
+    $Level=Level::where('institution_id',getIdInstitution())->orderBy('level','asc')->get();
+
+    $Section=Section::where('institution_id',getIdInstitution())->orderBy('section','asc')->get();
+
+    return view('teacher.evaluation.update')->with(['Period'=>json_encode($Period),'Level'=>json_encode($Level),'Section'=>json_encode($Section), 'Subjects'=>json_encode(getTeacherSubjects()),'DataEvaluations'=>json_encode($this->getDataEvaluations($id))]);
+
+  }// public function updateF()
+
   public function update(UpdateEvaluationPost $request)
   {
         try{
 
-          $Annotation=Annotation::find($request->id);
+          $Evaluation=Evaluation::find($request->id);
 
-          $Annotation->fill([
+          $Evaluation->fill([
             
-                              'subject_id'=>$request->subject_id,
-
-                              'student_id'=>$request->student_id,
-
-                              'date'=>$request->date,            
+                            'date'=>$request->date,            
             
-                              'annotation'=>$request->annotation,
+                            'start_time'=>$request->start_time,
+
+                            'end_time'=>$request->end_time,
 
                       ])->save();
 
+          $Evaluation->students()->sync($request->get('students')); 
+            
           return response()->json(["success" => true, "msg" => "Se actualizaron los datos exitosamente!"],200);
 
         }catch(\Exception $e){

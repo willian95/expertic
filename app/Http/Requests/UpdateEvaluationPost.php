@@ -13,7 +13,7 @@ class UpdateEvaluationPost extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,36 @@ class UpdateEvaluationPost extends FormRequest
     public function rules()
     {
         return [
-            //
+            'id'=>'required|integer',
+            'date'=>'required|date',
+            'period_id'=>'required',
+            'level_id'=>'required',
+            'section_id'=>'required',
+            'subject_id' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required',
+            'students' => 'required|array'
+
         ];
+
+    }
+
+        public function messages(){
+
+        return [
+            'id.required'=>'El campo id es requerido',
+            'id.integer'=>'El campo id es invalido',
+            'date.required'=>'El campo fecha  es requerido',
+            'date.date'=>'El campo la fecha introducida es invalidad',
+            'period_id.required'=>'El campo periodo es requerido',
+            'level_id.required'=>'El campo nivel es requerido',
+            'section_id.required'=>'El campo sección es requerido',
+            'subject_id.required'=>'El campo asignatura es requerido',
+            'start_time.required'=>'El campo hora de inicio es requerida',
+            'end_time.required'=>'El campo hora de fin es requerida',
+            'students.required'=>'Debe seleccionar la asignatura a relacionar',
+            'students.array'=>'El campo asignatura es invalido',
+        ];
+
     }
 }

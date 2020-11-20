@@ -310,6 +310,9 @@ Route::group(['middleware' => ['auth']], function () {
 
         //Formulario crear evaluación
         Route::get('/teacher/evaluation/create', 'Teacher\EvaluationController@create')->name("teacher.evaluation.create");
+
+        //Formulario Actualizar evaluación
+        Route::get('/teacher/evaluation/update/{id}', 'Teacher\EvaluationController@updateF')->name("teacher.evaluation.update");
     
         //Agregar Evaluación
         Route::post("StoreEvaluation", 'Teacher\EvaluationController@store')->name("StoreEvaluation");
