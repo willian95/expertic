@@ -18,7 +18,14 @@ Auth::routes(['register' => false]);
 Route::get('/', 'HomeController@index');
 
 Route::group(['middleware' => ['auth']], function () {
-      
+
+    /************************************Seguridad**************************************/
+    //Dashboard Administrador
+    Route::get('/security/changePassword', 'Security\SecurityController@ViewChangePassword')->name("security.changePassword");
+
+    //Actualizar contraseña
+    Route::post('ChangePassword', "Security\SecurityController@ChangePassword")->name("ChangePassword");
+
     /************************************Administrador**************************************/
     Route::group(['middleware' => ['role:administrator']], function () {
         

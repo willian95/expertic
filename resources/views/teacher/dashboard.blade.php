@@ -261,7 +261,7 @@
         </div> 
         
         <!-- Level Modal -->
-        <div class="custom-modal-cover" v-show="levelModal">
+        <div class="custom-modal-cover hide-modal">
 
             <div class="container-fluid">
                 <div class="row">
@@ -290,7 +290,7 @@
         </div>
 
         <!-- Section Modal -->
-        <div class="custom-modal-cover" v-show="sectionModal">
+        <div class="custom-modal-cover hide-modal">
 
             <div class="container-fluid">
                 <div class="row">

@@ -161,6 +161,11 @@
                                 </ul>
                              </li>
                     @endswitch
+                    <li><a onclick="toggleSubmenu('security-submenu')" href="javascript:void(0);" class="menu-toggle waves-effect waves-block toggled"><i class="fas fa-user-shield"></i><span>Seguridad</span> </a>
+                        <ul class="ml-menu submenu-hidden" id="security-submenu">
+                            <li><a href="{{ route('security.changePassword') }}" class=" waves-effect waves-block">Cambio de Contraseña</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
