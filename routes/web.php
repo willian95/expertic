@@ -325,7 +325,10 @@ Route::group(['middleware' => ['auth']], function () {
 
         //Eliminar Evaluación
         Route::post("destroyEvaluation", 'Teacher\EvaluationController@destroy')->name("destroyEvaluation");   
-       
+
+        //Calificar
+        Route::post("StoreQualify", 'Teacher\EvaluationController@StoreQualify')->name("StoreQualify"); 
+        
     });//role:teacher
 
 });//auth

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreEvaluationPost;
 use App\Http\Requests\UpdateEvaluationPost;
 use App\Http\Requests\DestroyEvaluationPost;
+use App\Http\Requests\StoreQualifyPost;
 use App\Models\Period;
 use App\Models\Level;
 use App\Models\Section;
@@ -317,5 +318,29 @@ class EvaluationController extends Controller
         }//catch(\Exception $e)
 
    }//public function destroy(DestroyEvaluationPost $request)
+
+  public function StoreQualify(StoreQualifyPost $request)
+  {
+        try{
+
+          foreach($request->students as $students){
+
+            $EvaluationStudent=EvaluationStudent::where('evaluation_id',$request->id)->first();
+
+             if($students['score']!=null && $students['score']!="")
+
+                  $EvaluationStudent->fill(['score'=>$students['score']])->save();
+
+          }//foreach($request->students as $students)
+
+          return response()->json(["success" => true, "msg" => "Se actualizaron los datos exitosamente!"],200);
+
+        }catch(\Exception $e){
+
+            return response()->json(["success" => false, "msg" => "Error en el servidor", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+
+        }//catch(\Exception $e)
+
+  }//public function StoreQualify(StoreQualifyPost $request)
 
 }

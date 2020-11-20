@@ -11,7 +11,7 @@
                   </div>
                   <div class="modal-body">
                      <div class="row">
-                        <div class="col-12">
+                        <div class="col-12" data-spy="scroll">
                               <div class="table-responsive">
                                  <table class="table table-hover m-b-0">
                                     <thead>
@@ -23,32 +23,12 @@
                                        </tr>
                                     </thead>
                                     <tbody>
-                                       <tr>
-                                          <td class="text-center">1</td>
-                                          <td>Pedro Perez</td>
-                                          <td >pperez@gmail.com</td>
+                                       <tr v-for="(stu,index) in students">
+                                          <td class="text-center">@{{index+1}}</td>
+                                          <td>@{{stu.student_name}}</td>
+                                          <td>@{{stu.student_email}}</td>
                                           <td class="text-center">
-                                              <input class="form-control text-center" type="text">
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td class="text-center">2</td>
-                                          <td>María Hernandez</td>
-                                          <td>mhernamdez@gmail.com</td>
-                                          <td class="text-center">
-                                            <p>
-                                              <input class="form-control text-center" type="text">
-                                            </p>                                          
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td class="text-center">3</td>
-                                          <td>Carol Ramos</td>
-                                          <td>cramos@gmail.com</td>
-                                          <td class="text-center">
-                                            <p>
-                                              <input class="form-control text-center" type="text">
-                                            </p>                                          
+                                              <input class="form-control text-center" type="text"  onKeyPress="return soloNumerosConComa(event)" v-model="stu.score">
                                           </td>
                                        </tr>
                                     </tbody>
@@ -60,8 +40,8 @@
                      </div>
                   </div>
                   <div class="modal-footer">
-                     <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="toggleModal()">Cerrar</button>                  
-                     <button type="button" class="btn btn-info" @click="toggleModal()">Calificar</button>                  
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="closeModal">Cerrar</button>                  
+                     <button type="button" class="btn btn-info" @click="qualify()">Calificar</button>                  
                   </div>
                </div>
             </div>
@@ -113,7 +93,7 @@
                               <td class="text-center">@{{evaluations.start_time2}}</td>
                               <td class="text-center">@{{evaluations.end_time2}}</td>
                               <td class="text-center"> 
-                                 <button class="btn btn-warning" title="Calificar" @click="toggleModal">
+                                 <button class="btn btn-warning" title="Calificar" @click="toggleModal(index)">
                                  <i class="zmdi zmdi-assignment"></i>
                                  </button>
                                  <a :href="'{{url('/')}}/teacher/evaluation/update/'+evaluations.id" class="btn btn-info"><i class="zmdi zmdi-edit"></i></a>
@@ -148,6 +128,10 @@
         data:{
 
            Evaluations:'',
+
+           students:'',
+
+           id:'',
 
            paginate:{
    
@@ -221,7 +205,11 @@
        },//computed
        methods:{
    
-         toggleModal(){
+         toggleModal(index){
+
+            this.id=this.Evaluations.evaluations[index].id;
+            
+            this.students=this.Evaluations.evaluations[index].students;
    
             document.getElementById("modal").classList.remove("hide-modal");
    
@@ -230,12 +218,10 @@
          },//toggleModal()
    
          closeModal(){
-               
-            this.clear();
-   
+                  
             document.getElementById("modal").classList.add("hide-modal");
    
-             document.getElementById("modal").classList.remove("show-modal");
+            document.getElementById("modal").classList.remove("show-modal");
    
          },//closeModal()
 
@@ -348,7 +334,60 @@
                
                    }); 
    
-         },//getEvaluations    
+         },//getEvaluations  
+         
+          async qualify(){
+  
+           let self = this;
+  
+           self.loading = true;
+  
+           self.errors = [];
+  
+           axios.post('{{ url("StoreQualify") }}', {
+  
+              id:self.id,
+
+              students:self.students,
+
+           }).then(function (response) {
+
+              self.loading = false;
+  
+              if(response.data.success==true){
+        
+                  self.getEvaluations(1);
+
+                  self.closeModal();
+
+                  Swal.fire('Información','Registro Satisfactorio','success');
+  
+              }//if(response.data.success==true)
+              else{       
+  
+                 iziToast.error({title: 'Error',position:'topRight',message: response.data.msg}); 
+  
+              }//else if(response.data.success==false)
+  
+           }).catch(err => {
+  
+              self.loading = false
+  
+              self.errors = err.response.data.errors;
+  
+              if(self.errors){
+  
+                 iziToast.error({title: 'Error',position:'topRight',message: "Hay algunos campos que debes revisar"});  
+             
+              }else{
+  
+                 iziToast.error({title: 'Error',position:'topRight',message: "Ha ocurrido un problema"}); 
+  
+              }
+              
+           }); 
+  
+        },//qualify()          
 
     
         },
